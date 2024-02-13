@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AthenaAPI.Data;
 using AthenaAPI.Models;
+using Newtonsoft.Json.Linq;
 
 namespace AthenaAPI.Controllers
 {
@@ -21,6 +22,13 @@ namespace AthenaAPI.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Controller method for retrieving all users.
+        /// </summary>
+        /// <returns>
+        /// A Collection of Users.
+        /// </returns>
+        /// 
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
@@ -32,9 +40,17 @@ namespace AthenaAPI.Controllers
             return await _context.Users.ToListAsync();
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        /// <summary>
+        /// Controller method for retrieving a specific User.
+        /// </summary>
+        /// <returns>
+        /// A single User.
+        /// </returns>
+        /// <param name="id">The Guid of the User.</param>
+        /// 
+        // GET: api/Users/{Guid}
+        [HttpGet("{id:Guid}")]
+        public async Task<ActionResult<User>> GetUser(Guid id)
         {
           if (_context.Users == null)
           {
@@ -50,12 +66,21 @@ namespace AthenaAPI.Controllers
             return user;
         }
 
-        // PUT: api/Users/5
+        /// <summary>
+        /// Controller method for updating a specific User.
+        /// </summary>
+        /// <returns>
+        /// An Action Result that represents whether or not the update was successful.
+        /// </returns>
+        /// <param name="id">The Guid of the User.</param>
+        /// <param name="user">The User data sent in the body of the method.</param>
+        /// 
+        // PUT: api/Users/{Guid}
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] User user)
         {
-            if (id != user.Id)
+            if (id != user.UserID)
             {
                 return BadRequest();
             }
@@ -81,25 +106,46 @@ namespace AthenaAPI.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Controller method for creating a new User.
+        /// </summary>
+        /// <returns>
+        /// The User object that was created.
+        /// </returns>
+        /// <param name="userData">The User data sent as a JSON object through the method body.</param>
+        /// 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<User>> CreateUser([FromBody] JObject userData)
         {
+            User user = new User();
+            user.FirstName = userData["FirstName"].ToString();
+            user.LastName = userData["LastName"].ToString();
+            user.Email = userData["Email"].ToString();
+            user.Password = userData["Password"].ToString();
+            user.UserID = Guid.NewGuid();
           if (_context.Users == null)
           {
-              return Problem("Entity set 'DataContext.Users'  is null.");
+              return Problem("Entity set 'DataContext.Users' is null.");
           }
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            //return CreatedAtAction("GetUser", new { id = user.Id }, user);
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+            return CreatedAtAction(nameof(GetUser), new { id = user.UserID }, user);
         }
 
-        // DELETE: api/Users/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        /// <summary>
+        /// Controller method for deleting a single User.
+        /// </summary>
+        /// <returns>
+        /// An Action Result that represents whether or not the deletion was successful.
+        /// </returns>
+        /// <param name="id">The Guid of the User.</param>
+        /// 
+        // DELETE: api/Users/{Guid}
+        [HttpDelete("{id:Guid}")]
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
             if (_context.Users == null)
             {
@@ -117,9 +163,16 @@ namespace AthenaAPI.Controllers
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        /// <summary>
+        /// A method for determining whether or not a User exists in the database.
+        /// </summary>
+        /// <returns>
+        /// A boolean value indicating whether or not the User exists.
+        /// </returns>
+        /// <param name="id">The Guid of the User.</param>
+        private bool UserExists(Guid id)
         {
-            return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Users?.Any(e => e.UserID == id)).GetValueOrDefault();
         }
     }
 }
