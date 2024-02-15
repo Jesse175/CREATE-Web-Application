@@ -1,9 +1,8 @@
-﻿CREATE TABLE [dbo].[user] (
-    [ID]        UNIQUEIDENTIFIER         NOT NULL,
-    [firstName] NCHAR (100) NOT NULL,
-    [lastName]  NCHAR (100) NOT NULL,
-    [email]     NCHAR (100) NOT NULL,
-    [password]  NCHAR (100) NOT NULL,
-    CONSTRAINT [PK_user] PRIMARY KEY CLUSTERED ([ID] ASC)
-);
-
+﻿CREATE TABLE [dbo].[User]
+(
+	[UserID] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [FirstName] NVARCHAR(100) NOT NULL, 
+    [LastName] NVARCHAR(100) NOT NULL, 
+    [Email] NVARCHAR(100) NOT NULL, 
+    [Password] NVARCHAR(100) NOT NULL
+)
