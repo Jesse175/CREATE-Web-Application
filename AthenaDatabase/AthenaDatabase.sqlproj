@@ -77,5 +77,13 @@
     <Build Include="dbo\Tables\StudentMentor.sql" />
     <Build Include="dbo\Tables\StudentModules.sql" />
     <Build Include="dbo\Tables\StudentQuests.sql" />
+    <Build Include="dbo\Stored Procedures\AddAuthentication.sql" />
+    <Build Include="dbo\Tables\Authentication.sql" />
+    <Build Include="dbo\Stored Procedures\GetAuthentication.sql" />
+    <Build Include="dbo\Stored Procedures\DeleteAuthentication.sql" />
+    <Build Include="dbo\Stored Procedures\CheckAuthentication.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="AthenaDatabase.refactorlog" />
   </ItemGroup>
 </Project>
