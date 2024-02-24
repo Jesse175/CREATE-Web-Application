@@ -195,7 +195,7 @@ namespace AthenaAPI.Controllers
         /// <param name="TokenID">The Guid of the Token.</param>
         /// 
         // GET: api/Users/{Guid}
-        [HttpGet("{TokenID:Guid}")]
+        [HttpGet("Auth/{TokenID:Guid}")]
         public async Task<ActionResult<AuthToken>> GetAuthentication(Guid TokenID)
         {
             return Utilities.Authentication.GetAuthFromTokenID(TokenID);
