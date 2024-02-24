@@ -1,0 +1,20 @@
+#main {
+    display: flex;
+}
+
+#sidebar {
+    width: 20%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: var(--sidebarbg);
+    border-radius: 0 50px 50px 0;
+}
+
+#main-content {
+    width: 80%;
+    position: relative;
+    right: 0;
+    left: 20%;
+}

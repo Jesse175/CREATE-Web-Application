@@ -1,0 +1,12 @@
+#student-tabs {
+    justify-content: center;
+    gap: 2%;
+}
+.nav-link.active {
+    background: var(--activetab);
+}
+.nav-link {
+    background: var(--inactivetab);
+    color: var(--tabtext);
+    font-weight: 700;
+}

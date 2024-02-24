@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --mainbg: linear-gradient(0deg, rgba(69, 137, 125, 0.12), rgba(69, 137, 125, 0.12)), #FFFFFF;
+    --sidebarbg: #ffffff;
+    --activetab: #45897D;
+    --inactivetab: rgba(39, 59, 74, 0.38);
+    --tabtext: #ffffff;
+}
+body {
+    background: var(--mainbg);
+    font-family: Nunito;
+}
+
