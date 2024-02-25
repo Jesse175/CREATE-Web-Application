@@ -18,5 +18,7 @@ namespace AthenaAPI.Data
 
             modelBuilder.Entity<User>().ToTable("user");
         }
+
+        public DbSet<AthenaAPI.Models.Module>? Module { get; set; }
     }
 }
