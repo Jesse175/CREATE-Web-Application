@@ -153,7 +153,7 @@ namespace AthenaAPI.Utilities
 
                 using (con)
                 {
-                    SqlCommand command = new SqlCommand("DeleteAuthentication", con);
+                    SqlCommand command = new SqlCommand("CheckAuthentication", con);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter("@TokenID", TokenID));
                     con.Open();

@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./students-page.component.css']
 })
 export class StudentsPageComponent {
-
+  public students = ['Dipper', 'Mabel'];
 }

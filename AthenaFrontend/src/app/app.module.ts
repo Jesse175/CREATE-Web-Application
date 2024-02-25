@@ -7,6 +7,7 @@ import { LoginComponent } from './components/login/login.component';
 import { StudentsPageComponent } from './components/students-page/students-page.component';
 import { AuthGuardService as AuthGuard } from './services/auth/auth-guard.service';
 import { RoleGuardService as RoleGuard } from './services/auth/role-guard.service';
+import { StudentCardComponent } from './components/students-page/student-card/student-card.component';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -23,7 +24,8 @@ const ROUTES: Routes = [
     AppComponent,
     DashboardComponent,
     LoginComponent,
-    StudentsPageComponent
+    StudentsPageComponent,
+    StudentCardComponent
   ],
   imports: [
     BrowserModule,

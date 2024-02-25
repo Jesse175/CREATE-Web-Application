@@ -4,6 +4,11 @@
     --activetab: #45897D;
     --inactivetab: rgba(39, 59, 74, 0.38);
     --tabtext: #ffffff;
+    --boxshadow: rgba(69, 137, 125, 0.2);
+    --cardsubtitle: rgba(69, 137, 125, 0.5);
+    --cardtext: rgba(69, 137, 125, 1);
+    --cardtextbold: rgba(39, 59, 74, 1);
+    --btncolor: rgba(69, 137, 125, 1);
 }
 body {
     background: var(--mainbg);
