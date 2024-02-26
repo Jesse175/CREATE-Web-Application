@@ -5,6 +5,7 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Availability { get; set; }
+        public string Email { get; set; }
         public int Exp { get; set; }
         public string Rank { 
             // I know these are lame titles but they're just placeholders for now

@@ -8,6 +8,9 @@ import { StudentsPageComponent } from './components/students-page/students-page.
 import { AuthGuardService as AuthGuard } from './services/auth/auth-guard.service';
 import { RoleGuardService as RoleGuard } from './services/auth/role-guard.service';
 import { StudentCardComponent } from './components/students-page/student-card/student-card.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddStudentDialog } from './components/students-page/add-student-dialog/add-student-dialog';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -25,11 +28,14 @@ const ROUTES: Routes = [
     DashboardComponent,
     LoginComponent,
     StudentsPageComponent,
-    StudentCardComponent
+    StudentCardComponent,
+    AddStudentDialog
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES),
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

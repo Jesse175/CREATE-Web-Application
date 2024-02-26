@@ -1,0 +1,39 @@
+<div class="dialog-heading">
+  <i class="bi bi-person-fill"></i> Add Student
+  <div class="close" [mat-dialog-close]><i class="bi bi-x-lg"></i></div>
+</div>
+<mat-dialog-content>
+  <form class="row g-3">
+    <div class="col-md-6 form-floating">
+      <input type="email" class="form-control" id="validationServer01" placeholder="Name">
+      <label for="validationServer01">First name</label>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+    </div>
+    <div class="col-md-6 form-floating">
+      <input type="text" class="form-control" id="validationServer02" placeholder="Name" required>
+      <label for="validationServer02">Last name</label>
+      <div class="valid-feedback">
+        Looks good!
+      </div>
+    </div>
+    <div class="col-md-12 form-floating">
+      <input type="email" class="form-control" id="validationServer03" placeholder="something@email.com" aria-describedby="validationServer03Feedback" required>
+      <label for="validationServer03">Email</label>
+      <div id="validationServer03Feedback" class="invalid-feedback">
+        This email is already registered in our system.
+      </div>
+    </div>
+    <div class="col-md-12 input-group">
+        <div class="form-floating col-md-8">
+          <input type="password" class="form-control" id="validationServer04" aria-label="Set Password" aria-describedby="button-addon2" placeholder="password">
+          <label for="validationServer04">Password</label>
+        </div>
+        <span id="show-hide" class="input-group-text" (click)="toggleHidePassword()"><i class="bi bi-eye-slash"></i></span>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary" type="submit">Add Student</button>
+    </div>
+  </form>
+</mat-dialog-content>
