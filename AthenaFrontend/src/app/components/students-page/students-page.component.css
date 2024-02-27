@@ -1,0 +1,26 @@
+#student-tabs {
+    justify-content: center;
+    gap: 2%;
+}
+.nav-link.active {
+    background: var(--activetab);
+}
+.nav-link {
+    background: var(--inactivetab);
+    color: var(--tabtext);
+    font-weight: 700;
+    border-radius: 15px;
+    border: none;
+}
+button.btn {
+  border-radius: 100%;
+  font-weight: 500;
+  font-size: 1.3rem;
+  padding: .375rem .75rem;
+  position: absolute;
+  right: 15px;
+}
+button.btn-primary {
+  background-color: var(--btncolor);
+  border-color: var(--btncolor);
+}

@@ -1,1 +1,60 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --mainbg: linear-gradient(0deg, rgba(69, 137, 125, 0.12), rgba(69, 137, 125, 0.12)), #FFFFFF;
+    --sidebarbg: #ffffff;
+    --activetab: #45897D;
+    --inactivetab: rgba(39, 59, 74, 0.38);
+    --tabtext: #ffffff;
+    --boxshadow: rgba(69, 137, 125, 0.2);
+    --cardsubtitle: rgba(69, 137, 125, 0.5);
+    --cardtext: rgba(69, 137, 125, 1);
+    --cardtextbold: rgba(39, 59, 74, 1);
+    --btncolor: rgba(69, 137, 125, 1);
+    --headingbg: rgba(69, 137, 125, 1);
+    --headingtext: #ffffff;
+    --closebg: rgba(39, 59, 74, 0.38);
+    --closebghover: rgba(39, 59, 74, 0.5);
+}
+body {
+    background: var(--mainbg);
+    font-family: Nunito;
+}
+.custom-dialog {
+  mat-dialog-container {
+      padding: 0;
+      width: 60%;
+      margin: auto;
+      font-family: Nunito;
+  }
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    border-radius: 30px;
+    box-shadow: 0px 2px 20px 2px var(--boxshadow);
+  }
+  .mat-mdc-dialog-container .mdc-dialog__content {
+    font-family: Nunito;
+    letter-spacing: 0;
+  }
+  .dialog-heading {
+    background: var(--headingbg);
+    font-weight: 800;
+    font-size: 1.5rem;
+    padding: 15px;
+    color: var(--headingtext);
+    position: relative;
+  }
+  .close {
+    background: var(--closebg);
+    color: var(--headingtext);
+    font-size: 1rem;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px 15px;
+    border-radius: 0 30px 0 30px;
+    transition: all 0.5s ease;
+  }
+  .close:hover {
+    cursor: pointer;
+    background: var(--closebghover);
+  }
+}
