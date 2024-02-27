@@ -8,15 +8,17 @@ import { StudentsPageComponent } from './components/students-page/students-page.
 import { AuthGuardService as AuthGuard } from './services/auth/auth-guard.service';
 import { RoleGuardService as RoleGuard } from './services/auth/role-guard.service';
 import { FormsModule } from '@angular/forms';
+import { RegisterComponent } from './components/register/register.component';
 
 const ROUTES: Routes = [
-  { path: 'login', component: LoginComponent },
+  { path: '', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'students', component: StudentsPageComponent, canActivate: [RoleGuard],
     data: {
       expectedRole: 'mentor'
     }
-  }
+  },
+  { path: 'register', component: RegisterComponent },
 ]
 
 @NgModule({
@@ -24,7 +26,8 @@ const ROUTES: Routes = [
     AppComponent,
     DashboardComponent,
     LoginComponent,
-    StudentsPageComponent
+    StudentsPageComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
