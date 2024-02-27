@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using AthenaAPI.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AthenaAPI.Data;
@@ -173,6 +169,36 @@ namespace AthenaAPI.Controllers
         private bool UserExists(Guid id)
         {
             return (_context.Users?.Any(e => e.UserID == id)).GetValueOrDefault();
+        }
+
+        /// <summary>
+        /// Controller method for checking the Authentication Token of a User to ensure it's valid.
+        /// </summary>
+        /// <returns>
+        /// An Action Result that represents whether or not the token is valid.
+        /// </returns>
+        /// <param name="TokenID">The Guid of the Token.</param>
+        /// 
+        // GET: api/Users/{Guid}
+        [HttpGet("{TokenID:Guid}")]
+        public async Task<ActionResult<bool>> CheckAuthentication(Guid TokenID)
+        {
+            return Utilities.Authentication.CheckAuth(TokenID);
+        }
+
+        /// <summary>
+        /// Controller method for retrieving the Authentication data of a token.
+        /// </summary>
+        /// <returns>
+        /// An Action Result with the associated Authentication data.
+        /// </returns>
+        /// <param name="TokenID">The Guid of the Token.</param>
+        /// 
+        // GET: api/Users/{Guid}
+        [HttpGet("Auth/{TokenID:Guid}")]
+        public async Task<ActionResult<AuthToken>> GetAuthentication(Guid TokenID)
+        {
+            return Utilities.Authentication.GetAuthFromTokenID(TokenID);
         }
     }
 }
