@@ -1,4 +1,4 @@
-<section>
+<!-- <section>
     <div class="form-box">
         <div class="form-value">
             <form action="">
@@ -21,4 +21,33 @@
             </form>
         </div>
     </div>
-</section>
+</section> -->
+
+<section>
+    <div class="form-box">
+      <div class="form-value">
+        <form (ngSubmit)="login()">
+          <h2>Login</h2>
+          <div class="inputbox">
+            <!-- bug here on Angulars part for this error. Code runs. Same for al ngModel errors here -->
+            <!-- Roleback to previuous Angular version if you want them to go away but you dont need to -->
+            <input type="text" [(ngModel)]="email" name="email" required> 
+            <label for="email">Email Address</label>
+          </div>
+          <div class="inputbox">
+            <input type="password" [(ngModel)]="password" name="password" required>
+            <label for="password">Password</label>
+          </div>
+          <div class="forget">
+              <a href="#">Forgot Password?</a>
+          </div>
+          <button type="submit">Login to my account</button>
+          <div class="register">
+            <p>Don't have an account <a href="#">Register</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+

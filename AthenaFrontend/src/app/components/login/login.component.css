@@ -80,20 +80,16 @@ input:valid ~ label{
     justify-content: center;
 }
 
-.forget label input{
-    margin-right: 3px;
-}
-
-.forget label a{
+.forget a{
     margin-left: 20px;;
     color: #000;
     text-decoration: none;
     font-weight: 600;
 }
 
-.forget label a:hover{
+.forget a:hover{
     text-decoration: underline;
-    color: rgba(240, 248, 255, 0.863);
+    color: rgba(0, 78, 74, 0.863);
 }
 
 button{
@@ -128,5 +124,5 @@ button:hover{
 
 .register p a:hover{
     text-decoration: underline;
-    color: rgba(240, 248, 255, 0.863);
+    color: rgba(0, 78, 74, 0.863);;
 }
