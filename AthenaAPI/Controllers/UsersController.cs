@@ -29,10 +29,10 @@ namespace AthenaAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             return await _context.Users.ToListAsync();
         }
 
@@ -48,10 +48,10 @@ namespace AthenaAPI.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<ActionResult<User>> GetUser(Guid id)
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+            if (_context.Users == null)
+            {
+                return NotFound();
+            }
             var user = await _context.Users.FindAsync(id);
 
             if (user == null)
@@ -121,10 +121,10 @@ namespace AthenaAPI.Controllers
             user.Email = userData["Email"].ToString();
             user.Password = userData["Password"].ToString();
             user.UserID = Guid.NewGuid();
-          if (_context.Users == null)
-          {
-              return Problem("Entity set 'DataContext.Users' is null.");
-          }
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'DataContext.Users' is null.");
+            }
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -194,11 +194,27 @@ namespace AthenaAPI.Controllers
         /// </returns>
         /// <param name="TokenID">The Guid of the Token.</param>
         /// 
-        // GET: api/Users/{Guid}
+        // GET: api/Users/Auth/{Guid}
         [HttpGet("Auth/{TokenID:Guid}")]
         public async Task<ActionResult<AuthToken>> GetAuthentication(Guid TokenID)
         {
             return Utilities.Authentication.GetAuthFromTokenID(TokenID);
+        }
+
+        [HttpGet("Email/{Email}")]
+        public async Task<ActionResult<bool>> CheckEmail(string Email)
+        {
+            bool result = Utilities.Users.CheckEmail(Email);
+            if (result)
+            {
+                // Email is in use
+                return Ok(true);
+            }
+            else
+            {
+                // Email is not in use
+                return Ok(false);
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using AthenaAPI.Data;
-using Microsoft.EntityFrameworkCore;
 using AthenaAPI.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -8,17 +7,11 @@ namespace AthenaAPI.Utilities
 {
     public class Students
     {
-        public static DataContext _context;
-        public Students(DataContext context)
-        {
-            _context = context;
-        }
-
         public static List<StudentRole> GetStudents()
         {
             try
             {
-                SqlConnection con = new SqlConnection(_context.Database.GetConnectionString());
+                SqlConnection con = SqlHelper.GetConnection();
 
                 using (con)
                 {
@@ -61,7 +54,7 @@ namespace AthenaAPI.Utilities
         {
             try
             {
-                SqlConnection con = new SqlConnection(_context.Database.GetConnectionString());
+                SqlConnection con = SqlHelper.GetConnection();
 
                 using (con)
                 {
@@ -103,7 +96,7 @@ namespace AthenaAPI.Utilities
         {
             try
             {
-                SqlConnection con = new SqlConnection(_context.Database.GetConnectionString());
+                SqlConnection con = SqlHelper.GetConnection();
 
                 using (con)
                 {
@@ -138,6 +131,41 @@ namespace AthenaAPI.Utilities
             {
                 Console.WriteLine(ex.Message);
                 return new StudentRole();
+            }
+        }
+
+        public static Boolean UpdateStudent(StudentRole student)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("UpdateStudent", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@StudentID", student.RoleID));
+                    command.Parameters.Add(new SqlParameter("@Exp", student.Student.Exp));
+                    command.Parameters.Add(new SqlParameter("@Availability", student.Student.Availability));
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    Boolean result = false;
+                    if (reader.Read())
+                    {
+                        if (reader.GetBoolean(0))
+                        {
+                            result = true;
+                        }
+                    }
+                    con.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
             }
         }
     }

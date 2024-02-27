@@ -1,10 +1,9 @@
 ﻿using AthenaAPI.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace AthenaAPI.Controllers
 {
@@ -12,6 +11,7 @@ namespace AthenaAPI.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
+
         private readonly DataContext _context;
 
         public StudentsController(DataContext context)
@@ -59,17 +59,22 @@ namespace AthenaAPI.Controllers
         /// 
         // PUT: api/Students/{Guid}
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id:Guid}")]
-        public async Task<IActionResult> UpdateStudent(Guid id, [FromBody] StudentRole student)
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateStudent([FromBody] JObject student)
         {
-            if (id != student.RoleID)
+            StudentRole studentRole = new StudentRole();
+            studentRole.Student = JsonConvert.DeserializeObject<Student>(student["person"].ToString());
+            studentRole.RoleID = Guid.Parse(student["roleID"].ToString());
+
+            Boolean updateResult = Utilities.Students.UpdateStudent(studentRole);
+            if (updateResult)
             {
-                return BadRequest();
+                return Ok(true);
             }
-
-            // Will update with Utility method for updating student
-
-            return NoContent();
+            else
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>
@@ -101,36 +106,6 @@ namespace AthenaAPI.Controllers
 
             // Then create and return the new Student!
             return Utilities.Students.AddStudent(user.UserID);
-        }
-
-        /// <summary>
-        /// Controller method for deleting a single Student.
-        /// </summary>
-        /// <returns>
-        /// An Action Result that represents whether or not the deletion was successful.
-        /// </returns>
-        /// <param name="id">The Guid of the Student.</param>
-        /// 
-        // DELETE: api/Students/{Guid}
-        [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> DeleteStudent(Guid id)
-        {
-            if (_context.Users == null)
-            {
-                return NotFound();
-            }
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-
-            // Add Utility method for deleting Student (and their entries in StudentModules, StudentQuests, StudentMentor
-
-            return NoContent();
         }
     }
 }

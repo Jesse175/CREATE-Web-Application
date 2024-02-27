@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Role } from 'src/models/role.model';
 
 @Component({
   selector: 'app-student-card',
@@ -6,5 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./student-card.component.css']
 })
 export class StudentCardComponent {
-  @Input() students: string[]= [];
+  @Input() students: Role[]= [];
 }
