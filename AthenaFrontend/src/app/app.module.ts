@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { Routes, RouterModule } from '@angular/router';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { LoginComponent } from './components/login/login.component';
@@ -9,6 +11,10 @@ import { AuthGuardService as AuthGuard } from './services/auth/auth-guard.servic
 import { RoleGuardService as RoleGuard } from './services/auth/role-guard.service';
 import { FormsModule } from '@angular/forms';
 import { RegisterComponent } from './components/register/register.component';
+import { StudentCardComponent } from './components/students-page/student-card/student-card.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddStudentDialog } from './components/students-page/add-student-dialog/add-student-dialog';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -27,12 +33,19 @@ const ROUTES: Routes = [
     DashboardComponent,
     LoginComponent,
     StudentsPageComponent,
-    RegisterComponent
+    RegisterComponent,
+    StudentCardComponent,
+    AddStudentDialog
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES),
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -12,7 +12,7 @@
         public Guid RoleID { get; set; }
         public string Name { get { return "Student"; } }
         public Student Student { get; set; }
-        public object Person { get; }
+        public object Person { get { return Student; } }
     }
 
     public class MentorRole : Role
@@ -20,6 +20,6 @@
         public Guid RoleID { get; set; }
         public string Name { get { return "Mentor"; } }
         public Mentor Mentor { get; set; }
-        public object Person { get; }
+        public object Person { get { return Mentor; } }
     }
 }

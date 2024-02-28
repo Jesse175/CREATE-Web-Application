@@ -1,1 +1,39 @@
-<p>students-page works!</p>
+<button type="button" class="btn btn-primary" (click)="addStudent()"><i class="bi bi-plus-lg"></i></button>
+<ul class="nav nav-pills mb-3" id="student-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="pills-my-tab" data-bs-toggle="pill" data-bs-target="#pills-my" type="button" role="tab" aria-controls="pills-my" aria-selected="true">My Students</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="pills-all-tab" data-bs-toggle="pill" data-bs-target="#pills-all" type="button" role="tab" aria-controls="pills-all" aria-selected="false">All Students</button>
+    </li>
+  </ul>
+  <div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-my" role="tabpanel" aria-labelledby="pills-my-tab" tabindex="0">
+      <app-student-card [students]="students"></app-student-card>
+    </div>
+    <div class="tab-pane fade" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab" tabindex="0">
+
+
+    </div>
+  </div>
+
+<!-- Add Student Modal -->
+  <div class="modal fade" id="addStudent" tabindex="-1" role="dialog" aria-labelledby="addStudentTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>

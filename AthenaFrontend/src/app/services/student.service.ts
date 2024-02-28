@@ -5,16 +5,26 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class StudentService {
   private apiUrl: any;
   private postHeaders: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   constructor(private http: HttpClient) {
     this.apiUrl = environment.apiUrl;
   }
 
-  public CheckEmail(email: string): Promise<boolean> {
+  public AddStudent(student: any): Promise<any> {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/Users/Email/' + email).subscribe((data: any) => {
+      this.http.post(this.apiUrl + '/Students', JSON.stringify(student), { headers: this.postHeaders }).subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
+  public GetAllStudents(): Promise<any> {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/Students').subscribe((data: any) => {
         resolve(data);
       }, error => {
         resolve(false);

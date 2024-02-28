@@ -46,6 +46,7 @@ namespace AthenaAPI.Utilities
                             Student st = new Student();
                             st.FirstName = reader["FirstName"].ToString();
                             st.LastName = reader["LastName"].ToString();
+                            st.Email = reader["Email"].ToString();
                             st.Exp = Int32.Parse(reader["Exp"].ToString());
                             st.Availability = reader["Availability"].ToString();
 
@@ -60,6 +61,7 @@ namespace AthenaAPI.Utilities
                             Mentor mt = new Mentor();
                             mt.FirstName = reader["FirstName"].ToString();
                             mt.LastName = reader["LastName"].ToString();
+                            mt.Email = reader["Email"].ToString();
                             mt.JobTitle = reader["JobTitle"].ToString();
                             mt.Availability = reader["Availability"].ToString();
 
@@ -109,6 +111,7 @@ namespace AthenaAPI.Utilities
                             Student st = new Student();
                             st.FirstName = reader["FirstName"].ToString();
                             st.LastName = reader["LastName"].ToString();
+                            st.Email = reader["Email"].ToString();
                             st.Exp = Int32.Parse(reader["Exp"].ToString());
                             st.Availability = reader["Availability"].ToString();
 
@@ -123,6 +126,7 @@ namespace AthenaAPI.Utilities
                             Mentor mt = new Mentor();
                             mt.FirstName = reader["FirstName"].ToString();
                             mt.LastName = reader["LastName"].ToString();
+                            mt.Email = reader["Email"].ToString();
                             mt.JobTitle = reader["JobTitle"].ToString();
                             mt.Availability = reader["Availability"].ToString();
 
@@ -153,7 +157,7 @@ namespace AthenaAPI.Utilities
 
                 using (con)
                 {
-                    SqlCommand command = new SqlCommand("DeleteAuthentication", con);
+                    SqlCommand command = new SqlCommand("CheckAuthentication", con);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter("@TokenID", TokenID));
                     con.Open();
