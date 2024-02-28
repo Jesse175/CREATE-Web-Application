@@ -13,6 +13,15 @@
     --headingtext: #ffffff;
     --closebg: rgba(39, 59, 74, 0.38);
     --closebghover: rgba(39, 59, 74, 0.5);
+    --namecolor: rgba(39, 59, 74, 1);
+    --profiledefaultbg: rgba(69, 137, 125, 0.16);
+    --statsbg: rgba(69, 137, 125, 0.12);
+    --statsborder: rgba(39, 137, 125, 0.3);
+    --statsmini: rgba(39, 137, 125, 0.5);
+    --statsheading: rgba(39, 137, 125, 1);
+    --statsnum: rgba(39, 59, 74, 1);
+    --rankbg: #FFFFFF;
+    --navlink: rgba(69, 137, 125, 1);
 }
 body {
     background: var(--mainbg);
