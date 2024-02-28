@@ -171,6 +171,14 @@ namespace AthenaAPI.Controllers
             return (_context.Users?.Any(e => e.UserID == id)).GetValueOrDefault();
         }
 
+        [HttpPost("/Login")]
+        public async Task<ActionResult<AuthToken>> LoginUser(JObject LoginData)
+        {
+            string Email = LoginData["Email"].ToString();
+            string Password = LoginData["Password"].ToString();
+            return Utilities.Authentication.LoginUser(Email, Password);
+        }
+
         /// <summary>
         /// Controller method for checking the Authentication Token of a User to ensure it's valid.
         /// </summary>
@@ -180,7 +188,7 @@ namespace AthenaAPI.Controllers
         /// <param name="TokenID">The Guid of the Token.</param>
         /// 
         // GET: api/Users/{Guid}
-        [HttpGet("{TokenID:Guid}")]
+        [HttpGet("/Auth/Check/{TokenID:Guid}")]
         public async Task<ActionResult<bool>> CheckAuthentication(Guid TokenID)
         {
             return Utilities.Authentication.CheckAuth(TokenID);

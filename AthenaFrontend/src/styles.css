@@ -22,6 +22,7 @@
     --statsnum: rgba(39, 59, 74, 1);
     --rankbg: #FFFFFF;
     --navlink: rgba(69, 137, 125, 1);
+    --activeiconcolor: #FFFFFF;
 }
 body {
     background: var(--mainbg);

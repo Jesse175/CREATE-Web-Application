@@ -46,6 +46,8 @@
 }
 .progress {
   border-right: 1px solid var(--statsborder);
+  background-color: transparent;
+  border-radius: 0;
 }
 .progress, .exp {
   margin: 10px 0;
@@ -110,4 +112,12 @@
   font-weight: 800;
   color: var(--navlink);
   font-size: 1.2rem;
+}
+.nav-icon.active {
+  color: var(--activeiconcolor);
+}
+.nav-icon.active i {
+  background: var(--navlink);
+  padding: 10px 12px;
+  border-radius: 100%;;
 }
