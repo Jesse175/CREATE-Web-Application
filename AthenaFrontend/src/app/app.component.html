@@ -1,9 +1,9 @@
-<ng-container *ngIf="user != undefined && user != null">
+<ng-container *ngIf="role != undefined && role != null">
   <div id="main">
     <div id="sidebar">
       <div id="profilepic"></div>
-      <div id="user-name">First Lastname</div>
-      <ng-container *ngIf="user == 'student'">
+      <div id="user-name">{{ role.Person.FirstName + ' ' + role.Person.LastName }}</div>
+      <ng-container *ngIf="role.Name == 'Student'">
         <!-- If logged in user is a student -->
         <div class="stats">
           <div class="progress">
@@ -25,23 +25,24 @@
         </div>
         <div class="rank"></div>
         <div class="title">
-          Junior Dev
-          <!-- Rank goes here -->
+          {{ role.Person.Rank }}
         </div>
       </ng-container>
-      <ng-container *ngIf="user == 'mentor'">
+      <ng-container *ngIf="role.Name == 'Mentor'">
         <!-- If logged in user is a mentor -->
         <div class="stats">
           <div class="students">
             <div class="stats-mini">Current</div>
             <div class="stats-heading">Students</div>
-            <div class="stats-num"><!--Students goes here --></div>
+            <div class="stats-num">
+              <!--Students goes here -->
+              2
+            </div>
           </div>
         </div>
         <div class="rank"></div>
         <div class="title">
-          Junior Dev
-          <!-- Job Title goes here -->
+          {{ role.Person.JobTitle }}
         </div>
       </ng-container>
       <div id="side-nav">
@@ -49,8 +50,7 @@
           <div id="dashboard-icon" class="nav-icon">
             <i class="bi bi-grid-fill"></i>
           </div>
-          <div id="students-icon" class="nav-icon" *ngIf="user == 'mentor'">
-            <!-- If logged in user is a mentor -->
+          <div id="students-icon" class="nav-icon" *ngIf="role.Name == 'Mentor'">
             <i class="bi bi-people-fill"></i>
           </div>
           <div id="modules-icon" class="nav-icon">
@@ -67,8 +67,7 @@
           <div id="dashboard-link" class="navlink" routerLink="/dashboard">
             Dashboard
           </div>
-          <div id="students-link" class="navlink" routerLink="/students" *ngIf="user == 'mentor'">
-            <!-- If logged in user is a mentor -->
+          <div id="students-link" class="navlink" routerLink="/students" *ngIf="role.Name == 'Mentor'">
             Students
           </div>
           <div id="modules-link" class="navlink" routerLink="/modules">
@@ -88,6 +87,6 @@
     </div>
   </div>
 </ng-container>
-<ng-container *ngIf="user == null || user == undefined">
+<ng-container *ngIf="role == null || role == undefined">
   <router-outlet></router-outlet>
 </ng-container>

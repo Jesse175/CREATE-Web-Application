@@ -9,7 +9,7 @@ import { AuthToken } from 'src/models/authtoken.model';
 })
 export class AuthService {
   private apiUrl: any;
-  public token: any = sessionStorage.getItem('token')?.toString();
+  public token: any = localStorage.getItem('token')?.toString();
 
   constructor(private http: HttpClient, private router: Router) {
     this.apiUrl = environment.apiUrl;
