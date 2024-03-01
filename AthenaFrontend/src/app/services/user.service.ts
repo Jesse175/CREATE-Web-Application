@@ -41,4 +41,14 @@ export class UserService {
     })
   }
 
+  public LoginUser(loginData: any): Promise<any> {
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl + '/Users/Login', JSON.stringify(loginData), { headers: this.postHeaders }).subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
 }

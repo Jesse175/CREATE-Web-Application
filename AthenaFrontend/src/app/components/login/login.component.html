@@ -1,28 +1,28 @@
 <section>
     <div class="form-box">
       <div class="form-value">
-        <form [formGroup]="login">
+        <form action="">
           <h2>Login</h2>
           <div class="inputbox">
             <!-- bug here on Angulars part for this error. Code runs. Same for al ngModel errors here -->
             <!-- Roleback to previuous Angular version if you want them to go away but you dont need to -->            
-            <label for="email">Email Address</label>
-            <input type="email" class="form-control" id="email" formControlName="email" (change)="checkEmail()" placeholder="name@example.com">
+            <input type="text" [formControl]="email" required>
+            <label for="">Email Address</label>
           </div>
           <div class="inputbox">           
-            <label for="password">Password</label>
-            <input type="password" class="form-control" formControlName="password" id="password">
+            <input type="password" [formControl]="password" required>
+            <label for="">Password</label>
           </div>
           <div class="forget">
-              <a href="#">Forgot Password?</a>
+            <label for=""><input type="checkbox">Remember Me<a href="#">Forgot Password?</a></label>
           </div>
-          <input type="submit" class="form-control" id="login" [disabled]="!login.valid"(click)="loginUser()" value="Login to my account">
+          <button (click)="login()">Login to my account</button>
           <div class="register">
-            <p>Don't have an account <a routerLink="/register">Register</a></p>
+              <p>Don't have an account <a href="#">Register</a></p>
           </div>
-        </form>
-      </div>
-    </div>
-  </section>
+      </form>
+  </div>
+  </div>
+</section>
 
 
