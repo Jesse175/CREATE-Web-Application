@@ -1,22 +1,22 @@
 <section>
     <div class="form-box">
       <div class="form-value">
-        <form (ngSubmit)="login()">
+        <form [formGroup]="login">
           <h2>Login</h2>
           <div class="inputbox">
             <!-- bug here on Angulars part for this error. Code runs. Same for al ngModel errors here -->
-            <!-- Roleback to previuous Angular version if you want them to go away but you dont need to -->
-            <input type="text" [(ngModel)]="email" name="email" required> 
+            <!-- Roleback to previuous Angular version if you want them to go away but you dont need to -->            
             <label for="email">Email Address</label>
+            <input type="email" class="form-control" id="email" formControlName="email" (change)="checkEmail()" placeholder="name@example.com">
           </div>
-          <div class="inputbox">
-            <input type="password" [(ngModel)]="password" name="password" required>
+          <div class="inputbox">           
             <label for="password">Password</label>
+            <input type="password" class="form-control" formControlName="password" id="password">
           </div>
           <div class="forget">
               <a href="#">Forgot Password?</a>
           </div>
-          <button type="submit">Login to my account</button>
+          <input type="submit" class="form-control" id="login" [disabled]="!login.valid"(click)="loginUser()" value="Login to my account">
           <div class="register">
             <p>Don't have an account <a routerLink="/register">Register</a></p>
           </div>

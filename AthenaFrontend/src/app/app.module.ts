@@ -18,7 +18,7 @@ import { AddStudentDialog } from './components/students-page/add-student-dialog/
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'students', component: StudentsPageComponent, canActivate: [RoleGuard],
+  { path: 'student', component: StudentsPageComponent, canActivate: [RoleGuard],
     data: {
       expectedRole: 'mentor'
     }
