@@ -11,13 +11,12 @@ export class RoleGuardService implements CanActivate {
 
   public async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
     const expectedRole = route.data['expectedRole'];
-    const token = sessionStorage.getItem('token')?.toString();
     const payload = await this.auth.getAuthentication();
     if (
       !this.auth.isAuthenticated() ||
       payload.Role.Name !== expectedRole
     ) {
-      this.router.navigate(['login']);
+      this.router.navigate(['/login']);
       return false;
     }
     return true;

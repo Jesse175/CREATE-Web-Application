@@ -172,6 +172,23 @@ namespace AthenaAPI.Controllers
         }
 
         /// <summary>
+        /// Controller method for logging in a User.
+        /// </summary>
+        /// <returns>
+        /// The AuthToken that was created if successfully logged in.
+        /// </returns>
+        /// <param name="LoginData">The login data sent as a JSON object through the method body.</param>
+        /// 
+        // POST: api/Users/Login
+        [HttpPost("Login")]
+        public async Task<ActionResult<AuthToken>> LoginUser(JObject LoginData)
+        {
+            string Email = LoginData["Email"].ToString();
+            string Password = LoginData["Password"].ToString();
+            return Utilities.Authentication.LoginUser(Email, Password);
+        }
+
+        /// <summary>
         /// Controller method for checking the Authentication Token of a User to ensure it's valid.
         /// </summary>
         /// <returns>
@@ -179,8 +196,8 @@ namespace AthenaAPI.Controllers
         /// </returns>
         /// <param name="TokenID">The Guid of the Token.</param>
         /// 
-        // GET: api/Users/{Guid}
-        [HttpGet("{TokenID:Guid}")]
+        // GET: api/Users/Auth/Check/{Guid}
+        [HttpGet("Auth/Check/{TokenID:Guid}")]
         public async Task<ActionResult<bool>> CheckAuthentication(Guid TokenID)
         {
             return Utilities.Authentication.CheckAuth(TokenID);
@@ -201,6 +218,7 @@ namespace AthenaAPI.Controllers
             return Utilities.Authentication.GetAuthFromTokenID(TokenID);
         }
 
+        // GET: api/Users/Email/{Email}
         [HttpGet("Email/{Email}")]
         public async Task<ActionResult<bool>> CheckEmail(string Email)
         {

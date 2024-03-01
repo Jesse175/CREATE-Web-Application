@@ -9,7 +9,7 @@ import { AuthToken } from 'src/models/authtoken.model';
 })
 export class AuthService {
   private apiUrl: any;
-  public token: any = sessionStorage.getItem('token')?.toString();
+  public token: any = localStorage.getItem('token')?.toString();
 
   constructor(private http: HttpClient, private router: Router) {
     this.apiUrl = environment.apiUrl;
@@ -17,7 +17,7 @@ export class AuthService {
 
   public isAuthenticated(): Promise<boolean> {
     return new Promise<boolean>(resolve => {
-      this.http.get(this.apiUrl + '/Users/' + this.token).subscribe((data: any) => {
+      this.http.get(this.apiUrl + '/Users/Auth/Check/' + this.token).subscribe((data: any) => {
         resolve(data);
       }, error => {
         resolve(false);
@@ -27,7 +27,7 @@ export class AuthService {
 
   public getAuthentication(): Promise<AuthToken> {
     return new Promise<AuthToken>(resolve => {
-      this.http.get(this.apiUrl + '/Users/' + this.token).subscribe((data: any) => {
+      this.http.get(this.apiUrl + '/Users/Auth/' + this.token).subscribe((data: any) => {
         resolve(data);
       }, error => {
         resolve(new AuthToken(null));
