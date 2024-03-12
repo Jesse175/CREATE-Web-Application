@@ -2,6 +2,7 @@
 	@TokenID uniqueidentifier
 AS
 BEGIN
+	DECLARE @Result bit
 	IF EXISTS(SELECT TokenID FROM dbo.[Authentication] WHERE TokenID = @TokenID)
 	BEGIN
 		DECLARE @ExpiryDate datetime = (SELECT Expires FROM dbo.[Authentication] WHERE TokenID = @TokenID)
@@ -11,17 +12,18 @@ BEGIN
 			EXEC DeleteAuthentication @TokenID
 
 			-- Return false to indicate they are not authenticated and should be logged out
-			SELECT 0 AS Result
+			SET @Result = 0
 		END
 		ELSE
 		BEGIN
 			-- Return true to indicate they are authenticated
-			SELECT 1 AS Result
+			SET @Result = 1
 		END
 	END
 	ELSE
 	BEGIN
 		-- Their token could not be found so they are not authenticated and should be logged out
-		SELECT 0 AS Result
+		SET @Result = 0
 	END
+	SELECT @Result
 END

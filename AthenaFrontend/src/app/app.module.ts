@@ -14,16 +14,15 @@ import { StudentCardComponent } from './components/students-page/student-card/st
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AddStudentDialog } from './components/students-page/add-student-dialog/add-student-dialog';
+import { ModulesComponent } from './components/modules/modules.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'student', component: StudentsPageComponent, canActivate: [RoleGuard],
-    data: {
-      expectedRole: 'mentor'
-    }
-  },
-  { path: 'register', component: RegisterComponent },
+  { path: 'students', component: StudentsPageComponent, canActivate: [RoleGuard], data: { expectedRole: 'mentor' } },
+  { path: 'modules', component: ModulesComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] }
 ]
 
 @NgModule({

@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../services/user.service';
-import { AuthToken } from 'src/models/authtoken.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup} from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { User } from 'src/models/user.model';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
+import { AuthToken } from 'src/models/authtoken.model';
 
 @Component({
   selector: 'app-login',
@@ -42,6 +44,7 @@ export class LoginComponent {
   public async loginUser(loginData: any): Promise<any> {
     return await this.userService.LoginUser(loginData);
   }
+
   // public login = new FormGroup({
   //   email: new FormControl('', [Validators.email, Validators.required]),
   //   password: new FormControl('', Validators.required)

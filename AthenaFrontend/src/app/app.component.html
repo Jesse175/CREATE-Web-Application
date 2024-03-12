@@ -1,8 +1,92 @@
-<div id="main">
-    <div id="sidebar"></div>
-    <div id="main-content">
-        <app-login></app-login>
-        <!-- <app-students-page></app-students-page> -->
+<ng-container *ngIf="role != undefined && role != null">
+  <div id="main">
+    <div id="sidebar">
+      <div id="profilepic"></div>
+      <div id="user-name">{{ role.Person.FirstName + ' ' + role.Person.LastName }}</div>
+      <ng-container *ngIf="role.Name == 'Student'">
+        <!-- If logged in user is a student -->
+        <div class="stats">
+          <div class="progress">
+            <div class="stats-mini">Overall</div>
+            <div class="stats-heading">Progress</div>
+            <div class="stats-num">
+              <!--Progress goes here -->
+              15%
+            </div>
+          </div>
+          <div class="exp">
+            <div class="stats-mini">Exp until</div>
+            <div class="stats-heading">Next Rank</div>
+            <div class="stats-num">
+              <!--Exp goes here -->
+              +25
+            </div>
+          </div>
+        </div>
+        <div class="rank"></div>
+        <div class="title">
+          {{ role.Person.Rank }}
+        </div>
+      </ng-container>
+      <ng-container *ngIf="role.Name == 'Mentor'">
+        <!-- If logged in user is a mentor -->
+        <div class="stats">
+          <div class="students">
+            <div class="stats-mini">Current</div>
+            <div class="stats-heading">Students</div>
+            <div class="stats-num">
+              <!--Students goes here -->
+              2
+            </div>
+          </div>
+        </div>
+        <div class="rank"></div>
+        <div class="title">
+          {{ role.Person.JobTitle }}
+        </div>
+      </ng-container>
+      <div id="side-nav">
+        <div class="nav-icons">
+          <div id="dashboard-icon" class="nav-icon">
+            <i class="bi bi-grid-fill"></i>
+          </div>
+          <div id="students-icon" class="nav-icon" *ngIf="role.Name == 'Mentor'">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div id="modules-icon" class="nav-icon">
+            <i class="bi bi-mortarboard-fill"></i>
+          </div>
+          <div id="settings-icon" class="nav-icon">
+            <i class="bi bi-gear-fill"></i>
+          </div>
+          <div id="logout-icon" class="nav-icon">
+            <i class="bi bi-box-arrow-right"></i>
+          </div>
+        </div>
+        <div class="nav-links">
+          <div id="dashboard-link" class="navlink" routerLink="/dashboard">
+            Dashboard
+          </div>
+          <div id="students-link" class="navlink" routerLink="/students" *ngIf="role.Name == 'Mentor'">
+            Students
+          </div>
+          <div id="modules-link" class="navlink" routerLink="/modules">
+            Modules
+          </div>
+          <div id="settings-link" class="navlink" routerLink="/settings">
+            Settings
+          </div>
+          <div id="logout-link" class="navlink">
+            Logout
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-<router-outlet></router-outlet>
+    <div id="main-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</ng-container>
+<ng-container *ngIf="role == null || role == undefined">
+  <router-outlet></router-outlet>
+</ng-container>

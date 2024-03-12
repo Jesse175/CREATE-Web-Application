@@ -8,19 +8,13 @@ namespace AthenaAPI.Utilities
 {
     public class Authentication
     {
-        public static DataContext _context;
-
-        public Authentication(DataContext context)
-        {
-            _context = context;
-        }
         public static AuthToken LoginUser(string Email, string Password)
         {
             // A DateTime object representing the Date one month in the future (to set as the Token expiry date, in the event the user is authenticated)
             DateTime oneMonth = new DateTime((DateTime.Now.Month != 12 ? DateTime.Now.Year : DateTime.Now.Year + 1), (DateTime.Now.Month < 12 ? DateTime.Now.Month + 1 : 1), (DateTime.Now.Day < 28 ? DateTime.Now.Day : 1));
             try
             {
-                SqlConnection con = new SqlConnection(_context.Database.GetConnectionString());
+                SqlConnection con = SqlHelper.GetConnection();
 
                 using (con)
                 {
@@ -87,7 +81,7 @@ namespace AthenaAPI.Utilities
         {
             try
             {
-                SqlConnection con = new SqlConnection(_context.Database.GetConnectionString());
+                SqlConnection con = SqlHelper.GetConnection();
 
                 using (con)
                 {
@@ -153,7 +147,7 @@ namespace AthenaAPI.Utilities
             bool result = false;
             try
             {
-                SqlConnection con = new SqlConnection(_context.Database.GetConnectionString());
+                SqlConnection con = SqlHelper.GetConnection();
 
                 using (con)
                 {
@@ -166,7 +160,10 @@ namespace AthenaAPI.Utilities
                     result = false;
                     if (reader.Read())
                     {
-                        result = (bool)reader["Result"];
+                        if (reader.GetBoolean(0))
+                        {
+                            result = true;
+                        }
                     }
 
                     con.Close();
@@ -184,7 +181,7 @@ namespace AthenaAPI.Utilities
         {
             try
             {
-                SqlConnection con = new SqlConnection(_context.Database.GetConnectionString());
+                SqlConnection con = SqlHelper.GetConnection();
 
                 using (con)
                 {
