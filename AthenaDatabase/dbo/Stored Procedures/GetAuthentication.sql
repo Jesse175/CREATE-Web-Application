@@ -9,7 +9,7 @@ BEGIN
 		IF(@Role = 'Student')
 		BEGIN
 			-- Query results by joining Student table
-			SELECT TokenID, [Role], Expires, StudentID AS RoleID, [Exp], [Availability], FirstName, LastName
+			SELECT TokenID, [Role], Expires, StudentID AS RoleID, [Exp], [Availability], FirstName, LastName, Email
 			FROM dbo.[Authentication] AS auth
 			JOIN dbo.[Student] AS st ON auth.UserID = st.UserID
 			JOIN dbo.[User] AS u ON u.UserID = st.UserID
@@ -18,7 +18,7 @@ BEGIN
 		ELSE
 		BEGIN
 			-- Query results by joining Mentor table
-			SELECT TokenID, [Role], Expires, MentorID AS RoleID, JobTitle, [Availability], FirstName, LastName
+			SELECT TokenID, [Role], Expires, MentorID AS RoleID, JobTitle, [Availability], FirstName, LastName, Email
 			FROM dbo.[Authentication] AS auth
 			JOIN dbo.[Mentor] AS mt ON auth.UserID = mt.UserID
 			JOIN dbo.[User] AS u ON u.UserID = mt.UserID

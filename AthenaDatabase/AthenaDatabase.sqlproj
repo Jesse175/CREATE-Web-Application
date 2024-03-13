@@ -82,6 +82,11 @@
     <Build Include="dbo\Stored Procedures\GetAuthentication.sql" />
     <Build Include="dbo\Stored Procedures\DeleteAuthentication.sql" />
     <Build Include="dbo\Stored Procedures\CheckAuthentication.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateStudent.sql" />
+    <Build Include="dbo\Stored Procedures\GetStudents.sql" />
+    <Build Include="dbo\Stored Procedures\GetStudent.sql" />
+    <Build Include="dbo\Stored Procedures\CheckEmail.sql" />
+    <Build Include="dbo\Stored Procedures\AddStudent.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AthenaDatabase.refactorlog" />
