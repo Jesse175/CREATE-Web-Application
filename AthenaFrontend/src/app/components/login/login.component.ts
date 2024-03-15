@@ -17,10 +17,26 @@ import { AuthToken } from 'src/models/authtoken.model';
 export class LoginComponent {
   public email = new FormControl('', [Validators.email, Validators.required]);
   public password = new FormControl('', [Validators.required]);
+  public errorMessage: string = '';
+  public emailErrorMessage = '';
+  public passwordErrorMessage = '';
 
   constructor(public userService: UserService, public router: Router) {}
 
   public async login(): Promise<void> {
+    // reset error msgs
+    this.errorMessage = '';
+    this.emailErrorMessage = '';
+    this.passwordErrorMessage = '';
+
+    if (!this.email.valid) {
+      this.emailErrorMessage = 'Please enter a valid email';
+    }
+
+    if(!this.password.valid) {
+      this.passwordErrorMessage = 'Please enter a valid password';
+    }
+
     if (this.email.valid && this.password.valid){
       const loginData = {
         Email: this.email.value,
@@ -34,10 +50,10 @@ export class LoginComponent {
         this.router.navigate(['']);
         location.reload();
       } else {
-        // Define some kind of login error response
+        this.errorMessage = 'Incorrect username or password';
       }
     } else {
-      // Define some kind of email is invalid/password is invalid response
+      // this.errorMessage = 'Please enter valid email and password';
     }
   }
 
