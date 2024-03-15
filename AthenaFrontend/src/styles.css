@@ -23,7 +23,7 @@
     --rankbg: #FFFFFF;
     --navlink: rgba(69, 137, 125, 1);
     --activeiconcolor: #FFFFFF;
-    --errormsgcolor: rgba(223, 108, 79, 0.76);
+    --errormsgcolor: rgba(221, 25, 25, 0.884);
 }
 body {
     background: var(--mainbg);
