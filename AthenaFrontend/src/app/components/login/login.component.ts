@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup} from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd } from '@angular/router';
 import { User } from 'src/models/user.model';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -43,18 +43,22 @@ export class LoginComponent {
         Password: this.password.value
       };
       const response = await this.loginUser(loginData);
-      console.log(response);
+      //console.log(response);
       if (response != null && response != undefined){
         let token = new AuthToken(response);
         localStorage.setItem('token', token.TokenID);
         this.router.navigate(['']);
         location.reload();
-      } else {
-        this.errorMessage = 'Incorrect username or password';
-      }
-    } else {
-      //  this.errorMessage = 'Please enter valid email and password';
-    }
+      } 
+      this.router.events.subscribe((event) => {
+        if (event instanceof NavigationEnd) {
+          // Check if the current URL is the login page
+          if (event.url === '/login') {
+            this.errorMessage = 'Incorrect username or password';
+          }
+        }
+      });
+    } 
   }
 
   public async loginUser(loginData: any): Promise<any> {
