@@ -234,5 +234,12 @@ namespace AthenaAPI.Controllers
                 return Ok(false);
             }
         }
+
+        [HttpPost("CheckLogin")]
+        public User CheckLogin(JObject LoginData)
+        {
+            return Users.CheckLogin(LoginData["Email"].ToString(), LoginData["Password"].ToString());
+        }
+       
     }
 }

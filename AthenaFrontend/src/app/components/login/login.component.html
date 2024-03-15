@@ -2,23 +2,25 @@
     <div class="form-box">
         <div class="form-value">
             <form action="">
-                <h2>Login</h2>
+                <h2>Login</h2>                
                 <div class="inputbox">
                     <input type="text" [formControl]="email" required>
                     <label for="">Email Address</label>
                 </div>
+                <div *ngIf="!email.valid" class="error-message">{{ emailErrorMessage }}</div>
                 <div class="inputbox">
                     <input type="password" [formControl]="password" required>
                     <label for="">Password</label>
                 </div>
+                <div *ngIf="!password.valid" class="error-message">{{ passwordErrorMessage }}</div>
+                <div *ngIf="email.valid && password.valid" class="error-message">{{ errorMessage }}</div>
                 <div class="forget">
                     <label for=""><input type="checkbox">Remember Me<a href="#">Forgot Password?</a></label>
-                </div>
+                </div>                
                 <button (click)="login()">Login to my account</button>
-                <div class="register">
-                    <p>Don't have an account <a href="#">Register</a></p>
-                </div>
             </form>
         </div>
     </div>
 </section>
+
+

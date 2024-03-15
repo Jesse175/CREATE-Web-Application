@@ -23,6 +23,7 @@
     --rankbg: #FFFFFF;
     --navlink: rgba(69, 137, 125, 1);
     --activeiconcolor: #FFFFFF;
+    --errormsgcolor: rgba(221, 25, 25, 0.884);
 }
 body {
     background: var(--mainbg);
@@ -68,3 +69,6 @@ body {
     background: var(--closebghover);
   }
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
