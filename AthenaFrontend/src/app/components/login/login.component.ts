@@ -25,7 +25,7 @@ export class LoginComponent {
 
   public async login(): Promise<void> {
     // reset error msgs
-    this.errorMessage = '';
+    this.errorMessage = 'Incorrect username or password';
     this.emailErrorMessage = '';
     this.passwordErrorMessage = '';
 
@@ -50,15 +50,9 @@ export class LoginComponent {
         this.router.navigate(['']);
         location.reload();
       } 
-      this.router.events.subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          // Check if the current URL is the login page
-          if (event.url === '/login') {
-            this.errorMessage = 'Incorrect username or password';
-          }
-        }
-      });
-    } 
+      
+    }
+    this.errorMessage = '';
   }
 
   public async loginUser(loginData: any): Promise<any> {
