@@ -44,4 +44,9 @@ export class AppComponent implements OnInit {
       this.router.navigate(['/login']);
     }
   }
+
+  // ensures that the role is set to null on logout
+  // this prevents the sidebar from appearing on login page
+  logout() { this.role = null; }
+
 }
