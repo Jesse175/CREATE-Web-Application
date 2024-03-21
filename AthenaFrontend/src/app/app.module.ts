@@ -13,14 +13,16 @@ import { RegisterComponent } from './components/register/register.component';
 import { StudentCardComponent } from './components/students-page/student-card/student-card.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AddStudentDialog } from './components/students-page/add-student-dialog/add-student-dialog';
 import { ModulesComponent } from './components/modules/modules.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { AddMentorDialog } from './components/dashboard/add-mentor-dialog/add-mentor-dialog';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'students', component: StudentsPageComponent, canActivate: [RoleGuard], data: { expectedRole: 'mentor' } },
+  { path: 'students', component: StudentsPageComponent, canActivate: [RoleGuard] },
   { path: 'modules', component: ModulesComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] }
 ]
@@ -33,7 +35,8 @@ const ROUTES: Routes = [
     StudentsPageComponent,
     RegisterComponent,
     StudentCardComponent,
-    AddStudentDialog
+    AddStudentDialog,
+    AddMentorDialog
   ],
 
   imports: [
@@ -44,6 +47,7 @@ const ROUTES: Routes = [
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatSnackBarModule,
     MatDialogModule
   ],
 

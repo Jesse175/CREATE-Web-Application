@@ -36,7 +36,7 @@
             <div class="stats-heading">Students</div>
             <div class="stats-num">
               <!--Students goes here -->
-              2
+              0
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@
           <div id="dashboard-link" class="navlink" routerLink="/dashboard">
             Dashboard
           </div>
-          <div id="students-link" class="navlink" routerLink="/students" *ngIf="role.Name == 'Mentor'">
+          <div id="students-link" class="navlink" [routerLink]="['/students']" [state]="{ auth: this.auth, expectedRole: 'Mentor' }" *ngIf="role.Name == 'Mentor'">
             Students
           </div>
           <div id="modules-link" class="navlink" routerLink="/modules">

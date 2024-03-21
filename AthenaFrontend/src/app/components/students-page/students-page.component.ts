@@ -4,6 +4,7 @@ import { AddStudentDialog } from './add-student-dialog/add-student-dialog';
 import { Role } from 'src/models/role.model';
 import { Student } from 'src/models/student.model';
 import { StudentService } from 'src/app/services/student.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-students-page',
@@ -13,7 +14,7 @@ import { StudentService } from 'src/app/services/student.service';
 export class StudentsPageComponent {
   public students: Role[] = [];
 
-  constructor(public dialog: MatDialog, public studentService: StudentService) {
+  constructor(public dialog: MatDialog, public studentService: StudentService, public snackbar: MatSnackBar) {
     this.getAllStudents();
   }
 
@@ -23,9 +24,13 @@ export class StudentsPageComponent {
     });
 
     dialogRef.afterClosed().subscribe(response => {
-      let student = new Role(response);
-      student.Person = new Student(response.student);
-      this.students.push(student);
+      if (response){
+        let student = new Role(response);
+        student.Person = new Student(response.student);
+        this.students.push(student);
+        this.snackbar.open('Student successfully added!', '', { duration: 3000 });
+      }
+
     });
   }
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 import { AuthService } from './auth.service';
+import { AuthToken } from 'src/models/authtoken.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +10,16 @@ export class RoleGuardService implements CanActivate {
 
   constructor(public auth: AuthService, public router: Router) { }
 
-  public async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const expectedRole = route.data['expectedRole'];
-    const payload = await this.auth.getAuthentication();
+  public async canActivate(): Promise<boolean> {
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state as {
+      auth: AuthToken,
+      expectedRole: string
+    };
+
     if (
       !this.auth.isAuthenticated() ||
-      payload.Role.Name !== expectedRole
+      state.auth.Role.Name !== state.expectedRole
     ) {
       this.router.navigate(['/login']);
       return false;

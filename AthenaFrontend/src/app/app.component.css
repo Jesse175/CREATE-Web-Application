@@ -121,3 +121,6 @@
   padding: 10px 12px;
   border-radius: 100%;;
 }
+.nav-links:hover {
+  cursor: pointer;
+}

@@ -43,15 +43,14 @@ export class LoginComponent {
         Password: this.password.value
       };
       const response = await this.loginUser(loginData);
-      console.log(response);
       if (response != null && response != undefined) {
         this.errorMessage = 'Incorrect username or password';
-        let token = new AuthToken(response);        
+        let token = new AuthToken(response);
         localStorage.setItem('token', token.TokenID);
-        this.router.navigate(['']);  
-        location.reload();       
-      }      
-    }  
+        this.router.navigate(['']);
+        location.reload();
+      }
+    }
   }
 
   public async loginUser(loginData: any): Promise<any> {
