@@ -15,28 +15,29 @@ export class AppComponent implements OnInit {
   public role: any;
   protected auth: any;
 
-  constructor(private authService: AuthService, public router: Router){
-    this.router.navigate(['/dashboard']);
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   private async getAuthentication(): Promise<AuthToken> {
     return await this.authService.getAuthentication();
   }
 
   public async ngOnInit(): Promise<void> {
-    if (this.authService.token != undefined && this.authService.token != null && this.authService.token != ''){
+    await this.handleAuthentication();
+  }
+
+  private async handleAuthentication(): Promise<void> {
+    if (this.authService.token) {
       const authResponse = await this.authService.isAuthenticated();
-      console.log(authResponse);
-      if (authResponse){
+      if (authResponse) {
         const response = await this.getAuthentication();
         this.auth = new AuthToken(response);
         this.role = this.auth.Role;
-        if (this.role.Name == 'Student'){
+        if (this.role.Name === 'Student') {
           this.role.Person = new Student(this.role.Person);
-        } else if (this.role.name == 'Mentor'){
+        } else if (this.role.Name === 'Mentor') {
           this.role.Person = new Mentor(this.role.Person);
         }
-
+        this.router.navigate(['/dashboard']);
       } else {
         this.router.navigate(['/login']);
       }

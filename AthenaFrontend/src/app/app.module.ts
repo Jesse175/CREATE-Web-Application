@@ -31,7 +31,8 @@ const ROUTES: Routes = [
     LoginComponent,
     StudentsPageComponent,
     StudentCardComponent,
-    AddStudentDialog
+    AddStudentDialog,
+    ModulesComponent
   ],
   imports: [
     BrowserModule,
