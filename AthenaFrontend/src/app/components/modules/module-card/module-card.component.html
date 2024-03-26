@@ -1,0 +1,18 @@
+<div class="row row-cols-3 row-cols-md-2 g-4">
+  <ng-container *ngFor="let module of modules">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <img src="https://i.pinimg.com/474x/5f/2e/cc/5f2ecca11341463537cc008106132cdf.jpg">
+          <h5 class="card-title">{{ module.Name + ' Module'}}</h5>
+          <p class="card-text">
+            {{ module.Description }}
+          </p>
+          <div class="btn-container">
+            <a href="#" class="btn btn-primary" [routerLink]="['/modules', module.ModuleID]" [state]="{ module: module }" [ngStyle]="{'background': '#' + module.Color, 'border-color': '#' + module.Color}">Go to module <i class="bi bi-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
