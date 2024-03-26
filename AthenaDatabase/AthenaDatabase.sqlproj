@@ -91,6 +91,7 @@
     <Build Include="dbo\Stored Procedures\AddMentor.sql" />
     <Build Include="dbo\Stored Procedures\UpdateMentor.sql" />
     <Build Include="dbo\Stored Procedures\GetMentorStudents.sql" />
+    <Build Include="dbo\Stored Procedures\GetModules.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AthenaDatabase.refactorlog" />
