@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
   protected auth: any;
 
   constructor(private authService: AuthService, public router: Router, public mentorService: MentorService){
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/modules']);
   }
 
   private async getAuthentication(): Promise<AuthToken> {
