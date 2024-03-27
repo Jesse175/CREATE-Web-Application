@@ -4,6 +4,7 @@ button.btn {
   font-size: 1.3rem;
   padding: .375rem .75rem;
   position: absolute;
+  top: 15px;
   right: 15px;
 }
 button.btn-primary {

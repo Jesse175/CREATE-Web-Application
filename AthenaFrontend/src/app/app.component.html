@@ -70,7 +70,7 @@
           <div id="students-link" class="navlink" [routerLink]="['/students']" [state]="{ auth: this.auth, expectedRole: 'Mentor' }" *ngIf="role.Name == 'Mentor'">
             Students
           </div>
-          <div id="modules-link" class="navlink" routerLink="/modules">
+          <div id="modules-link" class="navlink" [routerLink]="['/modules']" [state]="{ role: this.role }">
             Modules
           </div>
           <div id="settings-link" class="navlink" routerLink="/settings">

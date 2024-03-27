@@ -42,4 +42,14 @@ export class ModuleService {
       });
     });
   }
+
+  public GetModuleStudentTotal(): Promise<any> {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/Modules/StudentTotal').subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
 }
