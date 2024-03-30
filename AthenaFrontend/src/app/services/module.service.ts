@@ -23,6 +23,16 @@ export class ModuleService {
     });
   }
 
+  public DeleteModule(moduleId: number): Promise<any> {
+    return new Promise(resolve => {
+      this.http.delete(this.apiUrl + '/Modules/' + moduleId).subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
   public GetAllModules(): Promise<any> {
     return new Promise(resolve => {
       this.http.get(this.apiUrl + '/Modules').subscribe((data: any) => {
@@ -50,6 +60,16 @@ export class ModuleService {
       }, error => {
         resolve(false);
       });
+    });
+  }
+
+  public UpdateModule(moduleId: number, updatedModule: any): Promise<any> {
+    return new Promise(resolve => {
+      this.http.put('${this.apiUrl}/Modules/${moduleId]', JSON.stringify(updatedModule), {headers: this.postHeaders}).subscribe((data: any) => {
+      resolve(data);
+    }, error => {
+      resolve(false);
+    });
     });
   }
 }
