@@ -1,41 +1,22 @@
 export class Module {
-    
-    id: number;
-    name: string;
-    color: string; //Hex? 
-    description: string;
 
-    constructor(id: number, name: string, color: string, description: string)
+    public ModuleID: string;
+    public Name: string;
+    public Color: string;
+    public Description: string;
+
+    constructor(module: any)
     {
-        this.id = id;
-        this.name = name;
-        this.color = color;
-        this.description = description;
-    }
-
-    get getId(): number{
-        return this.id;
-    }
-    get getName(): string{
-        return this.name;
-    }
-    get getColor(): string{
-        return this.color;
-    }
-    get getDescription(): string{
-        return this.description;
-    }
-
-    set setId(id: number){
-        this.id = id;
-    }
-    set setName(name: string){
-        this.name = name;
-    }
-    set setColor(color: string){
-        this.color = color;
-    }
-    set setDescription(description: string){
-        this.description = description;
+      if (module.moduleID || module.ModuleID){
+        this.ModuleID = module.moduleID || module.ModuleID;
+        this.Name = module.name || module.Name;
+        this.Color = module.color || module.Color;
+        this.Description = module.description || module.Description;
+      } else {
+        this.ModuleID = '00000000-0000-0000-0000-000000000000';
+        this.Name = '';
+        this.Color = '000000';
+        this.Description = '';
+      }
     }
 }

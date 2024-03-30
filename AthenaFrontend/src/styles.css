@@ -4,6 +4,7 @@
     --activetab: #45897D;
     --inactivetab: rgba(39, 59, 74, 0.38);
     --tabtext: #ffffff;
+    --tablabel: rgba(255, 255, 255, 0.5);
     --boxshadow: rgba(69, 137, 125, 0.2);
     --cardsubtitle: rgba(69, 137, 125, 0.5);
     --cardtext: rgba(69, 137, 125, 1);
@@ -24,6 +25,8 @@
     --navlink: rgba(69, 137, 125, 1);
     --activeiconcolor: #FFFFFF;
     --errormsgcolor: rgba(221, 25, 25, 0.884);
+    --moduletext: rgba(0, 0, 0, 0.38);
+    --mainheading: #273B4A;
 }
 body {
     background: var(--mainbg);

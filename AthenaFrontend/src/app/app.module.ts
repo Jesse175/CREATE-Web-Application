@@ -18,12 +18,16 @@ import { AddStudentDialog } from './components/students-page/add-student-dialog/
 import { ModulesComponent } from './components/modules/modules.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AddMentorDialog } from './components/dashboard/add-mentor-dialog/add-mentor-dialog';
+import { AddModuleDialog } from './components/modules/add-module-dialog/add-module-dialog';
+import { InnerModuleComponent } from './components/modules/inner-module/inner-module.component';
+import { ModuleCardComponent } from './components/modules/module-card/module-card.component';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'students', component: StudentsPageComponent, canActivate: [RoleGuard] },
   { path: 'modules', component: ModulesComponent, canActivate: [AuthGuard] },
+  { path: 'modules/:ModuleID', component: InnerModuleComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] }
 ]
 
@@ -33,10 +37,14 @@ const ROUTES: Routes = [
     DashboardComponent,
     LoginComponent,
     StudentsPageComponent,
+    ModulesComponent,
     RegisterComponent,
     StudentCardComponent,
     AddStudentDialog,
-    AddMentorDialog
+    AddMentorDialog,
+    AddModuleDialog,
+    InnerModuleComponent,
+    ModuleCardComponent
   ],
 
   imports: [

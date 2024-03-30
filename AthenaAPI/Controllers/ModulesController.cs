@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AthenaAPI.Data;
 using AthenaAPI.Models;
+using Newtonsoft.Json.Linq;
 
 namespace AthenaAPI.Controllers
 {
@@ -23,24 +24,27 @@ namespace AthenaAPI.Controllers
 
         // GET: api/Modules
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Module>>> GetModule()
+        public async Task<ActionResult<List<Module>>> GetModules()
         {
-          if (_context.Module == null)
-          {
-              return NotFound();
-          }
-            return await _context.Module.ToListAsync();
+            return Utilities.Modules.GetModules();
         }
 
-        // GET: api/Modules/5
+        // GET: api/Modules/StudentTotal
+        [HttpGet("Modules/StudentTotal")]
+        public async Task<ActionResult<List<JObject>>> GetModuleStudentTotal()
+        {
+            return Utilities.Modules.GetModuleStudentTotal();
+        }
+
+        // GET: api/Modules/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Module>> GetModule(Guid id)
         {
-          if (_context.Module == null)
+          if (_context.Modules == null)
           {
               return NotFound();
           }
-            var @module = await _context.Module.FindAsync(id);
+            var @module = await _context.Modules.FindAsync(id);
 
             if (@module == null)
             {
@@ -84,33 +88,38 @@ namespace AthenaAPI.Controllers
         // POST: api/Modules
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Module>> PostModule(Module @module)
+        public async Task<ActionResult<Module>> CreateModule([FromBody] JObject moduleData)
         {
-          if (_context.Module == null)
-          {
-              return Problem("Entity set 'DataContext.Module'  is null.");
-          }
-            _context.Module.Add(@module);
+            Module module = new Module();
+            module.Name = moduleData["Name"].ToString();
+            module.Color = moduleData["Color"].ToString();
+            module.Description = moduleData["Description"].ToString();
+            module.ModuleID = Guid.NewGuid();
+            if (_context.Modules == null)
+            {
+                return Problem("Entity set 'DataContext.Module' is null.");
+            }
+            _context.Modules.Add(module);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetModule", new { id = @module.ModuleID }, @module);
+            return CreatedAtAction(nameof(GetModule), new { id = module.ModuleID }, module);
         }
 
         // DELETE: api/Modules/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteModule(Guid id)
         {
-            if (_context.Module == null)
+            if (_context.Modules == null)
             {
                 return NotFound();
             }
-            var @module = await _context.Module.FindAsync(id);
+            var @module = await _context.Modules.FindAsync(id);
             if (@module == null)
             {
                 return NotFound();
             }
 
-            _context.Module.Remove(@module);
+            _context.Modules.Remove(@module);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -118,7 +127,7 @@ namespace AthenaAPI.Controllers
 
         private bool ModuleExists(Guid id)
         {
-            return (_context.Module?.Any(e => e.ModuleID == id)).GetValueOrDefault();
+            return (_context.Modules?.Any(e => e.ModuleID == id)).GetValueOrDefault();
         }
     }
 }
