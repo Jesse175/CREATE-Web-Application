@@ -49,6 +49,21 @@ namespace AthenaAPI.Controllers
         }
 
         /// <summary>
+        /// Controller method for retrieving all of a student's mentors.
+        /// </summary>
+        /// <returns>
+        /// A Collection of Mentors.
+        /// </returns>
+        /// <param name="id">The Guid of the Student.</param>
+        /// 
+        // GET: api/Students
+        [HttpGet("{id:Guid}/Mentors")]
+        public async Task<ActionResult<List<MentorRole>>> GetStudentMentors(Guid id)
+        {
+            return Utilities.Students.GetStudentMentors(id);
+        }
+
+        /// <summary>
         /// Controller method for updating a specific Student.
         /// </summary>
         /// <returns>

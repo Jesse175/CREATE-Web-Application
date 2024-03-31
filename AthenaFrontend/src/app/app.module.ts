@@ -14,7 +14,9 @@ import { StudentCardComponent } from './components/students-page/student-card/st
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { AddStudentDialog } from './components/students-page/add-student-dialog/add-student-dialog';
+import { ViewStudentDialog } from './components/students-page/view-student-dialog/view-student-dialog';
 import { ModulesComponent } from './components/modules/modules.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AddMentorDialog } from './components/dashboard/add-mentor-dialog/add-mentor-dialog';
@@ -41,6 +43,7 @@ const ROUTES: Routes = [
     RegisterComponent,
     StudentCardComponent,
     AddStudentDialog,
+    ViewStudentDialog,
     AddMentorDialog,
     AddModuleDialog,
     InnerModuleComponent,
@@ -56,7 +59,8 @@ const ROUTES: Routes = [
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
 
   providers: [],

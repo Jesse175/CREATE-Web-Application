@@ -23,6 +23,16 @@ export class MentorService {
     });
   }
 
+  public GetAllMentors(): Promise<any> {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/Mentors').subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
   public GetMentorStudents(mentorID: any): Promise<any> {
     return new Promise(resolve => {
       this.http.get(this.apiUrl + '/Mentors/Students/' + mentorID).subscribe((data: any) => {

@@ -92,6 +92,50 @@ namespace AthenaAPI.Utilities
             }
         }
 
+        public static List<MentorRole> GetStudentMentors(Guid id)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("GetStudentMentors", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@StudentID", id));
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    // Let's create a new MentorRole list to read the result
+                    List<MentorRole> mentors = new List<MentorRole>();
+
+                    while (reader.Read())
+                    {
+                        // New Role object and Mentor object
+                        MentorRole mentor = new MentorRole();
+                        Mentor mt = new Mentor();
+                        mentor.RoleID = Guid.Parse(reader["MentorID"].ToString());
+                        mt.FirstName = reader["FirstName"].ToString();
+                        mt.LastName = reader["LastName"].ToString();
+                        mt.Email = reader["Email"].ToString();
+                        mt.JobTitle = reader["JobTitle"].ToString();
+                        mt.Availability = reader["Availability"].ToString();
+                        mentor.Mentor = mt;
+                        mentors.Add(mentor);
+                    }
+
+                    con.Close();
+                    return mentors;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<MentorRole>();
+            }
+        }
+
         public static StudentRole AddStudent(Guid UserID)
         {
             try
