@@ -15,6 +15,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AddStudentDialog } from './components/students-page/add-student-dialog/add-student-dialog';
 import { ViewStudentDialog } from './components/students-page/view-student-dialog/view-student-dialog';
 import { ModulesComponent } from './components/modules/modules.component';
@@ -60,7 +63,10 @@ const ROUTES: Routes = [
     BrowserAnimationsModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule
   ],
 
   providers: [],

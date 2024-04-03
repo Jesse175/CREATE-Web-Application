@@ -1,10 +1,13 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { StudentService } from 'src/app/services/student.service';
 import { Role } from 'src/models/role.model';
 import { MentorService } from 'src/app/services/mentor.service';
 import { Mentor } from 'src/models/mentor.model';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 export interface StudentData {
   FirstName: string;
@@ -21,10 +24,14 @@ export interface StudentData {
 export class ViewStudentDialog implements OnInit {
   public student: Role;
   public mentors: Role[] = [];
+  public selectedMentors: Role[] = [];
   public allMentors: Role[] = [];
   public changes: boolean = false;
-  public add: boolean = false;
-  public mentor = new FormControl('');
+
+  public separatorKeysCodes: number[] = [ENTER, COMMA];
+  public mentorCtrl = new FormControl(null);
+  public filteredMentors: Role[] = [];
+  @ViewChild('mentorInput') mentorInput!: ElementRef<HTMLInputElement>;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<ViewStudentDialog>, public mentorService: MentorService, public studentService: StudentService) {
     this.student = this.data.student;
@@ -32,12 +39,41 @@ export class ViewStudentDialog implements OnInit {
     this.getAllMentors();
   }
 
-  public addMentor(): void {
+  public add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+    // Add our mentor
+    if (value != undefined && value != null) {
+      this.selectedMentors.push(this.allMentors.find((x: Role) => x.RoleID == value.trim())!);
+    }
 
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+    this.mentorCtrl.setValue(null);
+    this.changes = true;
   }
 
-  public addView(): void {
-    this.add = !this.add;
+  public remove(indx: number): void {
+    const deleted = this.selectedMentors.splice(indx, 1);
+    this.filteredMentors.push(deleted[0]);
+    this.changes = true;
+  }
+
+  public selected(event: MatAutocompleteSelectedEvent): void {
+    this.selectedMentors.push(event.option.value);
+    this.mentorInput.nativeElement.value = '';
+    this.mentorCtrl.setValue(null);
+  }
+
+  private filterMentors(mentor: Role | null): void {
+    if (mentor == null){
+      return;
+    } else {
+      let index = this.filteredMentors.findIndex(m => m.RoleID == mentor.RoleID);
+      this.filteredMentors.splice(index, 1);
+    }
   }
 
   public async getAllMentors(): Promise<any> {
@@ -47,6 +83,9 @@ export class ViewStudentDialog implements OnInit {
         let mentor = new Role(m);
         mentor.Person = new Mentor(m.mentor);
         this.allMentors.push(mentor);
+        if (!this.mentors.includes(mentor)){
+          this.filteredMentors.push(mentor);
+        }
       });
     }
   }
@@ -58,23 +97,24 @@ export class ViewStudentDialog implements OnInit {
         let mentor = new Role(m);
         mentor.Person = new Mentor(m.mentor);
         this.mentors.push(mentor);
+        this.selectedMentors.push(mentor);
       });
     }
   }
 
   public async saveChanges(): Promise<any> {
-    const changes = {
-
-    };
-    //const response = await this.studentService.AddStudentMentor(this.student.RoleID, mentor);
-    //this.dialogRef.close(response);
+    const response = await this.studentService.SaveStudentMentors(this.student.RoleID, this.selectedMentors);
+    this.dialogRef.close(response);
   }
 
-  public async ngOnInit(): Promise<void> {
-
+  public ngOnInit(): void {
+    this.mentorCtrl.valueChanges.subscribe((mentor: Role | null) => {
+      this.filterMentors(mentor);
+      this.changes = true;
+    });
   }
 
   public okClose(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 }

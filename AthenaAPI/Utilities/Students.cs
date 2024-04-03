@@ -212,5 +212,47 @@ namespace AthenaAPI.Utilities
                 return false;
             }
         }
+
+        public static Boolean SaveStudentMentors(Guid id, List<MentorRole> updatedMentors)
+        {
+            // Create DataTable
+            DataTable updated = new DataTable();
+            updated.Columns.Add("StudentID", typeof(Guid));
+            updated.Columns.Add("MentorID", typeof(Guid));
+
+            updatedMentors.ForEach(x => updated.Rows.Add(new Object[] { id, x.RoleID }));
+
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+
+                    SqlCommand command = new SqlCommand("SaveStudentMentors", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@StudentID", id));
+                    command.Parameters.AddWithValue("@Updated", updated);
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    Boolean result = false;
+                    if (reader.Read())
+                    {
+                        if (reader.GetBoolean(0))
+                        {
+                            result = true;
+                        }
+                    }
+                    con.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
     }
 }

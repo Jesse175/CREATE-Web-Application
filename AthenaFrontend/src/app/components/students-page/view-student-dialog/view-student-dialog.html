@@ -3,35 +3,45 @@
   <div class="close" [mat-dialog-close]><i class="bi bi-x-lg"></i></div>
 </div>
 <mat-dialog-content>
-  <b>Full Name</b>: {{ student.Person.FirstName + ' ' + student.Person.LastName }}
-  <b>Email</b>: {{ student.Person.Email }}
-  <b>Availability</b>: {{ student.Person.Availability }}
-  <b>Mentor/s</b>:
-  <ng-container *ngIf="mentors.length > 0">
-    <ng-container *ngFor="let mentor of mentors">
-      {{ mentor.Person.FirstName + ' ' + mentor.Person.LastName }}
-    </ng-container>
-    <button class="btn btn-primary" *ngIf="!add" type="button" (click)="addView()">Add Mentor</button>
-  </ng-container>
-  <ng-container *ngIf="mentors.length == 0">
-    <button class="btn btn-primary" *ngIf="!add" type="button" (click)="addView()">Add Mentor</button>
-  </ng-container>
-  <ng-container *ngIf="add">
-    <mat-form-field>
-      <mat-label>Select a mentor</mat-label>
-      <mat-select [formControl]="mentor">
-        <mat-option>--</mat-option>
-        <ng-container *ngFor="let mentor of allMentors">
-          <mat-option [value]="mentor.RoleID">{{ mentor.Person.FirstName + ' ' + mentor.Person.LastName }}</mat-option>
-        </ng-container>
-      </mat-select>
-    </mat-form-field>
-  </ng-container>
-  <b>Module Progress</b>
-  <!-- Show summary of progress in each module -->
-
+  <div class="row g-3">
+  <div class="col-md-12">
+    <b>Full Name</b>: {{ student.Person.FirstName + ' ' + student.Person.LastName }}
+  </div>
+  <div class="col-md-12">
+    <b>Email</b>: {{ student.Person.Email }}
+  </div>
+  <div class="col-md-12">
+    <b>Availability</b>: {{ student.Person.Availability }}
+  </div>
+  <div class="col-md-12">
+      <mat-form-field class="mentor-chip-list">
+        <mat-label>Mentors</mat-label>
+        <mat-chip-grid #chipGrid aria-label="Mentor selection">
+          <ng-container *ngFor="let mentor of selectedMentors; let indx=index;">
+            <mat-chip-row (removed)="remove(indx)">
+              {{mentor.Person.FirstName + ' ' + mentor.Person.LastName }}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          </ng-container>
+        </mat-chip-grid>
+        <input placeholder="New Mentor..." #mentorInput [formControl]="mentorCtrl" [matChipInputFor]="chipGrid"
+          [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)" />
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let mentor of filteredMentors" [value]="mentor">{{ mentor.Person.FirstName + ' ' +
+            mentor.Person.LastName }}</mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+  </div>
+  <div class="col-md-12">
+    <b>Module Progress</b>
+    <!-- Show summary of progress in each module -->
+  </div>
   <div class="col-12">
     <button id="submit" class="btn btn-primary" type="submit" (click)="okClose()" *ngIf="!changes">OK</button>
     <button id="submit" class="btn btn-primary" type="submit" (click)="saveChanges()" *ngIf="changes">Save Changes</button>
+  </div>
   </div>
 </mat-dialog-content>
