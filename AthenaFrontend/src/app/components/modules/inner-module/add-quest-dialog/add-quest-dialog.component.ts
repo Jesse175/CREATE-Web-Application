@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { ModuleService } from 'src/app/services/module.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { QuestService } from 'src/app/services/quest.service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
-export interface ModuleData {
+export interface QuestData {
   Name: string;
-  Color: string;
   Description: string;
+  ExpGain: string;
 }
 
 @Component({
@@ -15,20 +17,30 @@ export interface ModuleData {
   styleUrls: ['./add-quest-dialog.component.css']
 })
 export class AddQuestDialogComponent {
+  moduleID!: string;
+
+  setModuleID(id: string){
+    this.moduleID = id;
+  }
+
   public showPassword = false;
   public name = new FormControl('', [Validators.required]);
-  public color = new FormControl('', [Validators.required]);
-  public description = new FormControl('');
+  public description = new FormControl('', [Validators.required]);
+  public expGain = new FormControl('', [Validators.required]);
 
-  constructor(public dialogRef: MatDialogRef<AddQuestDialogComponent>, public moduleService: ModuleService) {}
+  constructor(public dialogRef: MatDialogRef<AddQuestDialogComponent>, public questService: QuestService, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
-  public async addModule(): Promise<any> {
-    const module = {
+  public async addQuest(moduleID: string): Promise<any> {
+    this.moduleID = moduleID;
+
+    const quest = {
+      ModuleID: moduleID,
       Name: this.name.value,
-      Color: this.color.value?.substring(1),
-      Description: this.description.value
+      Description: this.description.value,
+      ExpGain: this.expGain.value,
     };
-    const response = await this.moduleService.AddModule(module);
+    console.log(quest);
+    const response = await this.questService.AddQuest(quest);
     this.dialogRef.close(response);
   }
 }

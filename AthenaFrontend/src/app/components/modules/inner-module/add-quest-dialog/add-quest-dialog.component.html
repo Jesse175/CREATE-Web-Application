@@ -1,8 +1,9 @@
 <div class="dialog-heading">
-    <i class="bi bi-person-fill"></i> Add Module
+    <i class="bi bi-person-fill"></i> Add Quest
     <div class="close" [mat-dialog-close]><i class="bi bi-x-lg"></i></div>
   </div>
   <mat-dialog-content>
+    <p>Module ID: {{ data.moduleID }}</p>
     <form class="row g-3">
       <div class="col-md-6 form-floating">
         <input type="text"
@@ -10,16 +11,16 @@
                id="name"
                [formControl]="name"
                placeholder="Name">
-        <label for="name">Module Name</label>
+        <label for="name">Quest Name</label>
       </div>
       <div class="col-md-6 form-floating">
-        <input type="color"
+        <input type="expGain"
                class="form-control"
-               id="color"
-               [formControl]="color"
-               placeholder="Color"
+               id="expGain"
+               [formControl]="expGain"
+               placeholder="ExpGain"
                required>
-        <label for="color">Color</label>
+        <label for="expGain">Experience Gained</label>
       </div>
       <div class="col-md-12 form-floating">
         <textarea class="form-control"
@@ -30,7 +31,7 @@
         <label for="description">Description</label>
       </div>
       <div class="col-12">
-        <button id="submit" class="btn btn-primary" type="submit" (click)="addModule()">Add Module</button>
+        <button id="submit" class="btn btn-primary" type="submit" (click)="addQuest(data.moduleID)">Add Quest</button>
       </div>
     </form>
   </mat-dialog-content>
