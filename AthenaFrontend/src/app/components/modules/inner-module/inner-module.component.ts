@@ -47,16 +47,27 @@ export class InnerModuleComponent {
     } catch (error) {
       console.error('An error occurred while fetching quests', error);
     }
-    
+
   }
 
   filterQuests() {
-    console.log(this.module.ModuleID);
-    console.log(this.receiveQuests);
     this.filteredQuests = this.receiveQuests.filter(
       quest => quest.ModuleID === this.module.ModuleID
     );
-    console.log(this.filteredQuests);
+  }
+
+  public getImgLink(name: string) {
+    return '../../../../assets/images/' + name.toLowerCase() + 'logo.png';
+  }
+
+  public getRGBA(hex: string, opacity: number): string {
+    const conv = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)!;
+    const result = {
+      r: parseInt(conv[1], 16),
+      g: parseInt(conv[2], 16),
+      b: parseInt(conv[3], 16)
+    };
+    return 'rgba(' + result.r + ', ' + result.g + ', ' + result.b + ', 0.' + opacity + ')';
   }
 
   public addQuest(): void {
@@ -69,12 +80,12 @@ export class InnerModuleComponent {
     dialogRef.afterClosed().subscribe(response => {
       if (response){
         let quest = new Quest(response);
-        this.quests.push(quest);
+        this.filteredQuests.push(quest);
         this.snackbar.open('Quest successfully added!', '', { duration: 3000 });
       }
 
     });
   }
 
-  
+
 }

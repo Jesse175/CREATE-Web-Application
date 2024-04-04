@@ -27,6 +27,9 @@
     --errormsgcolor: rgba(221, 25, 25, 0.884);
     --moduletext: rgba(0, 0, 0, 0.38);
     --mainheading: #273B4A;
+    --modulebg: #FFFFFF;
+    --subheading: rgba(255, 255, 255, 0.5);
+    --questdescription: rgba(39, 59, 74, 0.38);
 }
 body {
     background: var(--mainbg);
