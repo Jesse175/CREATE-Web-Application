@@ -4,6 +4,8 @@ import { AddModuleDialog } from './add-module-dialog/add-module-dialog';
 import { Module } from 'src/models/module';
 import { ModuleService } from 'src/app/services/module.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { Role } from 'src/models/role.model';
 
 @Component({
   selector: 'app-modules',
@@ -12,9 +14,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ModulesComponent {
   public modules: Module[] = [];
+  public role: any;
 
-  constructor(public dialog: MatDialog, public snackbar: MatSnackBar, public moduleService: ModuleService) {
+  constructor(public dialog: MatDialog, public snackbar: MatSnackBar, public moduleService: ModuleService, public router: Router) {
     this.getAllModules();
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state as {
+      role: Role
+    };
+    this.role = state.role;
   }
 
   public addModule(): void {

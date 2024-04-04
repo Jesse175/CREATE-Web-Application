@@ -29,6 +29,13 @@ namespace AthenaAPI.Controllers
             return Utilities.Modules.GetModules();
         }
 
+        // GET: api/Modules/StudentTotal
+        [HttpGet("Modules/StudentTotal")]
+        public async Task<ActionResult<List<JObject>>> GetModuleStudentTotal()
+        {
+            return Utilities.Modules.GetModuleStudentTotal();
+        }
+
         // GET: api/Modules/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<Module>> GetModule(Guid id)

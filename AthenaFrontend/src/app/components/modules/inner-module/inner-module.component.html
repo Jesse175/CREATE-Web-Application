@@ -1,21 +1,100 @@
-<br><br>
-<button type="button" class="btn btn-primary" (click)="addQuest()"><i class="bi bi-plus-lg"></i></button>
-<div class="container">
-    MENTOR <br>
-    Information to pass:<br>
-    asdf
-
-    <h2>Module Details</h2>
-  <p><strong>ID:</strong> {{ module.ModuleID }}</p>
-  <p><strong>Name:</strong> {{ module.Name }}</p>
-  <p><strong>Description:</strong> {{ module.Description }}</p>
-  <p><strong>Color:</strong> {{ module.Color }}</p>
+<button type="button" class="btn btn-primary" [style]="{'background': '#' + module.Color, 'border-color': '#' + module.Color}" (click)="addQuest()"><i class="bi bi-plus-lg"></i></button>
+<h2>{{ module.Name + ' Module'}}</h2>
+<div class="module-container">
+  <div class="img-box">
+    <img src="{{getImgLink(module.Name)}}">
   </div>
-<div class="container">
-  <br><br><br><strong>LIST OF QUESTS</strong> <br>
-  <div *ngFor="let quest of filteredQuests">
-    <p>Name: {{ quest.Name }}</p>
-    <p>Description: {{ quest.Description }}</p>
-    <p>Exp Gain: {{ quest.ExpGain }}</p>
+  <div class="info-box">
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-circle" [style]="{'background': '#' + module.Color}">
+          <i class="bi bi-exclamation-lg"></i>
+        </div>
+        <div class="stat-num">
+          0%
+        </div>
+        <div class="stat-info">
+          Average Quest Completion
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-circle" [style]="{'background': '#' + module.Color}">
+          <i class="bi bi-star-fill"></i>
+        </div>
+        <div class="stat-num">
+          0
+        </div>
+        <div class="stat-info">
+          Experience Gained Across All Students
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-circle" [style]="{'background': '#' + module.Color}">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <div class="stat-num">
+          0%
+        </div>
+        <div class="stat-info">
+          Average Overall Completion
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<h5 class="quests-title">Quests</h5>
+<div class="quests-container">
+  <div class="all-quests">
+    <div class="section-title">
+      All
+    </div>
+    <div class="quests-scroll" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ' var(--modulebg)'}">
+      <div *ngFor="let quest of filteredQuests">
+        <div class="quest-box" [style]="{'background': getRGBA(module.Color, 12)}">
+          <div class="exp-box" [style]="{'background': '#' + module.Color}">
+            {{ '+' + quest.ExpGain }}
+            <span>EXP</span>
+          </div>
+          <div class="quest-info-box">
+            <div class="quest-title">
+              {{ quest.Name }}
+            </div>
+            <div class="quest-description">
+              Stuff
+            </div>
+          </div>
+          <div class="button-box" [style]="{'background': '#' + module.Color}">
+            <i class="bi bi-pencil-fill"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wip-quests" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ', var(--modulebg)'}">
+    <div class="section-title">
+      Unposted / In Progress
+    </div>
+    <div class="quests-scroll" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ' var(--modulebg)'}">
+      <div *ngFor="let quest of filteredQuests">
+        <div class="quest-box" [style]="{'background': getRGBA(module.Color, 12)}">
+          <div class="exp-box" [style]="{'background': '#' + module.Color}">
+            {{ '+' + quest.ExpGain }}
+            <span>EXP</span>
+          </div>
+          <div class="quest-info-box">
+            <div class="quest-title">
+              {{ quest.Name }}
+            </div>
+            <div class="quest-description">
+              Stuff
+            </div>
+          </div>
+          <div class="button-box" [style]="{'background': '#' + module.Color}">
+            <i class="bi bi-pencil-fill"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
