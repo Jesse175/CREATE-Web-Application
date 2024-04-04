@@ -1,19 +1,37 @@
 export class Quest {
 
-    id: number;
-    name: string;
-    description: string;
-    expGained: number;
+    QuestID: string;
+    ModuleID: string;
+    Name: string;
+    Description: string;
+    ExpGain: any;
 
-    constructor(id: number, name: string, description: string, expGained: number)
+    constructor(quest: any)
+    {
+      if (quest.QuestID || quest.questID){
+        this.QuestID = quest.QuestID || quest.questID;
+        this.ModuleID = quest.moduleID || quest.ModuleID;
+        this.Name = quest.name || quest.Name;
+        this.Description = quest.description || quest.Description;
+        this.ExpGain = quest.expGain || quest.ExpGain;
+      } else {
+        this.QuestID = '00000000-0000-0000-0000-000000000000';
+        this.ModuleID = '00000000-0000-0000-0000-000000000000';
+        this.Name = '';
+        this.Description = '';
+        this.ExpGain = '';
+      }
+    }
+
+/*     constructor(id: number, name: string, description: string, expGained: number)
     {
         this.id = id;
         this.name = name;
         this.description = description;
         this.expGained = expGained;
-    }
+    } */
 
-    get getId(): number{
+/*     get getId(): number{
         return this.id;
     }
     get getName(): string{
@@ -37,5 +55,5 @@ export class Quest {
     }
     set setExpGained(expGained: number){
         this.expGained = expGained;
-    }
+    } */
 }

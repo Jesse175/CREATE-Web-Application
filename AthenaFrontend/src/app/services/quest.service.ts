@@ -12,7 +12,20 @@ export class QuestService {
 
   public AddQuest(quest: any): Promise<any> {
     return new Promise(resolve => {
-      this.http.post(this.apiUrl + )
+      this.http.post(this.apiUrl + '/Quests', JSON.stringify(quest), { headers: this.postHeaders }).subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      })
     })
+  }
+  public GetAllQuests(): Promise<any> {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/Quests').subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
   }
 }

@@ -21,6 +21,7 @@ import { AddMentorDialog } from './components/dashboard/add-mentor-dialog/add-me
 import { AddModuleDialog } from './components/modules/add-module-dialog/add-module-dialog';
 import { InnerModuleComponent } from './components/modules/inner-module/inner-module.component';
 import { ModuleCardComponent } from './components/modules/module-card/module-card.component';
+import { AddQuestDialogComponent } from './components/modules/inner-module/add-quest-dialog/add-quest-dialog.component';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -44,7 +45,8 @@ const ROUTES: Routes = [
     AddMentorDialog,
     AddModuleDialog,
     InnerModuleComponent,
-    ModuleCardComponent
+    ModuleCardComponent,
+    AddQuestDialogComponent
   ],
 
   imports: [

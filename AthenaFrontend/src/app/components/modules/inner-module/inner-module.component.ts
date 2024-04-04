@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModuleService } from 'src/app/services/module.service';
 import { Module } from 'src/models/module';
+import { Quest } from 'src/models/quest';
 import { MatDialog } from '@angular/material/dialog';
 import { AddQuestDialogComponent } from './add-quest-dialog/add-quest-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { QuestService } from 'src/app/services/quest.service';
 
 @Component({
   selector: 'app-inner-module',
@@ -12,8 +15,12 @@ import { AddQuestDialogComponent } from './add-quest-dialog/add-quest-dialog.com
 })
 export class InnerModuleComponent {
   public module: any;
+  public receiveQuests: Quest[] = [];
+  public quests: Quest[] = [];
+  public filteredQuests: Quest[] = [];
+  moduleID!: string;
 
-  constructor(public dialog: MatDialog, private router: Router, public moduleService: ModuleService, public questService: QuestService) {
+  constructor(public dialog: MatDialog, private router: Router, public moduleService: ModuleService, public questService: QuestService, public snackbar: MatSnackBar) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       module: Module
@@ -22,16 +29,48 @@ export class InnerModuleComponent {
     this.module = state.module;
   }
 
+  async ngOnInit() {
+    try {
+      const allQuests = await this.questService.GetAllQuests();
+      if (allQuests) {
+        this.receiveQuests = allQuests.map((quest: { questID: any; name: any; description: any; expGain: any; moduleID: any; }) => new Quest({
+          QuestID: quest.questID,
+          Name: quest.name,
+          Description: quest.description,
+          ExpGain: quest.expGain,
+          ModuleID: quest.moduleID
+        }));
+        this.filterQuests();
+      } else {
+        console.error('Failed to fetch quests');
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching quests', error);
+    }
+    
+  }
+
+  filterQuests() {
+    console.log(this.module.ModuleID);
+    console.log(this.receiveQuests);
+    this.filteredQuests = this.receiveQuests.filter(
+      quest => quest.ModuleID === this.module.ModuleID
+    );
+    console.log(this.filteredQuests);
+  }
+
   public addQuest(): void {
-    const dialogRef = this.dialog.open(AddModuleDialog, {
-      panelClass: 'custom-dialog'
+    const dialogRef = this.dialog.open(AddQuestDialogComponent, {
+      panelClass: 'custom-dialog',
+      //passing data to child dialog component
+      data: { moduleID: this.module.ModuleID }
     });
 
     dialogRef.afterClosed().subscribe(response => {
       if (response){
-        let module = new Module(response);
-        this.modules.push(module);
-        this.snackbar.open('Module successfully added!', '', { duration: 3000 });
+        let quest = new Quest(response);
+        this.quests.push(quest);
+        this.snackbar.open('Quest successfully added!', '', { duration: 3000 });
       }
 
     });
