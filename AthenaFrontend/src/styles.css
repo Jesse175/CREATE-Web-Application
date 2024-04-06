@@ -30,6 +30,8 @@
     --modulebg: #FFFFFF;
     --subheading: rgba(255, 255, 255, 0.5);
     --questdescription: rgba(39, 59, 74, 0.38);
+    --headsubtext: rgba(39, 59, 74, 0.6);
+    --completedbg: black;
 }
 body {
     background: var(--mainbg);

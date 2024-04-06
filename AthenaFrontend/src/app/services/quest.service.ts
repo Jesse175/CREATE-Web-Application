@@ -28,4 +28,34 @@ export class QuestService {
       });
     });
   }
+
+  public GetQuestById(QuestId: number): Promise<any> {
+    return new Promise(resolve => {
+      this.http.get('${this.apiUrl}/Quests/${QuestId}').subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
+  public PutQuest(QuestId: number, updatedQuest: any): Promise<any> {
+    return new Promise(resolve => {
+      this.http.put('${this.apiUrl}/Quests/${QuestId]', JSON.stringify(updatedQuest), {headers: this.postHeaders}).subscribe((data: any) => {
+      resolve(data);
+    }, error => {
+      resolve(false);
+    });
+    });
+  }
+
+  public DeleteQuest(QuestId: number): Promise<any> {
+    return new Promise(resolve => {
+      this.http.delete('${this.apiUrl}/Quests/${QuestId}').subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
 }

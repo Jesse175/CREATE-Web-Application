@@ -56,7 +56,7 @@
             <span>EXP</span>
           </div>
           <div class="quest-info-box">
-            <div class="quest-title">
+            <div class="quest-title" [routerLink]="['/quests/', quest.QuestID]" [state]="{ quest: quest, module: module, role: role }">
               {{ quest.Name }}
             </div>
             <div class="quest-description">

@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddQuestDialogComponent } from './add-quest-dialog/add-quest-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { QuestService } from 'src/app/services/quest.service';
+import { Role } from 'src/models/role.model';
 
 @Component({
   selector: 'app-inner-module',
@@ -18,15 +19,18 @@ export class InnerModuleComponent {
   public receiveQuests: Quest[] = [];
   public quests: Quest[] = [];
   public filteredQuests: Quest[] = [];
+  public role: any;
   moduleID!: string;
 
   constructor(public dialog: MatDialog, private router: Router, public moduleService: ModuleService, public questService: QuestService, public snackbar: MatSnackBar) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       module: Module
+      role: Role
     };
 
     this.module = state.module;
+    this.role = state.role;
   }
 
   async ngOnInit() {

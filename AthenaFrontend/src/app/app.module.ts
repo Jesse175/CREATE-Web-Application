@@ -22,6 +22,7 @@ import { AddModuleDialog } from './components/modules/add-module-dialog/add-modu
 import { InnerModuleComponent } from './components/modules/inner-module/inner-module.component';
 import { ModuleCardComponent } from './components/modules/module-card/module-card.component';
 import { AddQuestDialogComponent } from './components/modules/inner-module/add-quest-dialog/add-quest-dialog.component';
+import { QuestsComponent } from './components/quests/quests.component';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,6 +30,7 @@ const ROUTES: Routes = [
   { path: 'students', component: StudentsPageComponent, canActivate: [RoleGuard] },
   { path: 'modules', component: ModulesComponent, canActivate: [AuthGuard] },
   { path: 'modules/:ModuleID', component: InnerModuleComponent, canActivate: [AuthGuard] },
+  { path: 'quests/:QuestID', component: QuestsComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] }
 ]
 
@@ -46,7 +48,8 @@ const ROUTES: Routes = [
     AddModuleDialog,
     InnerModuleComponent,
     ModuleCardComponent,
-    AddQuestDialogComponent
+    AddQuestDialogComponent,
+    QuestsComponent
   ],
 
   imports: [
