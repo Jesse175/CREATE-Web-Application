@@ -84,6 +84,9 @@
     </div>
     <div id="main-content">
       <router-outlet></router-outlet>
+      <ng-container *ngIf="role.Name == 'Student'">
+        <app-daily-standup></app-daily-standup>
+      </ng-container>
     </div>
   </div>
 </ng-container>
