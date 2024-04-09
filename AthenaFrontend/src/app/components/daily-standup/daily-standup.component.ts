@@ -23,7 +23,7 @@ export class DailyStandupComponent {
     this.standups = [];
     const response = await this.dailyStandupService.GetAllDailyStandups();
     for (let ds of response) {
-      const standup = new DailyStandup(ds.id, ds.dateCreated, ds.description);
+      const standup = new DailyStandup(ds.standupID, ds.userID, ds.dateCreated, ds.description);
       this.standups.push(standup);
     }
   }

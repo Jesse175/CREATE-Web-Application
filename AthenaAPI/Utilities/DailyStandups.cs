@@ -30,6 +30,7 @@ namespace AthenaAPI.Utilities
                         // New Daily Standup
                         DailyStandup standup = new DailyStandup();
                         standup.StandupID = Guid.Parse(reader["StandupID"].ToString());
+                        standup.UserID = Guid.Parse(reader["UserID"].ToString());
                         standup.DateCreated = DateTime.Parse(reader["DateCreated"].ToString());
                         standup.Description = reader["Description"].ToString();
 

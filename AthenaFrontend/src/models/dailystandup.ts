@@ -1,16 +1,21 @@
 export class DailyStandup {
-  id: number;
+  standupID: number;
+  userID: number;
   dateCreated: Date;
   description: string;
 
-  constructor(id: number, dateCreated: Date, description: string) {
-    this.id = id;
+  constructor(standupID: number, userID: number, dateCreated: Date, description: string) {
+    this.standupID = standupID;
+    this.userID = userID;
     this.dateCreated = dateCreated;
     this.description = description;
   }
 
-  get getId(): number {
-    return this.id;
+  get getStandupId(): number {
+    return this.standupID;
+  }
+  get getUserId(): number {
+    return this.userID;
   }
   get getDateCreated(): Date {
     return this.dateCreated;
@@ -19,8 +24,11 @@ export class DailyStandup {
     return this.description;
   }
 
-  set setId(id: number) {
-    this.id = id
+  set setStandupId(standupID: number) {
+    this.standupID = standupID;
+  }
+  set setUserId(userID: number) {
+    this.userID = userID;
   }
   set setDateCreated(dateCreated: Date) {
     this.dateCreated = dateCreated;
