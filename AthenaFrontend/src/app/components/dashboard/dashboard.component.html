@@ -1,2 +1,27 @@
 <button type="button" class="btn btn-primary" (click)="addMentor()"><i class="bi bi-plus-lg"></i></button>
-<p>Dashboard works!</p>
+
+
+  <div>
+    <h1>Module Overview</h1>
+    <div>
+      <div>
+        <!--<app-module-card [modules]="mentorModules" [role]="role"></app-module-card>-->
+        <!--<app-modules></app-modules>-->
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h1>Student Overview</h1>
+    <div>
+      <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-my" role="tabpanel" aria-labelledby="pills-my-tab" tabindex="0">
+          <app-student-card [students]="mentorStudents"></app-student-card>
+        </div>
+        <div class="tab-pane fade" id="pills-all" role="tabpanel" aria-labelledby="pills-all-tab" tabindex="0">
+        </div>
+      </div>
+    </div>
+  </div>
+
+

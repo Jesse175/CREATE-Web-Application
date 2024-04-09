@@ -1,0 +1,32 @@
+<div class="row-cols-3 row-cols-md-2 g-4">
+  working?
+  <ng-container *ngFor="let student of students">
+    <div class="col">
+      <div class="card">
+        <div class="card-body">
+          <!--<img src="link here" />-->
+          <h5 class="card-title">{{ student.Person.FirstName + '' + student.Person.LastName}}</h5>
+          <h6 class="card-subtitle mb-2">{{student.Person.Rank}}</h6>
+          <p class="card-text">
+            <b>Availability</b> {{student.Person.Availability}}
+          </p>
+          <p class="card-text">
+            <b>Email</b> {{student.Person.Email}}
+          </p>
+          <p class="card-text">
+            <b>Modules Completed</b> here
+          </p>
+          <p class="card-text">
+            <b>Overall Progress</b> here
+          </p>
+          <p class="card-text">
+            <b>Last 30 Days Activity</b> here
+          </p>
+          <div class="btn-container">
+            <a href="#" class="btn-container btn-primary">Go Somewhere</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
