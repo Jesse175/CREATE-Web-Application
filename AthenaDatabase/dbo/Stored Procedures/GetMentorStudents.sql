@@ -3,8 +3,9 @@
 AS
 BEGIN
 	SELECT st.StudentID, [Exp], [Availability], FirstName, LastName, Email
-	FROM dbo.[Student] AS st
-	JOIN dbo.[User] AS u ON u.UserID = st.UserID
-	JOIN dbo.[StudentMentor] AS sm ON sm.MentorID = @MentorID
+	FROM dbo.[StudentMentor] AS sm
+	INNER JOIN dbo.[Student] AS st ON st.StudentID = sm.StudentID
+	INNER JOIN dbo.[User] AS u ON u.UserID = st.UserID
+	WHERE MentorID = @MentorID
 	ORDER BY LastName
 END

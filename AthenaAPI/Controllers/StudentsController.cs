@@ -49,6 +49,21 @@ namespace AthenaAPI.Controllers
         }
 
         /// <summary>
+        /// Controller method for retrieving all of a student's mentors.
+        /// </summary>
+        /// <returns>
+        /// A Collection of Mentors.
+        /// </returns>
+        /// <param name="id">The Guid of the Student.</param>
+        /// 
+        // GET: api/Students
+        [HttpGet("{id:Guid}/Mentors")]
+        public async Task<ActionResult<List<MentorRole>>> GetStudentMentors(Guid id)
+        {
+            return Utilities.Students.GetStudentMentors(id);
+        }
+
+        /// <summary>
         /// Controller method for updating a specific Student.
         /// </summary>
         /// <returns>
@@ -106,6 +121,34 @@ namespace AthenaAPI.Controllers
 
             // Then create and return the new Student!
             return Utilities.Students.AddStudent(user.UserID);
+        }
+
+        /// <summary>
+        /// Controller method for updating a specific Student's mentors list.
+        /// </summary>
+        /// <returns>
+        /// An Action Result that represents whether or not the update was successful.
+        /// </returns>
+        /// <param name="id">The Guid of the Student.</param>
+        /// <param name="mentors">The Mentors data sent in the body of the method.</param>
+        /// 
+        // PUT: api/Students/{Guid}
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost("{id:Guid}/Mentors")]
+        public async Task<IActionResult> SaveStudentMentors(Guid id, [FromBody] JArray mentors)
+        {
+            List<MentorRole> mentorRoles = new List<MentorRole>();
+            mentorRoles = JsonConvert.DeserializeObject<List<MentorRole>>(mentors.ToString());
+
+            Boolean updateResult = Utilities.Students.SaveStudentMentors(id, mentorRoles);
+            if (updateResult)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

@@ -20,6 +20,20 @@ namespace AthenaAPI.Controllers
         }
 
         /// <summary>
+        /// Controller method for retrieving all mentors.
+        /// </summary>
+        /// <returns>
+        /// A Collection of Mentors.
+        /// </returns>
+        /// 
+        // GET: api/Mentors
+        [HttpGet]
+        public async Task<ActionResult<List<MentorRole>>> GetMentors()
+        {
+            return Utilities.Mentors.GetMentors();
+        }
+
+        /// <summary>
         /// Controller method for retrieving a specific Mentor.
         /// </summary>
         /// <returns>
