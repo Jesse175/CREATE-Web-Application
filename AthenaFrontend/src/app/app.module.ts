@@ -14,13 +14,20 @@ import { StudentCardComponent } from './components/students-page/student-card/st
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { AddStudentDialog } from './components/students-page/add-student-dialog/add-student-dialog';
+import { ViewStudentDialog } from './components/students-page/view-student-dialog/view-student-dialog';
 import { ModulesComponent } from './components/modules/modules.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AddMentorDialog } from './components/dashboard/add-mentor-dialog/add-mentor-dialog';
 import { AddModuleDialog } from './components/modules/add-module-dialog/add-module-dialog';
 import { InnerModuleComponent } from './components/modules/inner-module/inner-module.component';
 import { ModuleCardComponent } from './components/modules/module-card/module-card.component';
+import { DailyStandupComponent } from './components/daily-standup/daily-standup.component';
+import { DailyStandupCardComponent } from './components/daily-standup/daily-standup-card/daily-standup-card.component';
 import { AddQuestDialogComponent } from './components/modules/inner-module/add-quest-dialog/add-quest-dialog.component';
 import { QuestsComponent } from './components/modules/inner-module/quests/quests.component';
 import { EditQuestDialogComponent } from './components/modules/inner-module/edit-quest-dialog/edit-quest-dialog';
@@ -45,10 +52,13 @@ const ROUTES: Routes = [
     RegisterComponent,
     StudentCardComponent,
     AddStudentDialog,
+    ViewStudentDialog,
     AddMentorDialog,
     AddModuleDialog,
     InnerModuleComponent,
     ModuleCardComponent,
+    DailyStandupComponent,
+    DailyStandupCardComponent,
     AddQuestDialogComponent,
     EditQuestDialogComponent,
     QuestsComponent
@@ -63,7 +73,11 @@ const ROUTES: Routes = [
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule,
+    MatChipsModule,
+    MatIconModule,
+    MatAutocompleteModule
   ],
 
   providers: [],

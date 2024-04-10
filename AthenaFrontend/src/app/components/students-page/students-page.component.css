@@ -1,6 +1,7 @@
 #student-tabs {
     justify-content: center;
     gap: 2%;
+    margin-top: 50px;
 }
 .nav-link.active {
     background: var(--activetab);
@@ -23,4 +24,5 @@ button.btn {
 button.btn-primary {
   background-color: var(--btncolor);
   border-color: var(--btncolor);
+  margin-top: 25px;
 }
