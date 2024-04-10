@@ -93,6 +93,7 @@
     <Build Include="dbo\Stored Procedures\GetMentorStudents.sql" />
     <Build Include="dbo\Stored Procedures\GetModules.sql" />
     <Build Include="dbo\Stored Procedures\GetStudentsInModules.sql" />
+	<Build Include="dbo\Stored Procedures\GetDailyStandups.sql" />  
     <Build Include="dbo\Stored Procedures\GetMentors.sql" />
     <Build Include="dbo\Stored Procedures\SaveStudentMentors.sql" />
   </ItemGroup>
