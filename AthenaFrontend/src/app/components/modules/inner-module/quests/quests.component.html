@@ -2,13 +2,12 @@
 <div class="quest-container">
   <div class="buttons-row">
     <div class="exp" [style]="{'background': '#' + module.Color}">+{{ quest.ExpGain }} <span>exp</span></div>
-    <div class="edit" *ngIf="role.Name === 'Mentor'" [style]="{'background': '#' + module.Color}"><i class="bi bi-pencil-fill"></i> Edit Quest</div>
+    <div class="edit" *ngIf="role.Name === 'Mentor'" [style]="{'background': '#' + module.Color}" (click)="editQuest()"><i class="bi bi-pencil-fill"></i> Edit Quest</div>
   </div>
   <h5>Information & Requirements</h5>
-  <div class="quest-description">
-    {{ quest.Description }}
+  <div class="quest-description" [innerHTML]="quest.Description">
   </div>
-  <div class="completed">
+  <div class="completed" *ngIf="role.Name == 'Student'">
     <ng-container *ngIf="quest.Completed">
       <div class="completed-button"><i class="bi bi-check-circle-fill"></i> Quest Completed!</div>
     </ng-container>

@@ -46,5 +46,42 @@ namespace AthenaAPI.Utilities
                 return new List<Quest>();
             }
         }
+
+        public static Boolean UpdateQuest(Quest quest)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("UpdateQuest", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@QuestID", quest.QuestID));
+                    command.Parameters.Add(new SqlParameter("@ModuleID", quest.ModuleID));
+                    command.Parameters.Add(new SqlParameter("@Name", quest.Name));
+                    command.Parameters.Add(new SqlParameter("@ExpGain", quest.ExpGain));
+                    command.Parameters.Add(new SqlParameter("@Description", quest.Description));
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    Boolean result = false;
+                    if (reader.Read())
+                    {
+                        if (reader.GetBoolean(0))
+                        {
+                            result = true;
+                        }
+                    }
+                    con.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
     }
 }

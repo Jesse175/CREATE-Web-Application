@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace AthenaAPI.Controllers
 {
@@ -53,33 +54,25 @@ namespace AthenaAPI.Controllers
 
         // PUT: api/Quests/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutQuest(Guid id, Quest quest)
+        [HttpPost("SaveQuest")]
+        public async Task<IActionResult> PutQuest([FromBody] JObject questData)
         {
-            if (id != quest.QuestID)
-            {
-                return BadRequest();
-            }
+            Quest quest = new Quest();
+            quest.QuestID = Guid.Parse(questData["QuestID"].ToString());
+            quest.ModuleID = Guid.Parse(questData["ModuleID"].ToString());
+            quest.Name = questData["Name"].ToString();
+            quest.Description = questData["Description"].ToString();
+            quest.ExpGain = Int32.Parse(questData["ExpGain"].ToString());
 
-            _context.Entry(quest).State = EntityState.Modified;
-
-            try
+            Boolean updateResult = Utilities.Quests.UpdateQuest(quest);
+            if (updateResult)
             {
-                await _context.SaveChangesAsync();
+                return Ok(true);
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!QuestExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
-
-            return NoContent();
         }
 
         // POST: api/Quests

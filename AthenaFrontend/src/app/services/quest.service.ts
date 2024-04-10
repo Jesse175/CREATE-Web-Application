@@ -39,9 +39,9 @@ export class QuestService {
     });
   }
 
-  public PutQuest(QuestId: number, updatedQuest: any): Promise<any> {
+  public SaveQuest(updatedQuest: any): Promise<any> {
     return new Promise(resolve => {
-      this.http.put('${this.apiUrl}/Quests/${QuestId]', JSON.stringify(updatedQuest), {headers: this.postHeaders}).subscribe((data: any) => {
+      this.http.post(this.apiUrl + '/Quests/SaveQuest', JSON.stringify(updatedQuest), {headers: this.postHeaders}).subscribe((data: any) => {
       resolve(data);
     }, error => {
       resolve(false);

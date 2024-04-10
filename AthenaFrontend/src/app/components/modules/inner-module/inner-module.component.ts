@@ -8,6 +8,7 @@ import { AddQuestDialogComponent } from './add-quest-dialog/add-quest-dialog.com
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { QuestService } from 'src/app/services/quest.service';
 import { Role } from 'src/models/role.model';
+import { EditQuestDialogComponent } from './edit-quest-dialog/edit-quest-dialog';
 
 @Component({
   selector: 'app-inner-module',
@@ -88,6 +89,21 @@ export class InnerModuleComponent {
         this.snackbar.open('Quest successfully added!', '', { duration: 3000 });
       }
 
+    });
+  }
+
+  public editQuest(quest: Quest, index: number): void {
+    const dialogRef = this.dialog.open(EditQuestDialogComponent, {
+      panelClass: 'custom-dialog',
+      data: { quest: quest }
+    });
+
+    dialogRef.afterClosed().subscribe(response => {
+      if (response){
+        let newQuest = new Quest(response);
+        this.filteredQuests.splice(index, 1, newQuest);
+        this.snackbar.open('Quest successfully updated!', '', { duration: 3000 });
+      }
     });
   }
 

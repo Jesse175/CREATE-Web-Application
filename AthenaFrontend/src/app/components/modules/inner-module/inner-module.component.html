@@ -49,7 +49,7 @@
       All
     </div>
     <div class="quests-scroll" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ' var(--modulebg)'}">
-      <div *ngFor="let quest of filteredQuests">
+      <div *ngFor="let quest of filteredQuests; let i = index">
         <div class="quest-box" [style]="{'background': getRGBA(module.Color, 12)}">
           <div class="exp-box" [style]="{'background': '#' + module.Color}">
             {{ '+' + quest.ExpGain }}
@@ -63,7 +63,7 @@
               Stuff
             </div>
           </div>
-          <div class="button-box" [style]="{'background': '#' + module.Color}">
+          <div class="button-box" [style]="{'background': '#' + module.Color}" (click)="editQuest(quest, i)">
             <i class="bi bi-pencil-fill"></i>
           </div>
         </div>
@@ -75,7 +75,7 @@
       Unposted / In Progress
     </div>
     <div class="quests-scroll" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ' var(--modulebg)'}">
-      <div *ngFor="let quest of filteredQuests">
+      <div *ngFor="let quest of filteredQuests; let i = index">
         <div class="quest-box" [style]="{'background': getRGBA(module.Color, 12)}">
           <div class="exp-box" [style]="{'background': '#' + module.Color}">
             {{ '+' + quest.ExpGain }}
@@ -89,7 +89,7 @@
               Stuff
             </div>
           </div>
-          <div class="button-box" [style]="{'background': '#' + module.Color}">
+          <div class="button-box" [style]="{'background': '#' + module.Color}" (click)="editQuest(quest, i)">
             <i class="bi bi-pencil-fill"></i>
           </div>
         </div>

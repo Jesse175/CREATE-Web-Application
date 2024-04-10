@@ -30,11 +30,15 @@ h5 {
 .edit {
   border-radius: 0 0 20px 20px;
 }
+.edit:hover {
+  cursor: pointer;
+}
 .exp span {
   font-weight: 600;
 }
 .quest-description {
   margin: 20px;
+  padding: 20px;
 }
 .completed {
   display: flex;

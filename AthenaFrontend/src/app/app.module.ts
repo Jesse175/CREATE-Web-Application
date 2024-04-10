@@ -22,7 +22,8 @@ import { AddModuleDialog } from './components/modules/add-module-dialog/add-modu
 import { InnerModuleComponent } from './components/modules/inner-module/inner-module.component';
 import { ModuleCardComponent } from './components/modules/module-card/module-card.component';
 import { AddQuestDialogComponent } from './components/modules/inner-module/add-quest-dialog/add-quest-dialog.component';
-import { QuestsComponent } from './components/quests/quests.component';
+import { QuestsComponent } from './components/modules/inner-module/quests/quests.component';
+import { EditQuestDialogComponent } from './components/modules/inner-module/edit-quest-dialog/edit-quest-dialog';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -49,6 +50,7 @@ const ROUTES: Routes = [
     InnerModuleComponent,
     ModuleCardComponent,
     AddQuestDialogComponent,
+    EditQuestDialogComponent,
     QuestsComponent
   ],
 

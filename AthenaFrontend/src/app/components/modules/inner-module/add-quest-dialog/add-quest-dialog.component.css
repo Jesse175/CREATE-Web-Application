@@ -12,4 +12,8 @@
     border-color: var(--btncolor);
     font-weight: 700;
   }
-  
+.hint {
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-style: italic;
+}

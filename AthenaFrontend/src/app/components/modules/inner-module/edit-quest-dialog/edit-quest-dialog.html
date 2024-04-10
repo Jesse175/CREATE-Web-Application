@@ -1,5 +1,5 @@
 <div class="dialog-heading">
-  <i class="bi bi-exclamation-lg"></i> Add Quest
+  <i class="bi bi-exclamation-lg"></i> Edit Quest
     <div class="close" [mat-dialog-close]><i class="bi bi-x-lg"></i></div>
   </div>
   <mat-dialog-content>
@@ -32,7 +32,7 @@
         <label for="description">Description</label>
       </div>
       <div class="col-12">
-        <button id="submit" class="btn btn-primary" type="submit" (click)="addQuest(data.moduleID)">Add Quest</button>
+        <button id="submit" class="btn btn-primary" type="submit" (click)="saveQuest()">Save Quest</button>
       </div>
     </form>
   </mat-dialog-content>
