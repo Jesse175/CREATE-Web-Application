@@ -6,4 +6,5 @@ BEGIN
 	FROM dbo.[StudentMentor] AS sm
 	INNER JOIN dbo.[Mentor] AS m ON sm.[MentorID] = m.[MentorID]
 	INNER JOIN dbo.[User] AS u ON m.[UserID] = u.[UserID]
+	WHERE StudentID = @StudentID
 END
