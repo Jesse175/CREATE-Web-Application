@@ -28,6 +28,9 @@ import { InnerModuleComponent } from './components/modules/inner-module/inner-mo
 import { ModuleCardComponent } from './components/modules/module-card/module-card.component';
 import { DailyStandupComponent } from './components/daily-standup/daily-standup.component';
 import { DailyStandupCardComponent } from './components/daily-standup/daily-standup-card/daily-standup-card.component';
+import { AddQuestDialogComponent } from './components/modules/inner-module/add-quest-dialog/add-quest-dialog.component';
+import { QuestsComponent } from './components/modules/inner-module/quests/quests.component';
+import { EditQuestDialogComponent } from './components/modules/inner-module/edit-quest-dialog/edit-quest-dialog';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -35,6 +38,7 @@ const ROUTES: Routes = [
   { path: 'students', component: StudentsPageComponent, canActivate: [RoleGuard] },
   { path: 'modules', component: ModulesComponent, canActivate: [AuthGuard] },
   { path: 'modules/:ModuleID', component: InnerModuleComponent, canActivate: [AuthGuard] },
+  { path: 'quests/:QuestID', component: QuestsComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] }
 ]
 
@@ -54,7 +58,10 @@ const ROUTES: Routes = [
     InnerModuleComponent,
     ModuleCardComponent,
     DailyStandupComponent,
-    DailyStandupCardComponent
+    DailyStandupCardComponent,
+    AddQuestDialogComponent,
+    EditQuestDialogComponent,
+    QuestsComponent
   ],
 
   imports: [
