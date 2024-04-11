@@ -21,7 +21,7 @@ export class DailyStandupService {
 
   public GetAllDailyStandups(studentID: any): Promise<any> {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/DailyStandups' + studentID).subscribe((data: any) => {
+      this.http.get(this.apiUrl + '/DailyStandups/' + studentID).subscribe((data: any) => {
         resolve(data);
       }, error => {
         resolve(false);

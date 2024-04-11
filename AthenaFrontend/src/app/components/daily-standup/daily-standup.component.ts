@@ -22,7 +22,6 @@ export class DailyStandupComponent {
 
   constructor(private authService: AuthService, public dailyStandupService: DailyStandupService, public snackbar: MatSnackBar, public router: Router) {
 
-    this.ngOnInit();
   }
 
   private async getAuthentication(): Promise<AuthToken> {
@@ -32,20 +31,21 @@ export class DailyStandupComponent {
   public async getAllDailyStandups(id: string): Promise<void> {
     this.standups = [];
     const response = await this.dailyStandupService.GetAllDailyStandups(id);
-    //if (response) {
+    if (response) {
+    console.log(response);
       for (let ds of response) {
           const standup = new DailyStandup(ds.standupID, ds.studentID, ds.userID, ds.dateCreated, ds.description);
           this.standups.push(standup);
         }
-    //}
+    }
   }
 
   public async ngOnInit(): Promise<void> {
     const response = await this.getAuthentication();
     this.auth = new AuthToken(response);
     this.role = this.auth.Role;
-    //if (this.role.Name == 'Student') {
+    if (this.role.Name == 'Student') {
       this.getAllDailyStandups(this.role.RoleID);
-    //}
+    }
   }
 }
