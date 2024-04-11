@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environment/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,13 +9,19 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class DailyStandupService {
   private apiUrl: any;
   private postHeaders: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+  private emitChangeSource = new Subject<any>();
+  changeEmitted$ = this.emitChangeSource.asObservable();
   constructor(private http: HttpClient) {
     this.apiUrl = environment.apiUrl;
   }
 
-  public GetAllDailyStandups(): Promise<any> {
+  emitChange(change: any) {
+    this.emitChangeSource.next(change);
+  }
+
+  public GetAllDailyStandups(studentID: any): Promise<any> {
     return new Promise(resolve => {
-      this.http.get(this.apiUrl + '/DailyStandups').subscribe((data: any) => {
+      this.http.get(this.apiUrl + '/DailyStandups/' + studentID).subscribe((data: any) => {
         resolve(data);
       }, error => {
         resolve(false);
