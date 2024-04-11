@@ -1,3 +1,7 @@
 <button type="button" class="btn btn-primary" (click)="addMentor()"><i class="bi bi-plus-lg"></i></button>
-<p>Dashboard works!</p>
 <app-daily-standup></app-daily-standup>
+
+<app-module-card [modules]="allModules" [role]="role"></app-module-card>
+
+<app-mentor-dash></app-mentor-dash>
+

@@ -2,45 +2,37 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MentorService } from 'src/app/services/mentor.service';
 import { StudentService } from 'src/app/services/student.service';
-import { ModuleService } from 'src/app/services/module.service';
-import { AddMentorDialog } from './add-mentor-dialog/add-mentor-dialog';
+import { AddMentorDialog } from 'src/app/components/dashboard/add-mentor-dialog/add-mentor-dialog';
 import { Role } from 'src/models/role.model';
 import { Mentor } from 'src/models/mentor.model';
 import { Student } from 'src/models/student.model';
-import { Module } from 'src/models/module';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthToken } from 'src/models/authtoken.model';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-mentor-dash',
+  templateUrl: './mentor-dash.component.html',
+  styleUrls: ['./mentor-dash.component.css']
 })
-export class DashboardComponent {
+export class MentorDashComponent {
 
   public mentorStudents: Role[] = [];
   public allStudents: Role[] = [];
   public mentor: Role;
   public auth: AuthToken;
-  public role: Role;
 
-  public allModules: Module[] = [];
-
-  constructor(public dialog: MatDialog, public mentorService: MentorService, public studentService: StudentService, public snackbar: MatSnackBar, public router: Router, public moduleService: ModuleService) {
+  constructor(public dialog: MatDialog, public mentorService: MentorService, public studentService: StudentService, public snackbar: MatSnackBar, public router: Router) {
 
     this.getAllStudents();
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       auth: AuthToken,
-  /*    expectedRole: string,*/
-      role: Role
+      expectedRole: string
     };
     this.auth = state.auth;
-    this.role = state.role;
     this.mentor = state.auth.Role;
     this.getMentorStudents(this.mentor.RoleID);
-    this.getAllModules()
   }
 
   public addMentor(): void {
@@ -49,10 +41,10 @@ export class DashboardComponent {
     });
 
     dialogRef.afterClosed().subscribe(response => {
-      if (response){
+      if (response) {
         let mentor = new Role(response);
         mentor.Person = new Mentor(response.mentor);
-        this.snackbar.open('Mentor successfully added!', '', { duration: 3000 } );
+        this.snackbar.open('Mentor successfully added!', '', { duration: 3000 });
       }
     });
   }
@@ -85,14 +77,6 @@ export class DashboardComponent {
       s.Person = new Student(st.student);
       this.allStudents.push(s);
     }
-  }
+}
 
-  public async getAllModules(): Promise<void> {
-    this.allModules = [];
-    const response = await this.moduleService.GetAllModules();
-    for (let mod of response) {
-      let module = new Module(mod);
-      this.allModules.push(module);
-    }
-  }
 }
