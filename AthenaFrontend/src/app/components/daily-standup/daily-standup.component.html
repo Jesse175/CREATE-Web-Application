@@ -1,4 +1,7 @@
+
 <ng-container *ngIf="role.Name == 'Student'">
-  <p>daily-standup works!</p>
-  <app-daily-standup-card [standups]="standups"></app-daily-standup-card>
+  <div class="horizontal-scroll">
+    <p>daily-standup works!</p>
+    <app-daily-standup-card [standups]="standups"></app-daily-standup-card>
+  </div>
 </ng-container>
