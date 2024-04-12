@@ -24,6 +24,8 @@ export class DashboardComponent {
   public mentor: Role;
   public auth: AuthToken;
   public role: Role;
+  public expectedRole: string;
+
 
   public allModules: Module[] = [];
 
@@ -33,12 +35,13 @@ export class DashboardComponent {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       auth: AuthToken,
-  /*    expectedRole: string,*/
+      expectedRole: string,
       role: Role
     };
     this.auth = state.auth;
     this.role = state.role;
     this.mentor = state.auth.Role;
+    this.expectedRole = state.expectedRole;
     this.getMentorStudents(this.mentor.RoleID);
     this.getAllModules()
   }

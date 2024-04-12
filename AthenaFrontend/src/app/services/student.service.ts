@@ -2,13 +2,17 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environment/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Role } from 'src/models/role.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StudentService {
   private apiUrl: any;
-  private postHeaders: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  private postHeaders: HttpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' });
+  private emitChangeSource = new Subject<any>();
+  changeEmitted$ = this.emitChangeSource.asObservable();
+
   constructor(private http: HttpClient) {
     this.apiUrl = environment.apiUrl;
   }
@@ -51,5 +55,9 @@ export class StudentService {
         resolve(false);
       });
     });
+  }
+
+  emitChange(change: any) {
+    this.emitChangeSource.next(change);
   }
 }

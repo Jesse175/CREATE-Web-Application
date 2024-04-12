@@ -10,3 +10,12 @@ button.btn-primary {
   background-color: var(--btncolor);
   border-color: var(--btncolor);
 }
+
+div.scrollable-div-horizontal {
+  height: 550px; /* set a fixed height for the div */
+  overflow-x: auto; /* enable horizontal scrollbar */
+}
+div.scrollable-div-vertical {
+  height: 700px; /* set a fixed height for the div */
+  overflow-y: auto; /* enable vertical scrollbar */
+}

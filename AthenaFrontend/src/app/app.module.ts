@@ -32,6 +32,8 @@ import { AddQuestDialogComponent } from './components/modules/inner-module/add-q
 import { QuestsComponent } from './components/modules/inner-module/quests/quests.component';
 import { EditQuestDialogComponent } from './components/modules/inner-module/edit-quest-dialog/edit-quest-dialog';
 import { MentorDashComponent } from './components/mentor-dash/mentor-dash.component';
+import { StudentDashComponent } from './components/student-dash/student-dash.component';
+import { StudentDashMentorCardComponent } from './components/student-dash/student-dash-mentor-card/student-dash-mentor-card.component';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -63,7 +65,9 @@ const ROUTES: Routes = [
     AddQuestDialogComponent,
     EditQuestDialogComponent,
     QuestsComponent,
-    MentorDashComponent
+    MentorDashComponent,
+    StudentDashComponent,
+    StudentDashMentorCardComponent
   ],
 
   imports: [

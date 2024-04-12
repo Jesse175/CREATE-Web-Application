@@ -1,0 +1,21 @@
+
+  <h2>Available Modules</h2>
+  <div class="row row-cols-3 row-cols-md-2 g-4">
+    <ng-container *ngFor="let mentor of mentors">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <div class="img-box">
+            </div>
+            <div class="info-box">
+              <h5 class="card-title">{{ mentor.FirstName + ' ' + mentor.LastName}}</h5>
+              <p class="card-text">
+                {{ mentor.Availability }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+

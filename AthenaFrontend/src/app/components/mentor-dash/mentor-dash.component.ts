@@ -2,10 +2,12 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MentorService } from 'src/app/services/mentor.service';
 import { StudentService } from 'src/app/services/student.service';
+import { ModuleService } from 'src/app/services/module.service';
 import { AddMentorDialog } from 'src/app/components/dashboard/add-mentor-dialog/add-mentor-dialog';
 import { Role } from 'src/models/role.model';
 import { Mentor } from 'src/models/mentor.model';
 import { Student } from 'src/models/student.model';
+import { Module } from 'src/models/module';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthToken } from 'src/models/authtoken.model';
 import { Router } from '@angular/router';
@@ -19,20 +21,27 @@ export class MentorDashComponent {
 
   public mentorStudents: Role[] = [];
   public allStudents: Role[] = [];
+  public allModules: Module[] = [];
   public mentor: Role;
   public auth: AuthToken;
+  public role: Role;
+  public expectedRole: string;
 
-  constructor(public dialog: MatDialog, public mentorService: MentorService, public studentService: StudentService, public snackbar: MatSnackBar, public router: Router) {
+  constructor(public dialog: MatDialog, public mentorService: MentorService, public studentService: StudentService, public snackbar: MatSnackBar, public router: Router, public moduleService: ModuleService) {
 
     this.getAllStudents();
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       auth: AuthToken,
-      expectedRole: string
+      expectedRole: string,
+      role: Role
     };
     this.auth = state.auth;
+    this.role = state.role;
     this.mentor = state.auth.Role;
+    this.expectedRole = state.expectedRole;
     this.getMentorStudents(this.mentor.RoleID);
+    this.getAllModules()
   }
 
   public addMentor(): void {
@@ -77,6 +86,14 @@ export class MentorDashComponent {
       s.Person = new Student(st.student);
       this.allStudents.push(s);
     }
-}
+  }
 
+  public async getAllModules(): Promise<void> {
+    this.allModules = [];
+    const response = await this.moduleService.GetAllModules();
+    for (let mod of response) {
+      let module = new Module(mod);
+      this.allModules.push(module);
+    }
+  }
 }

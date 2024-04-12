@@ -1,0 +1,17 @@
+<div *ngIf="role.Name == 'Student'">
+  <div>
+    <h1>Continue Learning</h1>
+    <app-module-card [modules]="allModules" [role]="role"></app-module-card>
+  </div>
+
+  <div>
+    <h1>Daily Standup</h1>
+    <app-daily-standup></app-daily-standup>
+  </div>
+
+  <div>
+    <h1>Contacts</h1>
+    <h2>{{role.RoleID}}</h2>
+      <app-student-dash-mentor-card [mentors]="studentMentors" [role] ="role"></app-student-dash-mentor-card>
+  </div>
+</div>
