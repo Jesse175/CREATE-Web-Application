@@ -13,7 +13,7 @@
             <b> {{ standup.getDescription }}</b>
           </p>
           <div class="btn-container">
-            <a id="statusButton" href="https://app.slack.com/client/T06F7GWMNV6/C06E477QSKH" class="btn btn-primary" (click)="completeDailyStandup()">Go to Daily Standup -></a>
+            <a href="#" id="statusButton" class="btn btn-primary" [routerLink]="['/edit-daily-standup']">Go to Edit Daily Standup -></a>
           </div>
         </div>
       </div>

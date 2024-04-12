@@ -21,9 +21,5 @@ export class DailyStandupCardComponent {
     return currentDate;
   }
 
-  completeDailyStandup(): void {
-    this.statusText = "Completed";
-  }
-
 }
 
