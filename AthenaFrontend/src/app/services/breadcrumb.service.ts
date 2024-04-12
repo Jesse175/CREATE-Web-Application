@@ -31,5 +31,5 @@ export class BreadcrumbService {
 
 
 class Breadcrumb{
-  constructor(private name: String, private url:String){}
+  constructor(public name: String, public url:String){}
 }

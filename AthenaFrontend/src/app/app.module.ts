@@ -79,8 +79,7 @@ const ROUTES: Routes = [
     MatSelectModule,
     MatChipsModule,
     MatIconModule,
-    MatAutocompleteModule,
-    BreadcrumbsComponent
+    MatAutocompleteModule
   ],
 
   providers: [],
