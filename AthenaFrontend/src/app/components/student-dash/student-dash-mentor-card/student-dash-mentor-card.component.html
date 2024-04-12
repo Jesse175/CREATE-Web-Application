@@ -8,9 +8,12 @@
             <div class="img-box">
             </div>
             <div class="info-box">
-              <h5 class="card-title">{{ mentor.FirstName + ' ' + mentor.LastName}}</h5>
+              <h5 class="card-title">{{ mentor.Person.FirstName + ' ' + mentor.Person.LastName}}</h5>
               <p class="card-text">
-                {{ mentor.Availability }}
+                {{ 'Availability: ' + mentor.Person.Availability}}
+              </p>
+              <p>
+                {{ 'Email: ' + mentor.Person.Email}}
               </p>
             </div>
           </div>

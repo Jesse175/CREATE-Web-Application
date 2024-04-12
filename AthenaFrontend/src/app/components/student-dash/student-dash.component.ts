@@ -21,11 +21,11 @@ export class StudentDashComponent {
 
   public allModules: Module[] = [];
   public studentModules: Module[] = [];
-  public studentMentors: Mentor[] = [];
+  public studentMentors: any;
   public auth: AuthToken;
   public role: Role;
 
-  constructor(public moduleService: ModuleService, public studentService: StudentService, public router: Router) {
+  constructor(public moduleService: ModuleService, public studentService: StudentService, public router: Router, public mentorService: MentorService) {
 
     this.getAllModules();
     const navigation = this.router.getCurrentNavigation();
@@ -47,14 +47,32 @@ export class StudentDashComponent {
       this.allModules.push(module);
     }
   }
+
+  //public async getStudentMentors(id: string): Promise<any> {
+  //  this.studentMentors = [];
+  //  const response = await this.studentService.GetStudentMentors(id);
+  //  if (response) {
+  //    for (let m of response) {
+  //      //let mentor = new Mentor(m);
+  //      let mentor = new Role(m);
+  //      mentor.Person = new Mentor(m.mentor);
+  //      let mentorTemp = await this.mentorService.GetMentorByID(mentor.RoleID)
+  //      if (mentorTemp) {
+  //        this.studentMentors.push(mentorTemp);
+  //      }
+  //    }
+  //    this.studentService.emitChange(response.length);
+  //  }
+  //}
+
+
   public async getStudentMentor(id: string): Promise<any> {
     this.studentMentors = [];
     const response = await this.studentService.GetStudentMentors(id);
     if (response) {
       for (let m of response) {
-        let mentor = new Mentor(m);
-        //let mentor = new Role(m);
-        //mentor.Person = new Mentor(m.mentor);
+        let mentor = new Role(m);
+        mentor.Person = new Mentor(m.mentor);
         this.studentMentors.push(mentor);
       }
       this.studentService.emitChange(response.length);
