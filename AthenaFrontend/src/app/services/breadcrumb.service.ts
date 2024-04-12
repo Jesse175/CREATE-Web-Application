@@ -8,14 +8,16 @@ export class BreadcrumbService {
   private prevPages: any[];
 
   constructor(public router: Router) { 
-    this.prevPages = []
+    this.prevPages = [];
   }
 
+  //Returns a breadcrumb object made of the title of the pgae and 
   public getCurrentPage(title: String){
-    return new Breadcrumb(title, this.router.url)
+    return new Breadcrumb(title, this.router.url);
   }
 
-  public getPrevPages(){return this.prevPages}
+  //Returns the array of pages visited
+  public getPrevPages(){return this.prevPages;}
   
   public setPrevPages(title: String){
     if(title.toLowerCase() == "dashboard" || title.toLowerCase() == "students" || title.toLowerCase() == "modules" || title.toLowerCase() == "settings"){
@@ -24,7 +26,7 @@ export class BreadcrumbService {
     this.addPage(this.getCurrentPage(title));
   }
 
-  public addPage(page: Breadcrumb){this.prevPages.push(page)}
+  public addPage(page: Breadcrumb){this.prevPages.push(page);}
 }
 
 

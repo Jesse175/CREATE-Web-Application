@@ -31,6 +31,7 @@ import { DailyStandupCardComponent } from './components/daily-standup/daily-stan
 import { AddQuestDialogComponent } from './components/modules/inner-module/add-quest-dialog/add-quest-dialog.component';
 import { QuestsComponent } from './components/modules/inner-module/quests/quests.component';
 import { EditQuestDialogComponent } from './components/modules/inner-module/edit-quest-dialog/edit-quest-dialog';
+import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -61,7 +62,8 @@ const ROUTES: Routes = [
     DailyStandupCardComponent,
     AddQuestDialogComponent,
     EditQuestDialogComponent,
-    QuestsComponent
+    QuestsComponent,
+    BreadcrumbsComponent
   ],
 
   imports: [
@@ -77,7 +79,8 @@ const ROUTES: Routes = [
     MatSelectModule,
     MatChipsModule,
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    BreadcrumbsComponent
   ],
 
   providers: [],
