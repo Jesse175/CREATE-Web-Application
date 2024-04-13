@@ -33,25 +33,18 @@ namespace AthenaAPI.Controllers
         //{
         //    return Utilities.DailyStandups.GetDailyStandups();
         //}
-        [HttpGet]
-        public async Task<ActionResult<List<DailyStandup>>> GetDailyStandups()
+        [HttpGet("{id:Guid}")]
+        public async Task<ActionResult<List<DailyStandup>>> GetDailyStandups(Guid id)
         {
             try
             {
-                var dailyStandups = await Task.Run(() => Utilities.DailyStandups.GetDailyStandups());
+                var dailyStandups = await Task.Run(() => Utilities.DailyStandups.GetDailyStandups(id));
                 return dailyStandups;
             }
             catch (Exception ex)
             {
-                // Log the exception or handle it appropriately
                 return StatusCode(500, "An error occurred while fetching daily standups.");
             }
         }
-
-        //[HttpGet("Students/{id:Guid}")]
-        //public async Task<ActionResult<List<StudentRole>>> GetMentorStudents(Guid id)
-        //{
-        //    return Utilities.Mentors.GetMentorStudents(id);
-        //}
     }
 }

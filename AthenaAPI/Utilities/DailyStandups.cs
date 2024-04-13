@@ -8,7 +8,7 @@ namespace AthenaAPI.Utilities
     public class DailyStandups
     {
 
-        public static List<DailyStandup> GetDailyStandups()
+        public static List<DailyStandup> GetDailyStandups(Guid id)
         {
             try
             {
@@ -18,6 +18,7 @@ namespace AthenaAPI.Utilities
                 {
                     SqlCommand command = new SqlCommand("GetDailyStandups", con);
                     command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@StudentID", id));
                     con.Open();
 
                     SqlDataReader reader = command.ExecuteReader();
@@ -30,6 +31,8 @@ namespace AthenaAPI.Utilities
                         // New Daily Standup
                         DailyStandup standup = new DailyStandup();
                         standup.StandupID = Guid.Parse(reader["StandupID"].ToString());
+                        standup.StudentID = Guid.Parse(reader["StudentID"].ToString());
+                        standup.UserID = Guid.Parse(reader["UserID"].ToString());
                         standup.DateCreated = DateTime.Parse(reader["DateCreated"].ToString());
                         standup.Description = reader["Description"].ToString();
 

@@ -10,13 +10,13 @@ import { DatePipe } from '@angular/common';
 export class DailyStandupCardComponent {
   @Input() standups: DailyStandup[] = [];
 
-  statusText = 'Not Completed'
+  statusText = 'Not Completed';
+  thisdate = new Date;
 
-  getDateFromISOString(): string {
-    const now = new Date();
-    const month = now.getMonth() + 1;
-    const day = now.getDate();
-    const year = now.getFullYear();
+  formatDate(date: Date): string {
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
     const currentDate = month + '/' + day + '/' + year;
     return currentDate;
   }
