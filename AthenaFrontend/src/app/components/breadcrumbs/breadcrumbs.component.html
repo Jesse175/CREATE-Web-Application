@@ -1,7 +1,3 @@
-<p>breadcrumbs works!</p>
 <div>
-    <li *ngFor="let page of prevPages; index as i; last as currentPage">
-        <div>[[page]]</div>
-    </li>
-    <div>{{prevPages}}</div>
+    <a href="page.getURL()" *ngFor="let page of prevPages; index as i; last as currentPage"><span *ngIf="currentPage">{{page.getName()}}</span><span *ngIf="!currentPage">{{page.getName()}}</span></a>
 </div>

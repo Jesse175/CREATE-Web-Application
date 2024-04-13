@@ -15,6 +15,9 @@ export class BreadcrumbService {
   public getCurrentPage(title: String){
     return new Breadcrumb(title, this.router.url);
   }
+  public getCurrentPage2(title: String, route: String){
+    return new Breadcrumb(title, route);
+  }
 
   //Returns the array of pages visited
   public getPrevPages(){return this.prevPages;}
@@ -32,4 +35,6 @@ export class BreadcrumbService {
 
 class Breadcrumb{
   constructor(public name: String, public url:String){}
+  public getName(){return this.name;}
+  public getURL(){return this.url;}
 }

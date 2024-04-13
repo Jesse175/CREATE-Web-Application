@@ -8,10 +8,11 @@ import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
   styleUrls: ['./breadcrumbs.component.css']
 })
 export class BreadcrumbsComponent {
-  private prevPages: any[] = [];
+  public prevPages: any[] = [];
   @Input() currentPage: any;
 
-constructor(public breadcrumb: BreadcrumbService){
+constructor(public breadcrumb: BreadcrumbService, public router: Router){
+  
   breadcrumb.addPage(breadcrumb.getCurrentPage(this.currentPage));
   this.prevPages = breadcrumb.getPrevPages();
 }

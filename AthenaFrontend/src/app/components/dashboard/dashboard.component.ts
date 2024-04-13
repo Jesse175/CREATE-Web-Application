@@ -5,6 +5,7 @@ import { AddMentorDialog } from './add-mentor-dialog/add-mentor-dialog';
 import { Role } from 'src/models/role.model';
 import { Mentor } from 'src/models/mentor.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
-  constructor(public dialog: MatDialog, public mentorService: MentorService, public snackbar: MatSnackBar) {}
+  constructor(public dialog: MatDialog, public mentorService: MentorService, public snackbar: MatSnackBar, public breadcrumb: BreadcrumbService) {
+    const pageName: String = 'Dashboard'
+    breadcrumb.setPrevPages(pageName);
+    const prevPages: any[] = breadcrumb.getPrevPages();
+    const currentPage: any = breadcrumb.getCurrentPage(pageName);
+  }
 
   public addMentor(): void {
     const dialogRef = this.dialog.open(AddMentorDialog, {
