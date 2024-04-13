@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -7,8 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./breadcrumbs.component.css']
 })
 export class BreadcrumbsComponent {
-  @Input() prevPages: any[] = [];
+  private prevPages: any[] = [];
   @Input() currentPage: any;
 
-  
+constructor(public breadcrumb: BreadcrumbService){
+  breadcrumb.addPage(breadcrumb.getCurrentPage(this.currentPage));
+  this.prevPages = breadcrumb.getPrevPages();
+}
+
 }
