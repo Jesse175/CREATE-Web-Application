@@ -1,10 +1,12 @@
-<button type="button" class="btn btn-primary" [style]="{'background': '#' + module.Color, 'border-color': '#' + module.Color}" (click)="addQuest()"><i class="bi bi-plus-lg"></i></button>
+<div *ngIf="role.Name == 'Mentor'">
+  <button type="button" class="btn btn-primary" [style]="{'background': '#' + module.Color, 'border-color': '#' + module.Color}" (click)="addQuest()"><i class="bi bi-plus-lg"></i></button>
+</div>
 <h2>{{ module.Name + ' Module'}}</h2>
 <div class="module-container">
   <div class="img-box">
     <img src="{{getImgLink(module.Name)}}">
   </div>
-  <div class="info-box">
+  <div *ngIf="role.Name == 'Mentor'" class="info-box">
     <div class="stats">
       <div class="stat">
         <div class="stat-circle" [style]="{'background': '#' + module.Color}">
@@ -43,7 +45,7 @@
   </div>
 </div>
 <h5 class="quests-title">Quests</h5>
-<div class="quests-container">
+<div *ngIf="role.Name == 'Mentor'" class="quests-container">
   <div class="all-quests">
     <div class="section-title">
       All
@@ -92,6 +94,32 @@
           <div class="button-box" [style]="{'background': '#' + module.Color}" (click)="editQuest(quest, i)">
             <i class="bi bi-pencil-fill"></i>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="role.Name == 'Student'" class="all-quests">
+  <div class="section-title">
+    Up Next
+  </div>
+  <div class="quests-scroll" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ' var(--modulebg)'}">
+    <div *ngFor="let quest of filteredQuests; let i = index">
+      <div class="quest-box" [style]="{'background': getRGBA(module.Color, 12)}">
+        <div class="exp-box" [style]="{'background': '#' + module.Color}">
+          {{ '+' + quest.ExpGain }}
+          <span>EXP</span>
+        </div>
+        <div class="quest-info-box">
+          <div class="quest-title" [routerLink]="['/quests/', quest.QuestID]" [state]="{ quest: quest, module: module, role: role }">
+            {{ quest.Name }}
+          </div>
+          <div class="quest-description">
+            {{ quest.Description }}
+          </div>
+        </div>
+        <div class="button-box" [style]="{'background': '#' + module.Color}" (click)="editQuest(quest, i)">
+          <i class="bi bi-pencil-fill"></i>
         </div>
       </div>
     </div>
