@@ -63,7 +63,7 @@
           </div>
         </div>
         <div class="nav-links">
-          <div id="dashboard-link" class="navlink" routerLink="/dashboard">
+          <div id="dashboard-link" class="navlink" routerLink="/dashboard" [state]="{role: this.role, auth: this.auth, expectedRole: 'Mentor' }">
             Dashboard
           </div>
           <div id="students-link" class="navlink" [routerLink]="['/students']" [state]="{ auth: this.auth, expectedRole: 'Mentor' }" *ngIf="role.Name == 'Mentor'">

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MentorService } from 'src/app/services/mentor.service';
 import { StudentService } from 'src/app/services/student.service';
 import { ModuleService } from 'src/app/services/module.service';
-import { AddMentorDialog } from './add-mentor-dialog/add-mentor-dialog';
+import { AddMentorDialog } from 'src/app/components/dashboard/add-mentor-dialog/add-mentor-dialog';
 import { Role } from 'src/models/role.model';
 import { Mentor } from 'src/models/mentor.model';
 import { Student } from 'src/models/student.model';
@@ -13,21 +13,19 @@ import { AuthToken } from 'src/models/authtoken.model';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  selector: 'app-mentor-dash',
+  templateUrl: './mentor-dash.component.html',
+  styleUrls: ['./mentor-dash.component.css']
 })
-export class DashboardComponent {
+export class MentorDashComponent {
 
   public mentorStudents: Role[] = [];
   public allStudents: Role[] = [];
+  public allModules: Module[] = [];
   public mentor: Role;
   public auth: AuthToken;
   public role: Role;
   public expectedRole: string;
-
-
-  public allModules: Module[] = [];
 
   constructor(public dialog: MatDialog, public mentorService: MentorService, public studentService: StudentService, public snackbar: MatSnackBar, public router: Router, public moduleService: ModuleService) {
 
@@ -52,10 +50,10 @@ export class DashboardComponent {
     });
 
     dialogRef.afterClosed().subscribe(response => {
-      if (response){
+      if (response) {
         let mentor = new Role(response);
         mentor.Person = new Mentor(response.mentor);
-        this.snackbar.open('Mentor successfully added!', '', { duration: 3000 } );
+        this.snackbar.open('Mentor successfully added!', '', { duration: 3000 });
       }
     });
   }

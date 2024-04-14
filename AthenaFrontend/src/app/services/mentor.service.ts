@@ -51,4 +51,14 @@ export class MentorService {
       });
     });
   }
+
+  public GetMentorByID(mentorID: any): Promise<any> {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/Mentors/' + mentorID).subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
 }
