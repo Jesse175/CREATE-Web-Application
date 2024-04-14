@@ -50,5 +50,42 @@ namespace AthenaAPI.Utilities
             }
         }
 
+        public static Boolean UpdateDailyStandups(Guid standupID, string newDescription)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("UpdateDailyStandup", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@StandupID", standupID));
+                    command.Parameters.Add(new SqlParameter("@Description", newDescription));
+
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    Boolean result = false;
+
+                    if (reader.Read())
+                    {
+                        if (reader.GetBoolean(0))
+                        {
+                            result = true;
+                        }
+                    }
+                    con.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
     }
 }

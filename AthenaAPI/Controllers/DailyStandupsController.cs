@@ -46,5 +46,54 @@ namespace AthenaAPI.Controllers
                 return StatusCode(500, "An error occurred while fetching daily standups.");
             }
         }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateDailyStandups(Guid standupID, string newDescription)
+        {
+            bool updateResult = Utilities.DailyStandups.UpdateDailyStandups(standupID, newDescription);
+
+            if (updateResult)
+            {
+                return Ok(true);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> UpdateDailyStandups(Guid id, DailyStandup @standup)
+        //{
+        //    if(id != standup.StandupID)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    _context.Entry(@standup).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch(DbUpdateConcurrencyException)
+        //    {
+        //        if (!DailyStandupExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
+
+        private bool DailyStandupExists(Guid id)
+        {
+            return (_context.DailyStandup?.Any(e => e.StandupID == id)).GetValueOrDefault();
+        }
     }
 }
