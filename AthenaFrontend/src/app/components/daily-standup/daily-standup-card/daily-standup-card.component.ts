@@ -34,14 +34,6 @@ export class DailyStandupCardComponent {
       panelClass: 'custom-dialog',
       data: { standup: standup }
     });
-
-    //dialogRef.afterClosed().subscribe(response => {
-    //  if (response == true) {
-    //    this.snackbar.open('Daily standup updated!', '', { duration: 3000 });
-    //  } else if (response == false) {
-    //    this.snackbar.open('There was an error in updating the student. Please try again later.', '', { duration: 3000 });
-    //  }
-    //});
   }
 
 }

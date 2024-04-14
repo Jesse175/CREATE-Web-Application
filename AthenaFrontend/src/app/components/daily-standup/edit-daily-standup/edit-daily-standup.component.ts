@@ -31,12 +31,12 @@ export class EditDailyStandupComponent {
 
     //this.standup.description = newDescription;
 
-    this.dailyStandupService.UpdateDailyStandup(this.standup.standupID, newDescription).then((result: boolean) => {
+    this.dailyStandupService.UpdateDailyStandup(this.standup.standupID.toString(), newDescription).then((result: boolean) => {
       if (result) {
         this.dialogRef.close(true);
       }
       else {
-        console.error('Failed to update daily standup.')
+        console.error('Failed to update daily standup.');
       }
     }).catch((error) => {
       console.error('Error:', error);
@@ -45,6 +45,5 @@ export class EditDailyStandupComponent {
 
   public okClose(): void {
     this.updateDailyStandup();
-    //this.dialogRef.close(true);
   }
 }

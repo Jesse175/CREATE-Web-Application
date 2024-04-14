@@ -48,17 +48,30 @@ namespace AthenaAPI.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> UpdateDailyStandups(Guid standupID, string newDescription)
+        public async Task<IActionResult> UpdateDailyStandups([FromBody] JObject standup)
         {
-            bool updateResult = Utilities.DailyStandups.UpdateDailyStandups(standupID, newDescription);
+            try
+            {
+                // Deserialize JSON object to get standupID and newDescription
+                Guid standupID = Guid.Parse(standup["standupID"].ToString());
+                string newDescription = standup["description"].ToString();
 
-            if (updateResult)
-            {
-                return Ok(true);
+                // Call your utility method to update the daily standup
+                bool updateResult = Utilities.DailyStandups.UpdateDailyStandups(standupID, newDescription);
+
+                if (updateResult)
+                {
+                    return Ok(true);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                // Handle any exceptions
+                return StatusCode(500, ex.Message);
             }
         }
 

@@ -29,21 +29,6 @@ export class DailyStandupService {
     });
   }
 
-  //public UpdateDailyStandup(standupID: any, newDescription: string): Promise<any> {
-  //  const data = { standupID: standupID, description: newDescription };
-
-  //  return new Promise((resolve, reject) => {
-  //    this.http.put(this.apiUrl + '/DailyStandups/Update', data).subscribe(
-  //      (response: any) => {
-  //        resolve(response); // Resolve with the response data
-  //      },
-  //      (error: any) => {
-  //        reject(error); // Reject with the error
-  //      }
-  //    );
-  //  });
-  //}
-
   public UpdateDailyStandup(standupID: any, newDescription: string): Promise<any> {
     const data = { standupID: standupID, description: newDescription };
 
