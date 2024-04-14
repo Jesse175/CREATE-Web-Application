@@ -9,7 +9,6 @@ import { LoginComponent } from './components/login/login.component';
 import { StudentsPageComponent } from './components/students-page/students-page.component';
 import { AuthGuardService as AuthGuard } from './services/auth/auth-guard.service';
 import { RoleGuardService as RoleGuard } from './services/auth/role-guard.service';
-import { RegisterComponent } from './components/register/register.component';
 import { StudentCardComponent } from './components/students-page/student-card/student-card.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,6 +33,7 @@ import { EditQuestDialogComponent } from './components/modules/inner-module/edit
 import { MentorDashComponent } from './components/mentor-dash/mentor-dash.component';
 import { StudentDashComponent } from './components/student-dash/student-dash.component';
 import { StudentDashMentorCardComponent } from './components/student-dash/student-dash-mentor-card/student-dash-mentor-card.component';
+import { EditDailyStandupComponent } from './components/daily-standup/edit-daily-standup/edit-daily-standup.component';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -42,7 +42,8 @@ const ROUTES: Routes = [
   { path: 'modules', component: ModulesComponent, canActivate: [AuthGuard] },
   { path: 'modules/:ModuleID', component: InnerModuleComponent, canActivate: [AuthGuard] },
   { path: 'quests/:QuestID', component: QuestsComponent, canActivate: [AuthGuard] },
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] }
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: 'edit-daily-standup', component: EditDailyStandupComponent, canActivate: [AuthGuard] },
 ]
 
 @NgModule({
@@ -52,7 +53,6 @@ const ROUTES: Routes = [
     LoginComponent,
     StudentsPageComponent,
     ModulesComponent,
-    RegisterComponent,
     StudentCardComponent,
     AddStudentDialog,
     ViewStudentDialog,
@@ -67,7 +67,8 @@ const ROUTES: Routes = [
     QuestsComponent,
     MentorDashComponent,
     StudentDashComponent,
-    StudentDashMentorCardComponent
+    StudentDashMentorCardComponent,
+    EditDailyStandupComponent
   ],
 
   imports: [
