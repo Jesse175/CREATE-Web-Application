@@ -67,7 +67,7 @@ const ROUTES: Routes = [
     QuestsComponent,
     MentorDashComponent,
     StudentDashComponent,
-    StudentDashMentorCardComponent
+    StudentDashMentorCardComponent,
     EditDailyStandupComponent
   ],
 
