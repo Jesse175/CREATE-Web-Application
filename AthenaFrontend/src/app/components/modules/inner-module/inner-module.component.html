@@ -45,6 +45,7 @@
   </div>
 </div>
 <h5 class="quests-title">Quests</h5>
+
 <div *ngIf="role.Name == 'Mentor'" class="quests-container">
   <div class="all-quests">
     <div class="section-title">
@@ -99,27 +100,50 @@
     </div>
   </div>
 </div>
-<div *ngIf="role.Name == 'Student'" class="all-quests">
-  <div class="section-title">
-    Up Next
+
+<div *ngIf="role.Name == 'Student'" class="quests-container">
+  <div class="all-quests">
+    <div class="section-title">
+      Up Next
+    </div>
+    <div class="quests-scroll" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ' var(--modulebg)'}">
+      <div *ngFor="let quest of filteredQuests; let i = index">
+        <div class="quest-box" [style]="{'background': getRGBA(module.Color, 12)}">
+          <div class="exp-box" [style]="{'background': '#' + module.Color}">
+            {{ '+' + quest.ExpGain }}
+            <span>EXP</span>
+          </div>
+          <div class="quest-info-box">
+            <div class="quest-title" [routerLink]="['/quests/', quest.QuestID]" [state]="{ quest: quest, module: module, role: role }">
+              {{ quest.Name }}
+            </div>
+            <div class="quest-description">
+              {{ quest.Description }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="quests-scroll" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ' var(--modulebg)'}">
-    <div *ngFor="let quest of filteredQuests; let i = index">
-      <div class="quest-box" [style]="{'background': getRGBA(module.Color, 12)}">
-        <div class="exp-box" [style]="{'background': '#' + module.Color}">
-          {{ '+' + quest.ExpGain }}
-          <span>EXP</span>
-        </div>
-        <div class="quest-info-box">
-          <div class="quest-title" [routerLink]="['/quests/', quest.QuestID]" [state]="{ quest: quest, module: module, role: role }">
-            {{ quest.Name }}
+  <div class="wip-quests" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ', var(--modulebg)'}">
+    <div class="section-title">
+      Completed
+    </div>
+    <div class="quests-scroll" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ' var(--modulebg)'}">
+      <div *ngFor="let quest of filteredQuests; let i = index">
+        <div class="quest-box" [style]="{'background': getRGBA(module.Color, 12)}">
+          <div class="exp-box" [style]="{'background': '#' + module.Color}">
+            {{ '+' + quest.ExpGain }}
+            <span>EXP</span>
           </div>
-          <div class="quest-description">
-            {{ quest.Description }}
+          <div class="quest-info-box">
+            <div class="quest-title">
+              {{ quest.Name }}
+            </div>
+            <div class="quest-description">
+              {{ quest.Description }}
+            </div>
           </div>
-        </div>
-        <div class="button-box" [style]="{'background': '#' + module.Color}" (click)="editQuest(quest, i)">
-          <i class="bi bi-pencil-fill"></i>
         </div>
       </div>
     </div>

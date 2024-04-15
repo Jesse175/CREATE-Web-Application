@@ -11,6 +11,7 @@ import { Role } from 'src/models/role.model';
 import { EditQuestDialogComponent } from './edit-quest-dialog/edit-quest-dialog';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AuthToken } from 'src/models/authtoken.model';
+import { decode } from 'jose/dist/types/util/base64url';
 
 @Component({
   selector: 'app-inner-module',
@@ -25,6 +26,7 @@ export class InnerModuleComponent {
   public role: any;
   private auth: any;
   moduleID!: string;
+  decodedToken: any;
 
   constructor(public dialog: MatDialog, private router: Router, public moduleService: ModuleService, public questService: QuestService, public snackbar: MatSnackBar,
     private authService: AuthService
@@ -47,8 +49,9 @@ export class InnerModuleComponent {
     const response = await this.getAuthentication();
     this.auth = new AuthToken(response);
     this.role = this.auth.Role;
+
     if (this.role.Name == 'Student') {
-      console.log("SUCCESS STUDENT")
+      console.log("SUCCESS STUDENT. Student ID: " + this.role.RoleID)
     }
     else if (this.role.Name == 'Mentor'){
       console.log("SUCCESS MENTOR")
