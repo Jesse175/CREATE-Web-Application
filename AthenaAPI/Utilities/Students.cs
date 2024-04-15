@@ -1,5 +1,6 @@
 ﻿using AthenaAPI.Data;
 using AthenaAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -49,6 +50,8 @@ namespace AthenaAPI.Utilities
                 return new List<StudentRole>();
             }
         }
+
+        
 
         public static StudentRole GetStudent(Guid id)
         {
