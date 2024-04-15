@@ -9,6 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { QuestService } from 'src/app/services/quest.service';
 import { Role } from 'src/models/role.model';
 import { EditQuestDialogComponent } from './edit-quest-dialog/edit-quest-dialog';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthToken } from 'src/models/authtoken.model';
 
 @Component({
   selector: 'app-inner-module',
@@ -21,9 +23,12 @@ export class InnerModuleComponent {
   public quests: Quest[] = [];
   public filteredQuests: Quest[] = [];
   public role: any;
+  private auth: any;
   moduleID!: string;
 
-  constructor(public dialog: MatDialog, private router: Router, public moduleService: ModuleService, public questService: QuestService, public snackbar: MatSnackBar) {
+  constructor(public dialog: MatDialog, private router: Router, public moduleService: ModuleService, public questService: QuestService, public snackbar: MatSnackBar,
+    private authService: AuthService
+  ) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       module: Module
@@ -34,7 +39,20 @@ export class InnerModuleComponent {
     this.role = state.role;
   }
 
+  private async getAuthentication(): Promise<AuthToken> {
+    return await this.authService.getAuthentication();
+  }
+
   async ngOnInit() {
+    const response = await this.getAuthentication();
+    this.auth = new AuthToken(response);
+    this.role = this.auth.Role;
+    if (this.role.Name == 'Student') {
+      console.log("SUCCESS STUDENT")
+    }
+    else if (this.role.Name == 'Mentor'){
+      console.log("SUCCESS MENTOR")
+    }
     try {
       const allQuests = await this.questService.GetAllQuests();
       if (allQuests) {
@@ -90,6 +108,8 @@ export class InnerModuleComponent {
       }
 
     });
+
+    
   }
 
   public editQuest(quest: Quest, index: number): void {
