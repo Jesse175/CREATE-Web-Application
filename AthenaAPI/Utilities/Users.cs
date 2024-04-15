@@ -1,6 +1,7 @@
 ﻿using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Microsoft.Data.SqlClient;
+using Newtonsoft.Json.Linq;
 using System.Configuration;
 using System.Data;
 
@@ -109,6 +110,130 @@ namespace AthenaAPI.Utilities
             {
                 Console.WriteLine(ex.Message);
                 return new User();
+            }
+        }
+
+        public static string GetUserImage(Guid RoleID)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("GetUserImage", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@RoleID", RoleID));
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    string result = "";
+                    if (reader.Read())
+                    {
+                        result = reader["URL"].ToString();
+                    }
+                    con.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return "";
+            }
+        }
+
+        public static JObject GetUserSettings(Guid RoleID)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("GetUserSettings", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@RoleID", RoleID));
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    JObject result = new JObject();
+                    if (reader.Read())
+                    {
+                        result["FirstName"] = reader["FirstName"].ToString();
+                        result["LastName"] = reader["LastName"].ToString();
+                        result["Email"] = reader["Email"].ToString();
+                        result["ImageURL"] = reader["URL"].ToString();
+                    }
+                    con.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new JObject();
+            }
+        }
+
+        public static Boolean UpdateUserSettings(Guid RoleID, JObject settings)
+        {
+            SqlParameter password = new SqlParameter("@Password", "");
+            if (settings["Password"].ToString() == "")
+            {
+                password.Value = DBNull.Value;
+            } 
+            else
+            {
+                password.Value = settings["Password"].ToString();
+            }
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("UpdateUserSettings", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@RoleID", RoleID));
+                    command.Parameters.Add(new SqlParameter("@FirstName", settings["FirstName"].ToString()));
+                    command.Parameters.Add(new SqlParameter("@LastName", settings["LastName"].ToString()));
+                    command.Parameters.Add(new SqlParameter("@Email", settings["Email"].ToString()));
+                    command.Parameters.Add(password);
+                    command.Parameters.Add(new SqlParameter("@ImageURL", settings["ImageURL"].ToString()));
+                    con.Open();
+
+                    command.ExecuteNonQuery();
+                    con.Close();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public static Boolean UpsertImage(Guid RoleID, string url)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("UpsertUserImage", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@RoleID", RoleID));
+                    command.Parameters.Add(new SqlParameter("@ImageURL", url));
+                    con.Open();
+
+                    command.ExecuteNonQuery();
+                    con.Close();
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
             }
         }
     }

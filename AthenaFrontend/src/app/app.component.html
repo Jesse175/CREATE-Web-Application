@@ -72,7 +72,7 @@
           <div id="modules-link" class="navlink" [routerLink]="['/modules']" [state]="{ role: this.role }">
             Modules
           </div>
-          <div id="settings-link" class="navlink" routerLink="/settings">
+          <div id="settings-link" class="navlink" [routerLink]="['/settings']" [state]="{ role: this.role }">
             Settings
           </div>
           <div id="logout-link" class="navlink" (click)="logout()" routerLink="/login">

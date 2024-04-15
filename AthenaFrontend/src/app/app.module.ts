@@ -52,6 +52,7 @@ const ROUTES: Routes = [
     DashboardComponent,
     LoginComponent,
     StudentsPageComponent,
+    SettingsComponent,
     ModulesComponent,
     StudentCardComponent,
     AddStudentDialog,

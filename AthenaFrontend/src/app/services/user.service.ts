@@ -12,7 +12,7 @@ export class UserService {
   private postHeaders: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
   public auth: any = sessionStorage.getItem('auth')?.toString();
   public redirectUrl: string = '/conversations';
-  
+
   constructor(private http: HttpClient, private router: Router) {
     this.apiUrl = environment.apiUrl;
   }
@@ -41,6 +41,16 @@ export class UserService {
     })
   }
 
+  public GetUserSettings(roleID: any): Promise<any> {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/Users/' + roleID + '/Settings').subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
   public LoginUser(loginData: any): Promise<any> {
     return new Promise(resolve => {
       this.http.post(this.apiUrl + '/Users/Login', JSON.stringify(loginData), { headers: this.postHeaders }).subscribe((data: any) => {
@@ -48,6 +58,16 @@ export class UserService {
       }, error => {
         resolve(false);
       });
+    });
+  }
+
+  public UpdateUserSettings(roleID: any, settings: any): Promise<any> {
+    return new Promise(resolve => {
+      this.http.put(this.apiUrl + '/Users/' + roleID + '/Settings', JSON.stringify(settings), {headers: this.postHeaders}).subscribe((data: any) => {
+      resolve(data);
+    }, error => {
+      resolve(false);
+    });
     });
   }
 
