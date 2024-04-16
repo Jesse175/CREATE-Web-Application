@@ -46,6 +46,8 @@ export class DailyStandupComponent {
     this.role = this.auth.Role;
     if (this.role.Name == 'Student') {
       this.getAllDailyStandups(this.role.RoleID);
+
+      //addDailyStandup here if getAllDailyStandups.size == 0 or getAllDailyStandups[0].Date != todays date
     }
   }
 }

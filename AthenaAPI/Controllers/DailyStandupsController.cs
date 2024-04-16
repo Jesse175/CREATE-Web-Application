@@ -75,34 +75,30 @@ namespace AthenaAPI.Controllers
             }
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> UpdateDailyStandups(Guid id, DailyStandup @standup)
-        //{
-        //    if(id != standup.StandupID)
-        //    {
-        //        return BadRequest();
-        //    }
+        [HttpPost]
+        public async Task<ActionResult<DailyStandup>> CreateDailyStandup([FromBody] JObject studentData)
+        {
 
-        //    _context.Entry(@standup).State = EntityState.Modified;
+            string roleId = studentData["RoleID"].ToString();
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch(DbUpdateConcurrencyException)
-        //    {
-        //        if (!DailyStandupExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            Guid roleIdGuid;
+            if (!Guid.TryParse(roleId, out roleIdGuid))
+            {
+                // Handle invalid Guid format
+                return BadRequest("Invalid RoleID format");
+            }
 
-        //    return NoContent();
-        //}
+            DailyStandup dailyStandup = Utilities.DailyStandups.AddDailyStandup(roleIdGuid);
+
+            if (_context.DailyStandup == null)
+            {
+                return Problem("Entity set 'DataContext.DailyStandup' is null.");
+            }
+
+            return dailyStandup;
+        }
+
+
 
         private bool DailyStandupExists(Guid id)
         {
