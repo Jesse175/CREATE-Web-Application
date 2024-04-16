@@ -8,6 +8,7 @@
       <app-module-card [modules]="allModules" [role]="role"></app-module-card>
     </div>
     <h1>My Students</h1>
+    <a class="btn btn-primary" (click)="addDailyStandups()">Add Daily Standups</a>
     <div>
       <app-student-card [students]="mentorStudents" (studentUpdate)="updateMyStudents($event)"></app-student-card>
     </div>

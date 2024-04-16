@@ -76,20 +76,24 @@ namespace AthenaAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<DailyStandup>> CreateDailyStandup(Guid StudentID)
+        public async Task<ActionResult<DailyStandup>> CreateDailyStandup([FromBody] JObject studentData)
         {
 
-            DailyStandup dailyStandup = new DailyStandup();
+            string roleId = studentData["RoleID"].ToString();
 
-            dailyStandup = Utilities.DailyStandups.AddDailyStandup(StudentID);
+            Guid roleIdGuid;
+            if (!Guid.TryParse(roleId, out roleIdGuid))
+            {
+                // Handle invalid Guid format
+                return BadRequest("Invalid RoleID format");
+            }
+
+            DailyStandup dailyStandup = Utilities.DailyStandups.AddDailyStandup(roleIdGuid);
 
             if (_context.DailyStandup == null)
             {
                 return Problem("Entity set 'DataContext.DailyStandup' is null.");
             }
-
-            //_context.DailyStandup.Add(dailyStandup);
-            //await _context.SaveChangesAsync();
 
             return dailyStandup;
         }
