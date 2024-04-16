@@ -40,14 +40,31 @@ export class DailyStandupComponent {
     }
   }
 
+  private isToday(dbDate: any): boolean {
+    const today = new Date();
+    const date = new Date(dbDate);
+
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+      
+  }
+
   public async ngOnInit(): Promise<void> {
     const response = await this.getAuthentication();
     this.auth = new AuthToken(response);
     this.role = this.auth.Role;
     if (this.role.Name == 'Student') {
-      this.getAllDailyStandups(this.role.RoleID);
+      await this.getAllDailyStandups(this.role.RoleID);
 
-      //addDailyStandup here if getAllDailyStandups.size == 0 or getAllDailyStandups[0].Date != todays date
+      const today = new Date();
+      if (this.standups.length == 0 || !(this.isToday(this.standups[0].dateCreated))) {
+        const response = await this.dailyStandupService.AddDailyStandup(this.role);
+      }
+
+      await this.getAllDailyStandups(this.role.RoleID);
     }
   }
 }
