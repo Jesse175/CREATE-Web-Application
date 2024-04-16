@@ -99,6 +99,7 @@ export class MentorDashComponent {
   }
 
   //Adds a daily standup to all students under logged in mentor
+  // functionality is here if we want it. button is commented out
   public async addDailyStandups(): Promise<void> {
     for (const student of this.mentorStudents) {
       const response = await this.dailyStandupService.AddDailyStandup(student);

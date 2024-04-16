@@ -30,8 +30,6 @@ export class EditDailyStandupComponent {
   public updateDailyStandup(): void {
     const newDescription = this.dsDescription.value || '';
 
-    //this.standup.description = newDescription;
-
     this.dailyStandupService.UpdateDailyStandup(this.standup.standupID.toString(), newDescription).then((result: boolean) => {
       if (result) {
         this.dialogRef.close(true);
