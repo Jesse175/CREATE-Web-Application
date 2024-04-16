@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MentorService } from 'src/app/services/mentor.service';
 import { StudentService } from 'src/app/services/student.service';
 import { ModuleService } from 'src/app/services/module.service';
+import { DailyStandupService } from 'src/app/services/dailyStandup.service';
 import { AddMentorDialog } from 'src/app/components/dashboard/add-mentor-dialog/add-mentor-dialog';
 import { Role } from 'src/models/role.model';
 import { Mentor } from 'src/models/mentor.model';
@@ -27,7 +28,7 @@ export class MentorDashComponent {
   public role: Role;
   public expectedRole: string;
 
-  constructor(public dialog: MatDialog, public mentorService: MentorService, public studentService: StudentService, public snackbar: MatSnackBar, public router: Router, public moduleService: ModuleService) {
+  constructor(public dialog: MatDialog, public mentorService: MentorService, public studentService: StudentService, public dailyStandupService: DailyStandupService, public snackbar: MatSnackBar, public router: Router, public moduleService: ModuleService) {
 
     this.getAllStudents();
     const navigation = this.router.getCurrentNavigation();
@@ -95,5 +96,13 @@ export class MentorDashComponent {
       let module = new Module(mod);
       this.allModules.push(module);
     }
+  }
+
+  //Adds a daily standup to all students under logged in mentor
+  public async addDailyStandups(): Promise<void> {
+    for (const student of this.mentorStudents) {
+      const response = await this.dailyStandupService.AddDailyStandup(student);
+    }
+    this.snackbar.open('Daily Standups successfully added!', '', { duration: 3000 });
   }
 }

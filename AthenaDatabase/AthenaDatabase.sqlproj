@@ -99,6 +99,7 @@
     <Build Include="dbo\Stored Procedures\GetQuests.sql" />
     <Build Include="dbo\Stored Procedures\UpdateQuest.sql" />
     <Build Include="dbo\Stored Procedures\UpdateDailyStandup.sql" />
+	  <Build Include="dbo\Stored Procedures\AddDailyStandup.sql" />
     <Build Include="dbo\Tables\UserImage.sql" />
     <Build Include="dbo\Stored Procedures\UpsertUserImage.sql" />
     <Build Include="dbo\Stored Procedures\GetUserImage.sql" />

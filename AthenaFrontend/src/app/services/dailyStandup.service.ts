@@ -40,4 +40,15 @@ export class DailyStandupService {
       });
     });
   }
+
+  public AddDailyStandup(student: any): Promise<any> {
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl + '/DailyStandups', JSON.stringify(student), { headers: this.postHeaders }).subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
 }
