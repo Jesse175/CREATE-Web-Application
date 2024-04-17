@@ -34,7 +34,7 @@ namespace AthenaAPI.Utilities
                         standup.StandupID = Guid.Parse(reader["StandupID"].ToString());
                         standup.StudentID = Guid.Parse(reader["StudentID"].ToString());
                         standup.UserID = Guid.Parse(reader["UserID"].ToString());
-                        standup.DateCreated = DateTime.Parse(reader["DateCreated"].ToString());
+                        standup.DateCreated = DateTime.Parse(reader["Date_Created"].ToString());
                         standup.Description = reader["Description"].ToString();
 
                         dailyStandups.Add(standup);
@@ -110,7 +110,7 @@ namespace AthenaAPI.Utilities
                         standup.StandupID = Guid.Parse(reader["StandupID"].ToString());
                         standup.StudentID = Guid.Parse(reader["StudentID"].ToString());
                         standup.UserID = Guid.Parse(reader["UserID"].ToString());
-                        standup.DateCreated = DateTime.Parse(reader["DateCreated"].ToString());
+                        standup.DateCreated = DateTime.Parse(reader["Date_Created"].ToString());
                         standup.Description = reader["Description"].ToString();
                     }
                     con.Close();
