@@ -8,6 +8,45 @@ namespace AthenaAPI.Utilities
 {
     public class Students
     {
+        public static List<StudentQuest> GetStudentQuests(Guid studentID)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("GetStudentQuests", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@StudentID", studentID));
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    // Let's create a new StudentRole object to read the result
+                    List<StudentQuest> result = new List<StudentQuest>();
+
+                    while (reader.Read())
+                    {
+                        StudentQuest quest = new StudentQuest();
+                        quest.QuestID = (Guid)reader["QuestID"];
+                        quest.StudentID = (Guid)reader["StudentID"];
+                        quest.Completed = (bool)reader["Completed"];
+                        quest.LastActivityDate = (DateTime)reader["LastActivityDate"];
+                        result.Add(quest);
+                    }
+
+                    con.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                List<StudentQuest> result = new List<StudentQuest>();
+                return result;
+            }
+        }
         public static List<StudentRole> GetStudents()
         {
             try
