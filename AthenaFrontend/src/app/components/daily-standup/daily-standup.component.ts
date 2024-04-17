@@ -32,7 +32,6 @@ export class DailyStandupComponent {
     this.standups = [];
     const response = await this.dailyStandupService.GetAllDailyStandups(id);
     if (response) {
-    console.log(response);
       for (let ds of response) {
           const standup = new DailyStandup(ds.standupID, ds.studentID, ds.userID, ds.dateCreated, ds.description);
           this.standups.push(standup);

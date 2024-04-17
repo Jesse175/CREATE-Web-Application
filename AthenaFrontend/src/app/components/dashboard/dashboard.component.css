@@ -11,11 +11,17 @@ button.btn-primary {
   border-color: var(--btncolor);
 }
 
-div.scrollable-div-horizontal {
-  height: 550px; /* set a fixed height for the div */
-  overflow-x: auto; /* enable horizontal scrollbar */
-}
-div.scrollable-div-vertical {
-  height: 700px; /* set a fixed height for the div */
+div.modules-mentor {
+  height: 50vh; /* set a fixed height for the div */
   overflow-y: auto; /* enable vertical scrollbar */
+}
+div.students-mentor {
+  height: 40vh;
+  overflow-y: auto;
+}
+h2 {
+  font-weight: 800;
+  padding: 15px 15px 0 15px;
+  color: var(--mainheading);
+  font-size: 1.8rem;
 }

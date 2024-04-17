@@ -110,7 +110,9 @@ namespace AthenaAPI.Controllers
             await _context.SaveChangesAsync();
 
             // Then create and return the new Mentor!
-            return Utilities.Mentors.AddMentor(user.UserID);
+            MentorRole mentor = Utilities.Mentors.AddMentor(user.UserID);
+            Users.UpsertImage(mentor.RoleID, "");
+            return mentor;
         }
     }
 }
