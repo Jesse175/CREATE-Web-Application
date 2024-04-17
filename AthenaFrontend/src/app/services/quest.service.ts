@@ -29,6 +29,17 @@ export class QuestService {
     });
   }
 
+  public GetStudentQuestCompletion(studentId: string): Promise<any> {
+    return new Promise(resolve => {
+      this.http.get(`${this.apiUrl}/Students/GetStudentQuests/${studentId}`).subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        console.error('Failed to fetch student quests', error);
+        resolve(false);
+      });
+    });
+  }
+
   public GetQuestById(QuestId: number): Promise<any> {
     return new Promise(resolve => {
       this.http.get('${this.apiUrl}/Quests/${QuestId}').subscribe((data: any) => {
