@@ -9,6 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { QuestService } from 'src/app/services/quest.service';
 import { Role } from 'src/models/role.model';
 import { EditQuestDialogComponent } from './edit-quest-dialog/edit-quest-dialog';
+import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
+import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
 
 @Component({
   selector: 'app-inner-module',
@@ -23,7 +25,7 @@ export class InnerModuleComponent {
   public role: any;
   moduleID!: string;
 
-  constructor(public dialog: MatDialog, private router: Router, public moduleService: ModuleService, public questService: QuestService, public snackbar: MatSnackBar) {
+  constructor(public dialog: MatDialog, private router: Router, public moduleService: ModuleService, public questService: QuestService, public snackbar: MatSnackBar, public breadcrumb: BreadcrumbService) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       module: Module
@@ -32,6 +34,11 @@ export class InnerModuleComponent {
 
     this.module = state.module;
     this.role = state.role;
+
+    const pageName: String = 'module/'
+    breadcrumb.setPrevPages(pageName);
+    const prevPages: any[] = breadcrumb.getPrevPages();
+    const currentPage: any = breadcrumb.getCurrentPage(pageName);
   }
 
   async ngOnInit() {

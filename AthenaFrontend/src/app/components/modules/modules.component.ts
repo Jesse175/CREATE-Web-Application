@@ -25,7 +25,8 @@ export class ModulesComponent {
     };
     this.role = state.role;
 
-    const pageName: String = 'Modules'
+    
+    const pageName: String = 'modules'
     breadcrumb.setPrevPages(pageName);
     const prevPages: any[] = breadcrumb.getPrevPages();
     const currentPage: any = breadcrumb.getCurrentPage(pageName);

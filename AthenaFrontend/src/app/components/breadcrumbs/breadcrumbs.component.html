@@ -1,3 +1,10 @@
-<div>
-    <a href="page.getURL()" *ngFor="let page of prevPages; index as i; last as currentPage"><span *ngIf="currentPage">{{page.getName()}}</span><span *ngIf="!currentPage">{{page.getName()}}</span></a>
-</div>
+<ng-container>
+    <span *ngFor="let page of prevPages; index as i; last as currentPage">
+        <a href="#" *ngIf="currentPage" >{{ page.getName() }}</a>
+        <a (click)="navigate('\\modules')" *ngIf="!currentPage" >{{ page.getName() }}</a>
+    </span>
+</ng-container>
+<br>
+<a href="#" id="modules-link" class="navlink" [routerLink]="['/settings']" >
+    Modules
+</a>
