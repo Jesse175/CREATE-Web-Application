@@ -8,6 +8,8 @@ import { Mentor } from 'src/models/mentor.model';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { DailyStandup } from 'src/models/dailystandup';
+import { DailyStandupService } from '../../../services/dailyStandup.service';
 
 export interface StudentData {
   FirstName: string;
@@ -27,16 +29,18 @@ export class ViewStudentDialog implements OnInit {
   public selectedMentors: Role[] = [];
   public allMentors: Role[] = [];
   public changes: boolean = false;
+  public standups: DailyStandup[] = [];
 
   public separatorKeysCodes: number[] = [ENTER, COMMA];
   public mentorCtrl = new FormControl(null);
   public filteredMentors: Role[] = [];
   @ViewChild('mentorInput') mentorInput!: ElementRef<HTMLInputElement>;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<ViewStudentDialog>, public mentorService: MentorService, public studentService: StudentService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<ViewStudentDialog>, public mentorService: MentorService, public dailyStandupService: DailyStandupService, public studentService: StudentService) {
     this.student = this.data.student;
     this.getStudentMentors(this.student.RoleID);
     this.getAllMentors();
+    this.getAllDailyStandups(this.student.RoleID);
   }
 
   public add(event: MatChipInputEvent): void {
@@ -111,10 +115,23 @@ export class ViewStudentDialog implements OnInit {
     this.mentorCtrl.valueChanges.subscribe((mentor: Role | null) => {
       this.filterMentors(mentor);
       this.changes = true;
-    });
+    });   
   }
+
+
 
   public okClose(): void {
     this.dialogRef.close(true);
+  }
+
+  public async getAllDailyStandups(id: string): Promise<void> {
+    this.standups = [];
+    const response = await this.dailyStandupService.GetAllDailyStandups(id);
+    if (response) {
+      for (let ds of response) {
+        const standup = new DailyStandup(ds.standupID, ds.studentID, ds.userID, ds.dateCreated, ds.description);
+        this.standups.push(standup);
+      }
+    }
   }
 }
