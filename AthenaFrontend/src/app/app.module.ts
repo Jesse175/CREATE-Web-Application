@@ -30,9 +30,7 @@ import { DailyStandupCardComponent } from './components/daily-standup/daily-stan
 import { AddQuestDialogComponent } from './components/modules/inner-module/add-quest-dialog/add-quest-dialog.component';
 import { QuestsComponent } from './components/modules/inner-module/quests/quests.component';
 import { EditQuestDialogComponent } from './components/modules/inner-module/edit-quest-dialog/edit-quest-dialog';
-import { MentorDashComponent } from './components/mentor-dash/mentor-dash.component';
-import { StudentDashComponent } from './components/student-dash/student-dash.component';
-import { StudentDashMentorCardComponent } from './components/student-dash/student-dash-mentor-card/student-dash-mentor-card.component';
+import { StudentDashMentorCardComponent } from './components/dashboard/student-dash-mentor-card/student-dash-mentor-card.component';
 import { EditDailyStandupComponent } from './components/daily-standup/edit-daily-standup/edit-daily-standup.component';
 
 const ROUTES: Routes = [
@@ -66,8 +64,6 @@ const ROUTES: Routes = [
     AddQuestDialogComponent,
     EditQuestDialogComponent,
     QuestsComponent,
-    MentorDashComponent,
-    StudentDashComponent,
     StudentDashMentorCardComponent,
     EditDailyStandupComponent
   ],

@@ -3,7 +3,7 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <img src="https://i.pinimg.com/474x/5f/2e/cc/5f2ecca11341463537cc008106132cdf.jpg">
+          <img [src]="student.ImageURL">
           <h5 class="card-title">{{ student.Person.FirstName + ' ' + student.Person.LastName }}</h5>
           <h6 class="card-subtitle mb-2">{{ student.Person.Rank }}</h6>
           <p class="card-text">

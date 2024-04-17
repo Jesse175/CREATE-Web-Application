@@ -162,6 +162,7 @@ namespace AthenaAPI.Utilities
                         result["LastName"] = reader["LastName"].ToString();
                         result["Email"] = reader["Email"].ToString();
                         result["ImageURL"] = reader["URL"].ToString();
+                        result["Availability"] = reader["Availability"].ToString();
                     }
                     con.Close();
                     return result;
@@ -198,6 +199,7 @@ namespace AthenaAPI.Utilities
                     command.Parameters.Add(new SqlParameter("@Email", settings["Email"].ToString()));
                     command.Parameters.Add(password);
                     command.Parameters.Add(new SqlParameter("@ImageURL", settings["ImageURL"].ToString()));
+                    command.Parameters.Add(new SqlParameter("@Availability", settings["Availability"].ToString()));
                     con.Open();
 
                     command.ExecuteNonQuery();

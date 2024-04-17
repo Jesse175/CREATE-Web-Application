@@ -15,59 +15,87 @@
       <h5>Email Address</h5>
       <p>{{settings.Email}}</p>
     </div>
+    <div class="avail">
+      <h5>Availability</h5>
+      <p>{{settings.Availability}}</p>
+    </div>
     <div class="password">
       <h5>Password</h5>
       <p>********</p>
     </div>
   </ng-container>
   <ng-container *ngIf="editing">
-    <div class="profilepic"></div>
+    <div class="profilepic"><img [src]="settings.ImageURL"></div>
     <div class="fname">
-      <div class="col-md-6 form-floating">
+      <h5>First Name</h5>
+      <div class="col-md-7 set">
         <input type="text"
                class="form-control"
                id="fname"
                [formControl]="firstName"
-               placeholder="First Name">
-        <label for="fname">First Name</label>
+               required>
       </div>
     </div>
     <div class="lname">
-      <div class="col-md-6 form-floating">
+      <h5>Last Name</h5>
+      <div class="col-md-7 set">
         <input type="text"
                class="form-control"
                id="lname"
                [formControl]="lastName"
-               placeholder="Last Name">
-        <label for="lname">Last Name</label>
+               required>
       </div>
     </div>
     <div class="email">
-      <div class="col-md-6 form-floating">
+      <h5>Email Address</h5>
+      <div class="col-md-8 set">
         <input type="email"
                class="form-control"
                id="email"
                [formControl]="email"
-               placeholder="Email">
-        <label for="email">Email</label>
+               required>
+      </div>
+      <div id="validationServer01Feedback" class="invalid-feedback">
+        This email is already registered in our system.
+      </div>
+      <div id="validationServer02Feedback" class="invalid-feedback">
+        Please enter a valid email.
+      </div>
+    </div>
+    <div class="avail">
+      <h5>Availability</h5>
+      <div class="col-md-8 set">
+        <input type="text"
+               class="form-control"
+               id="avail"
+               [formControl]="availability"
+               required>
       </div>
     </div>
     <div class="password">
-      <div class="col-md-12 input-group">
-        <div class="form-floating col-md-8">
+      <h5>Password</h5>
+      <div class="col-md-8 input-group">
+        <div class="col-md-8">
           <input type="password"
                  class="form-control"
                  id="validationServer04"
                  [formControl]="password"
                  aria-label="Set Password"
-                 aria-describedby="button-addon2"
-                 placeholder="password">
-          <label for="validationServer04">Password</label>
+                 aria-describedby="button-addon2">
         </div>
         <span id="show-hide" class="input-group-text" (click)="toggleHidePassword()"><i class="bi bi-eye-slash"></i></span>
     </div>
     </div>
+    <div class="pic">
+      <h5>Profile Picture</h5>
+      <div class="col set">
+        <input type="text"
+               class="form-control"
+               id="ppic"
+               [formControl]="imageURL">
+      </div>
+    </div>
     <button id="submit" class="btn btn-primary" type="submit" (click)="saveSettings()">Save Settings</button>
-    <button id="submit" class="btn" type="submit" (click)="toggleEdit()">Cancel</button>
+    <button id="cancel" class="btn btn-secondary" type="submit" (click)="toggleEdit()">Cancel</button>
   </ng-container>
 </div>

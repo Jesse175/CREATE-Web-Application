@@ -4,21 +4,25 @@
 	@LastName nvarchar(100),
 	@Email nvarchar(100),
 	@Password nvarchar(100) = NULL,
-	@ImageURL nvarchar(200)
+	@ImageURL nvarchar(200),
+	@Availability nvarchar(256)
 AS
 BEGIN
 	-- First we need to get the UserID from the RoleID
 	DECLARE @UserID uniqueidentifier
+	DECLARE @Role nvarchar(10)
 	IF EXISTS(SELECT UserID FROM dbo.Student WHERE StudentID = @RoleID)
 	BEGIN
 		SET @UserID = (SELECT UserID FROM dbo.Student WHERE StudentID = @RoleID)
+		SET @Role = 'Student'
 	END
 	ELSE
 	BEGIN
 		SET @UserID = (SELECT UserID FROM dbo.Mentor WHERE MentorID = @RoleID)
+		SET @Role = 'Mentor'
 	END
 
-	IF (@Password = NULL)
+	IF (@Password IS NULL)
 	BEGIN
 		UPDATE dbo.[User]
 		SET FirstName = @FirstName,
@@ -33,6 +37,19 @@ BEGIN
 			LastName = @LastName,
 			Email = @Email,
 			[Password] = @Password
+		WHERE UserID = @UserID
+	END
+
+	IF (@Role = 'Student')
+	BEGIN
+		UPDATE dbo.[Student]
+		SET [Availability] = @Availability
+		WHERE UserID = @UserID
+	END
+	If (@Role = 'Mentor')
+	BEGIN
+		UPDATE dbo.[Mentor]
+		SET [Availability] = @Availability
 		WHERE UserID = @UserID
 	END
 

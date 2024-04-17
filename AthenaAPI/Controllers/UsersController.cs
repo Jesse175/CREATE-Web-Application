@@ -131,12 +131,6 @@ namespace AthenaAPI.Controllers
         [HttpPut("{id:Guid}/Settings")]
         public async Task<ActionResult<bool>> UpdateUserSettings(Guid id, [FromBody] JObject settings)
         {
-            Guid roleID = Guid.Parse(settings["RoleID"].ToString());
-            if (id != roleID)
-            {
-                return BadRequest();
-            }
-
             return Users.UpdateUserSettings(id, settings);
         }
 

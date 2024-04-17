@@ -6,7 +6,7 @@
   display: grid;
   grid-template-areas: 'img info';
   justify-content: center;
-  grid-template-columns: minmax(0, 200px) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 200px) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
   align-items: center;
   position: relative;
 }
@@ -55,10 +55,15 @@ h5 {
   cursor: pointer;
 }
 .btn-primary {
-  margin: 20px auto 0 auto;
+  margin: 40px 0 0 auto;
   background-color: var(--btncolor);
   border-color: var(--btncolor);
   font-weight: 700;
+}
+.btn-secondary {
+  margin: 40px auto 0 20px;
+  background-color: var(--inactivetab);
+  border-color: var(--inactivetab);
 }
 .form-floating > label {
   left: 8px;
@@ -66,6 +71,15 @@ h5 {
 .form-control {
   position: relative;
 }
-.input-group .form-floating > label {
-  left: 0;
+.set {
+  margin: auto;
+}
+.input-group {
+  width: auto;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+.pic {
+  padding-top: 20px;
 }

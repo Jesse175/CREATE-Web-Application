@@ -11,51 +11,90 @@ import { Module } from 'src/models/module';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthToken } from 'src/models/authtoken.model';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { DailyStandupService } from 'src/app/services/dailyStandup.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
-
   public mentorStudents: Role[] = [];
   public allStudents: Role[] = [];
-  public mentor: Role;
-  public auth: AuthToken;
-  public role: Role;
-  public expectedRole: string;
-
+  public auth: AuthToken | any;
+  public role: Role | any;
+  public showM: boolean = false;
+  public showS: boolean = false;
 
   public allModules: Module[] = [];
+  public studentMentors: any;
 
-  constructor(public dialog: MatDialog, public mentorService: MentorService, public studentService: StudentService, public snackbar: MatSnackBar, public router: Router, public moduleService: ModuleService) {
+  constructor(
+    public dialog: MatDialog,
+    public mentorService: MentorService,
+    public studentService: StudentService,
+    public snackbar: MatSnackBar,
+    public router: Router,
+    public moduleService: ModuleService,
+    public dailyStandupService: DailyStandupService,
+    public authService: AuthService
+  ) {
+    this.initialize();
+  }
 
-    this.getAllStudents();
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as {
-      auth: AuthToken,
-      expectedRole: string,
-      role: Role
-    };
-    this.auth = state.auth;
-    this.role = state.role;
-    this.mentor = state.auth.Role;
-    this.expectedRole = state.expectedRole;
-    this.getMentorStudents(this.mentor.RoleID);
-    this.getAllModules()
+  public async initialize() {
+    const response = await this.authService.getAuthentication();
+    this.auth = new AuthToken(response);
+    this.role = this.auth.Role;
+    if (this.role.Name == 'Student') {
+      this.role.Person = new Student(this.role.Person);
+      this.showS = true;
+    } else if (this.role.Name == 'Mentor') {
+      this.role.Person = new Mentor(this.role.Person);
+      this.showM = true;
+    }
+    if (this.role.Name == 'Mentor')
+      await this.getMentorStudents(this.role.RoleID);
+    if (this.role.Name == 'Student')
+      await this.getStudentMentors(this.role.RoleID);
+    this.getAllModules();
+  }
+
+  public async getAllModules(): Promise<void> {
+    this.allModules = [];
+    const response = await this.moduleService.GetAllModules();
+    for (let mod of response) {
+      let module = new Module(mod);
+      this.allModules.push(module);
+    }
+  }
+
+  public async getStudentMentors(id: string): Promise<any> {
+    this.studentMentors = [];
+    const response = await this.studentService.GetStudentMentors(id);
+    if (response) {
+      for (let m of response) {
+        let mentor = new Role(m);
+        mentor.Person = new Mentor(m.mentor);
+        this.studentMentors.push(mentor);
+      }
+      this.studentService.emitChange(response.length);
+    }
   }
 
   public addMentor(): void {
     const dialogRef = this.dialog.open(AddMentorDialog, {
-      panelClass: 'custom-dialog'
+      panelClass: 'custom-dialog',
     });
 
-    dialogRef.afterClosed().subscribe(response => {
-      if (response){
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response) {
         let mentor = new Role(response);
         mentor.Person = new Mentor(response.mentor);
-        this.snackbar.open('Mentor successfully added!', '', { duration: 3000 } );
+        this.snackbar.open('Mentor successfully added!', '', {
+          duration: 3000,
+        });
       }
     });
   }
@@ -75,27 +114,17 @@ export class DashboardComponent {
 
   public updateMyStudents(update: string) {
     if (update == 'updated') {
-      this.getAllStudents();
-      this.getMentorStudents(this.mentor.RoleID);
+      this.getMentorStudents(this.role.RoleID);
     }
   }
 
-  public async getAllStudents(): Promise<void> {
-    this.allStudents = [];
-    const response = await this.studentService.GetAllStudents();
-    for (let st of response) {
-      let s = new Role(st);
-      s.Person = new Student(st.student);
-      this.allStudents.push(s);
+  //Adds a daily standup to all students under logged in mentor
+  public async addDailyStandups(): Promise<void> {
+    for (const student of this.mentorStudents) {
+      const response = await this.dailyStandupService.AddDailyStandup(student);
     }
-  }
-
-  public async getAllModules(): Promise<void> {
-    this.allModules = [];
-    const response = await this.moduleService.GetAllModules();
-    for (let mod of response) {
-      let module = new Module(mod);
-      this.allModules.push(module);
-    }
+    this.snackbar.open('Daily Standups successfully added!', '', {
+      duration: 3000,
+    });
   }
 }

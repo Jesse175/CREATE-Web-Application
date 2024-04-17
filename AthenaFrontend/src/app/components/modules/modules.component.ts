@@ -5,7 +5,10 @@ import { Module } from 'src/models/module';
 import { ModuleService } from 'src/app/services/module.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Role } from 'src/models/role.model';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthToken } from 'src/models/authtoken.model';
+import { Student } from 'src/models/student.model';
+import { Mentor } from 'src/models/mentor.model';
 
 @Component({
   selector: 'app-modules',
@@ -16,13 +19,20 @@ export class ModulesComponent {
   public modules: Module[] = [];
   public role: any;
 
-  constructor(public dialog: MatDialog, public snackbar: MatSnackBar, public moduleService: ModuleService, public router: Router) {
+  constructor(public dialog: MatDialog, public snackbar: MatSnackBar, public moduleService: ModuleService, public router: Router, public authService: AuthService) {
+    this.initialize();
+  }
+
+  public async initialize() {
+    const response = await this.authService.getAuthentication();
+    const auth = new AuthToken(response);
+    this.role = auth.Role;
+    if (this.role.Name == 'Student') {
+      this.role.Person = new Student(this.role.Person);
+    } else if (this.role.Name == 'Mentor') {
+      this.role.Person = new Mentor(this.role.Person);
+    }
     this.getAllModules();
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as {
-      role: Role
-    };
-    this.role = state.role;
   }
 
   public addModule(): void {
