@@ -2,18 +2,15 @@ import { Component, Input } from '@angular/core';
 import { DailyStandup } from 'src/models/dailystandup';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { EditDailyStandupComponent } from '../edit-daily-standup/edit-daily-standup.component';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-daily-standup-card',
-  templateUrl: './daily-standup-card.component.html',
-  styleUrls: ['./daily-standup-card.component.css']
+  selector: 'app-view-student-standups',
+  templateUrl: './view-student-standups.component.html',
+  styleUrls: ['./view-student-standups.component.css']
 })
-
-
-export class DailyStandupCardComponent {
+export class ViewStudentStandupsComponent {
   @Input() standups: DailyStandup[] = [];
 
   constructor(public dialog: MatDialog, public snackbar: MatSnackBar) { }
@@ -21,12 +18,4 @@ export class DailyStandupCardComponent {
   statusText = 'Not Completed';
   thisdate = new Date;
 
-  public async editStandup(standup: DailyStandup): Promise<void> {
-    const dialogRef = this.dialog.open(EditDailyStandupComponent, {
-      panelClass: 'custom-dialog',
-      data: { standup: standup }
-    });
-  }
-
 }
-
