@@ -47,7 +47,7 @@ export class LoginComponent {
         this.errorMessage = 'Incorrect username or password';
         let token = new AuthToken(response);
         localStorage.setItem('token', token.TokenID);
-        this.router.navigate(['']);
+        this.router.navigate(['/dashboard']);
         location.reload();
       }
     }

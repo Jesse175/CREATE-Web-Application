@@ -9,7 +9,6 @@ import { LoginComponent } from './components/login/login.component';
 import { StudentsPageComponent } from './components/students-page/students-page.component';
 import { AuthGuardService as AuthGuard } from './services/auth/auth-guard.service';
 import { RoleGuardService as RoleGuard } from './services/auth/role-guard.service';
-import { RegisterComponent } from './components/register/register.component';
 import { StudentCardComponent } from './components/students-page/student-card/student-card.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -31,6 +30,9 @@ import { DailyStandupCardComponent } from './components/daily-standup/daily-stan
 import { AddQuestDialogComponent } from './components/modules/inner-module/add-quest-dialog/add-quest-dialog.component';
 import { QuestsComponent } from './components/modules/inner-module/quests/quests.component';
 import { EditQuestDialogComponent } from './components/modules/inner-module/edit-quest-dialog/edit-quest-dialog';
+import { StudentDashMentorCardComponent } from './components/dashboard/student-dash-mentor-card/student-dash-mentor-card.component';
+import { EditDailyStandupComponent } from './components/daily-standup/edit-daily-standup/edit-daily-standup.component';
+import { ViewStudentStandupsComponent } from './components/students-page/view-student-dialog/view-student-standups/view-student-standups.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 
 const ROUTES: Routes = [
@@ -40,7 +42,8 @@ const ROUTES: Routes = [
   { path: 'modules', component: ModulesComponent, canActivate: [AuthGuard] },
   { path: 'modules/:ModuleID', component: InnerModuleComponent, canActivate: [AuthGuard] },
   { path: 'quests/:QuestID', component: QuestsComponent, canActivate: [AuthGuard] },
-  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] }
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: 'edit-daily-standup', component: EditDailyStandupComponent, canActivate: [AuthGuard] },
 ]
 
 @NgModule({
@@ -49,8 +52,8 @@ const ROUTES: Routes = [
     DashboardComponent,
     LoginComponent,
     StudentsPageComponent,
+    SettingsComponent,
     ModulesComponent,
-    RegisterComponent,
     StudentCardComponent,
     AddStudentDialog,
     ViewStudentDialog,
@@ -63,7 +66,10 @@ const ROUTES: Routes = [
     AddQuestDialogComponent,
     EditQuestDialogComponent,
     QuestsComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    StudentDashMentorCardComponent,
+    EditDailyStandupComponent,
+    ViewStudentStandupsComponent
   ],
 
   imports: [

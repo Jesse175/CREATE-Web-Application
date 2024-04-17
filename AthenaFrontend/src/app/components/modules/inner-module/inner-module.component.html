@@ -61,7 +61,7 @@
               {{ quest.Name }}
             </div>
             <div class="quest-description">
-              Stuff
+              <!-- this should be the last activity date, not description. we don't have it for mentors but we should have it for students (StudentQuests table)-->
             </div>
           </div>
           <div class="button-box" [style]="{'background': '#' + module.Color}" (click)="editQuest(quest, i)">
@@ -87,7 +87,7 @@
               {{ quest.Name }}
             </div>
             <div class="quest-description">
-              Stuff
+              <!-- this should be the last activity date, not description. we don't have it for mentors but we should have it for students (StudentQuests table)-->
             </div>
           </div>
           <div class="button-box" [style]="{'background': '#' + module.Color}" (click)="editQuest(quest, i)">

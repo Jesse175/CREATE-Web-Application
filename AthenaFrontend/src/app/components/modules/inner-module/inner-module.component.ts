@@ -9,13 +9,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { QuestService } from 'src/app/services/quest.service';
 import { Role } from 'src/models/role.model';
 import { EditQuestDialogComponent } from './edit-quest-dialog/edit-quest-dialog';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { AuthToken } from 'src/models/authtoken.model';
+import { Student } from 'src/models/student.model';
+import { Mentor } from 'src/models/mentor.model';
 import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
 import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
 
 @Component({
   selector: 'app-inner-module',
   templateUrl: './inner-module.component.html',
-  styleUrls: ['./inner-module.component.css']
+  styleUrls: ['./inner-module.component.css'],
 })
 export class InnerModuleComponent {
   public module: any;
@@ -25,33 +29,60 @@ export class InnerModuleComponent {
   public role: any;
   moduleID!: string;
 
-  constructor(public dialog: MatDialog, private router: Router, public moduleService: ModuleService, public questService: QuestService, public snackbar: MatSnackBar, public breadcrumb: BreadcrumbService) {
+  constructor(
+    public dialog: MatDialog,
+    private router: Router,
+    public moduleService: ModuleService,
+    public questService: QuestService,
+    public snackbar: MatSnackBar,
+    public authService: AuthService
+  , public breadcrumb: BreadcrumbService) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
-      module: Module
-      role: Role
+      module: Module;
+      role: Role;
     };
 
     this.module = state.module;
-    this.role = state.role;
+    this.initialize();
+  }
+
+  public async initialize() {
+    const response = await this.authService.getAuthentication();
+    const auth = new AuthToken(response);
+    this.role = auth.Role;
+    if (this.role.Name == 'Student') {
+      this.role.Person = new Student(this.role.Person);
+    } else if (this.role.Name == 'Mentor') {
+      this.role.Person = new Mentor(this.role.Person);
+    }
 
     const pageName: String = 'module/'
-    breadcrumb.setPrevPages(pageName);
-    const prevPages: any[] = breadcrumb.getPrevPages();
-    const currentPage: any = breadcrumb.getCurrentPage(pageName);
+    this.breadcrumb.setPrevPages(pageName);
+    const prevPages: any[] = this.breadcrumb.getPrevPages();
+    const currentPage: any = this.breadcrumb.getCurrentPage(pageName);
   }
 
   async ngOnInit() {
     try {
       const allQuests = await this.questService.GetAllQuests();
       if (allQuests) {
-        this.receiveQuests = allQuests.map((quest: { questID: any; name: any; description: any; expGain: any; moduleID: any; }) => new Quest({
-          QuestID: quest.questID,
-          Name: quest.name,
-          Description: quest.description,
-          ExpGain: quest.expGain,
-          ModuleID: quest.moduleID
-        }));
+        this.receiveQuests = allQuests.map(
+          (quest: {
+            questID: any;
+            name: any;
+            description: any;
+            expGain: any;
+            moduleID: any;
+          }) =>
+            new Quest({
+              QuestID: quest.questID,
+              Name: quest.name,
+              Description: quest.description,
+              ExpGain: quest.expGain,
+              ModuleID: quest.moduleID,
+            })
+        );
         this.filterQuests();
       } else {
         console.error('Failed to fetch quests');
@@ -59,12 +90,11 @@ export class InnerModuleComponent {
     } catch (error) {
       console.error('An error occurred while fetching quests', error);
     }
-
   }
 
   filterQuests() {
     this.filteredQuests = this.receiveQuests.filter(
-      quest => quest.ModuleID === this.module.ModuleID
+      (quest) => quest.ModuleID === this.module.ModuleID
     );
   }
 
@@ -77,42 +107,51 @@ export class InnerModuleComponent {
     const result = {
       r: parseInt(conv[1], 16),
       g: parseInt(conv[2], 16),
-      b: parseInt(conv[3], 16)
+      b: parseInt(conv[3], 16),
     };
-    return 'rgba(' + result.r + ', ' + result.g + ', ' + result.b + ', 0.' + opacity + ')';
+    return (
+      'rgba(' +
+      result.r +
+      ', ' +
+      result.g +
+      ', ' +
+      result.b +
+      ', 0.' +
+      opacity +
+      ')'
+    );
   }
 
   public addQuest(): void {
     const dialogRef = this.dialog.open(AddQuestDialogComponent, {
       panelClass: 'custom-dialog',
       //passing data to child dialog component
-      data: { moduleID: this.module.ModuleID }
+      data: { moduleID: this.module.ModuleID },
     });
 
-    dialogRef.afterClosed().subscribe(response => {
-      if (response){
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response) {
         let quest = new Quest(response);
         this.filteredQuests.push(quest);
         this.snackbar.open('Quest successfully added!', '', { duration: 3000 });
       }
-
     });
   }
 
   public editQuest(quest: Quest, index: number): void {
     const dialogRef = this.dialog.open(EditQuestDialogComponent, {
       panelClass: 'custom-dialog',
-      data: { quest: quest }
+      data: { quest: quest },
     });
 
-    dialogRef.afterClosed().subscribe(response => {
-      if (response){
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response) {
         let newQuest = new Quest(response);
         this.filteredQuests.splice(index, 1, newQuest);
-        this.snackbar.open('Quest successfully updated!', '', { duration: 3000 });
+        this.snackbar.open('Quest successfully updated!', '', {
+          duration: 3000,
+        });
       }
     });
   }
-
-
 }

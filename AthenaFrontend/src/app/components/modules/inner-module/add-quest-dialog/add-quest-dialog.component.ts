@@ -39,7 +39,6 @@ export class AddQuestDialogComponent {
       Description: this.description.value,
       ExpGain: this.expGain.value,
     };
-    console.log(quest);
     const response = await this.questService.AddQuest(quest);
     this.dialogRef.close(response);
   }

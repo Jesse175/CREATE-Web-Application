@@ -10,3 +10,18 @@ button.btn-primary {
   background-color: var(--btncolor);
   border-color: var(--btncolor);
 }
+
+div.modules-mentor {
+  height: 50vh; /* set a fixed height for the div */
+  overflow-y: auto; /* enable vertical scrollbar */
+}
+div.students-mentor {
+  height: 40vh;
+  overflow-y: auto;
+}
+h2 {
+  font-weight: 800;
+  padding: 15px 15px 0 15px;
+  color: var(--mainheading);
+  font-size: 1.8rem;
+}

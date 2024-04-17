@@ -39,6 +39,12 @@
     <b>Module Progress</b>
     <!-- Show summary of progress in each module -->
   </div>
+  <div class="col-md-12">
+    <b>Standup Progress</b>
+    <div>
+      <app-view-student-standups [standups]="standups"></app-view-student-standups>
+    </div>
+  </div>
   <div class="col-12">
     <button id="submit" class="btn btn-primary" type="submit" (click)="okClose()" *ngIf="!changes">OK</button>
     <button id="submit" class="btn btn-primary" type="submit" (click)="saveChanges()" *ngIf="changes">Save Changes</button>

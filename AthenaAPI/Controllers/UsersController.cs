@@ -63,6 +63,21 @@ namespace AthenaAPI.Controllers
         }
 
         /// <summary>
+        /// Controller method for retrieving a specific User's settings.
+        /// </summary>
+        /// <returns>
+        /// A single User's settings.
+        /// </returns>
+        /// <param name="id">The Guid of the User's Role.</param>
+        /// 
+        // GET: api/Users/{Guid}/Settings
+        [HttpGet("{id:Guid}/Settings")]
+        public async Task<ActionResult<JObject>> GetUserSettings(Guid id)
+        {
+            return Users.GetUserSettings(id);
+        }
+
+        /// <summary>
         /// Controller method for updating a specific User.
         /// </summary>
         /// <returns>
@@ -100,6 +115,23 @@ namespace AthenaAPI.Controllers
             }
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Controller method for updating a specific User's Settings.
+        /// </summary>
+        /// <returns>
+        /// An Action Result that represents whether or not the update was successful.
+        /// </returns>
+        /// <param name="id">The Guid of the User's Role.</param>
+        /// <param name="user">The User data sent in the body of the method.</param>
+        /// 
+        // PUT: api/Users/{Guid}/Settings
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id:Guid}/Settings")]
+        public async Task<ActionResult<bool>> UpdateUserSettings(Guid id, [FromBody] JObject settings)
+        {
+            return Users.UpdateUserSettings(id, settings);
         }
 
         /// <summary>
