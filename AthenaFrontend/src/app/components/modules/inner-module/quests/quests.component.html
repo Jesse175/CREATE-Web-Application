@@ -9,11 +9,11 @@
   <div class="quest-description" [innerHTML]="quest.Description">
   </div>
   <div class="completed" *ngIf="role.Name == 'Student'">
-    <ng-container *ngIf="quest.Completed">
-      <div class="completed-button"><i class="bi bi-check-circle-fill"></i> Quest Completed!</div>
+    <ng-container *ngIf="completed">
+      <div class="completed-button" [style]="{'background': '#' + module.Color}" (click)="uncompleteQuest(); goBack()"><i class="bi bi-check-circle-fill"></i> Mark as Incomplete</div>
     </ng-container>
-    <ng-container *ngIf="!quest.Completed">
-      <div class="mark-complete-button" [style]="{'background': '#' + module.Color}"><i class="bi bi-check-circle-fill"></i> Mark as Completed!</div>
+    <ng-container *ngIf="!completed">
+      <div class="mark-complete-button" [style]="{'background': '#' + module.Color}" (click)="completeQuest(); goBack()"><i class="bi bi-check-circle-fill"></i> Mark as Completed!</div>
     </ng-container>
   </div>
 </div>
