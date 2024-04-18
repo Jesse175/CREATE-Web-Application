@@ -23,5 +23,7 @@ namespace AthenaAPI.Data
         public DbSet<AthenaAPI.Models.Module>? Modules { get; set; }
 
         public DbSet<AthenaAPI.Models.Quest>? Quest { get; set; }
+
+        public DbSet<AthenaAPI.Models.DailyStandup>? DailyStandup { get; set; }
     }
 }

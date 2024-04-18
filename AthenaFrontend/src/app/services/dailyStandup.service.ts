@@ -28,4 +28,27 @@ export class DailyStandupService {
       });
     });
   }
+
+  public UpdateDailyStandup(standupID: any, newDescription: string): Promise<any> {
+    const data = { standupID: standupID, description: newDescription };
+
+    return new Promise(resolve => {
+      this.http.put(this.apiUrl + '/DailyStandups/Update', data).subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
+  public AddDailyStandup(student: any): Promise<any> {
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl + '/DailyStandups', JSON.stringify(student), { headers: this.postHeaders }).subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
 }

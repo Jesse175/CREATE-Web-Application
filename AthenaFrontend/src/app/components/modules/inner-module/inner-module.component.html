@@ -1,6 +1,7 @@
 <div *ngIf="role.Name == 'Mentor'">
   <button type="button" class="btn btn-primary" [style]="{'background': '#' + module.Color, 'border-color': '#' + module.Color}" (click)="addQuest()"><i class="bi bi-plus-lg"></i></button>
 </div>
+<app-breadcrumbs [currentPage]=""></app-breadcrumbs>
 <h2>{{ module.Name + ' Module'}}</h2>
 <div class="module-container">
   <div class="img-box">
@@ -102,7 +103,7 @@
               {{ quest.Name }}
             </div>
             <div class="quest-description">
-              {{ quest.Description }}
+              <!-- this should be the last activity date, not description. we don't have it for mentors but we should have it for students (StudentQuests table)-->
             </div>
           </div>
           <div class="button-box" [style]="{'background': '#' + module.Color}" (click)="editQuest(quest, i)">
@@ -128,7 +129,7 @@
               {{ quest.Name }}
             </div>
             <div class="quest-description">
-              {{ quest.Description }}
+              <!-- this should be the last activity date, not description. we don't have it for mentors but we should have it for students (StudentQuests table)-->
             </div>
           </div>
           <div class="button-box" [style]="{'background': '#' + module.Color}" (click)="editQuest(quest, i)">

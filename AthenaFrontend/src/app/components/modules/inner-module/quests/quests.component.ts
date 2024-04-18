@@ -6,6 +6,7 @@ import { Role } from 'src/models/role.model';
 import { EditQuestDialogComponent } from '../edit-quest-dialog/edit-quest-dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
 
 @Component({
   selector: 'app-quests',
@@ -16,7 +17,7 @@ export class QuestsComponent {
   public quest: any;
   public module: any;
   public role: any;
-  constructor(public router: Router, public dialog: MatDialog, public snackbar: MatSnackBar) {
+  constructor(public router: Router, public dialog: MatDialog, public snackbar: MatSnackBar, public breadcrumb: BreadcrumbService) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       quest: Quest,
@@ -27,6 +28,10 @@ export class QuestsComponent {
     this.quest = state.quest;
     this.module = state.module;
     this.role = state.role;
+
+    const pageName: string = this.quest.Name;
+    breadcrumb.makeCurrentPage(pageName, router.url, state);
+    breadcrumb.setPrevPages();
   }
 
   public editQuest(): void {

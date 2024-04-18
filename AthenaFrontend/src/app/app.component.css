@@ -30,10 +30,16 @@ text-align: center;
 
 #profilepic {
 margin: auto;
-width: 30%;
+width: 100px;
+height: 100px;
 padding-bottom: 30%;
 border-radius: 50%;
 background: var(--profiledefaultbg);
+}
+
+#profilepic img {
+  max-width: 100px;
+  border-radius: 100%;
 }
 
 .stats {

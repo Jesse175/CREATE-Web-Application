@@ -75,6 +75,7 @@ namespace AthenaAPI.Utilities
                         st.Email = reader["Email"].ToString();
                         st.Exp = Int32.Parse(reader["Exp"].ToString());
                         st.Availability = reader["Availability"].ToString();
+                        student.ImageURL = reader["URL"].ToString();
                         student.Student = st;
                         students.Add(student);
                     }
@@ -120,6 +121,7 @@ namespace AthenaAPI.Utilities
                         st.Email = reader["Email"].ToString();
                         st.Exp = Int32.Parse(reader["Exp"].ToString());
                         st.Availability = reader["Availability"].ToString();
+                        student.ImageURL = reader["URL"].ToString();
                         student.Student = st;
                     }
 
@@ -163,6 +165,7 @@ namespace AthenaAPI.Utilities
                         mt.Email = reader["Email"].ToString();
                         mt.JobTitle = reader["JobTitle"].ToString();
                         mt.Availability = reader["Availability"].ToString();
+                        mentor.ImageURL = reader["URL"].ToString();
                         mentor.Mentor = mt;
                         mentors.Add(mentor);
                     }

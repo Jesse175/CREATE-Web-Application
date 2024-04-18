@@ -183,7 +183,9 @@ namespace AthenaAPI.Controllers
             await _context.SaveChangesAsync();
 
             // Then create and return the new Student!
-            return Utilities.Students.AddStudent(user.UserID);
+            StudentRole student = Utilities.Students.AddStudent(user.UserID);
+            Users.UpsertImage(student.RoleID, "");
+            return student;
         }
 
         /// <summary>

@@ -43,6 +43,7 @@ namespace AthenaAPI.Utilities
                             st.Email = reader["Email"].ToString();
                             st.Exp = Int32.Parse(reader["Exp"].ToString());
                             st.Availability = reader["Availability"].ToString();
+                            role.ImageURL = reader["URL"].ToString();
 
                             role.Student = st;
                             role.RoleID = Guid.Parse(reader["RoleID"].ToString());
@@ -58,6 +59,7 @@ namespace AthenaAPI.Utilities
                             mt.Email = reader["Email"].ToString();
                             mt.JobTitle = reader["JobTitle"].ToString();
                             mt.Availability = reader["Availability"].ToString();
+                            role.ImageURL = reader["URL"].ToString();
 
                             role.Mentor = mt;
                             role.RoleID = Guid.Parse(reader["RoleID"].ToString());
@@ -108,6 +110,7 @@ namespace AthenaAPI.Utilities
                             st.Email = reader["Email"].ToString();
                             st.Exp = Int32.Parse(reader["Exp"].ToString());
                             st.Availability = reader["Availability"].ToString();
+                            role.ImageURL = reader["URL"].ToString();
 
                             role.Student = st;
                             role.RoleID = Guid.Parse(reader["RoleID"].ToString());
@@ -123,6 +126,7 @@ namespace AthenaAPI.Utilities
                             mt.Email = reader["Email"].ToString();
                             mt.JobTitle = reader["JobTitle"].ToString();
                             mt.Availability = reader["Availability"].ToString();
+                            role.ImageURL = reader["URL"].ToString();
 
                             role.Mentor = mt;
                             role.RoleID = Guid.Parse(reader["RoleID"].ToString());

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environment/environment';
 import { AuthToken } from 'src/models/authtoken.model';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,16 @@ import { AuthToken } from 'src/models/authtoken.model';
 export class AuthService {
   private apiUrl: any;
   public token: any = localStorage.getItem('token')?.toString();
+  public auth: any;
+  private emitChangeSource = new Subject<any>();
+  changeEmitted$ = this.emitChangeSource.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {
     this.apiUrl = environment.apiUrl;
+  }
+
+  emitChange(change: any) {
+    this.emitChangeSource.next(change);
   }
 
   public isAuthenticated(): Promise<boolean> {
@@ -26,12 +34,17 @@ export class AuthService {
   }
 
   public getAuthentication(): Promise<AuthToken> {
-    return new Promise<AuthToken>(resolve => {
-      this.http.get(this.apiUrl + '/Users/Auth/' + this.token).subscribe((data: any) => {
-        resolve(data);
-      }, error => {
-        resolve(new AuthToken(null));
-      })
-    })
+    if (this.auth == undefined || this.auth == null){
+      return new Promise<AuthToken>(resolve => {
+        this.http.get(this.apiUrl + '/Users/Auth/' + this.token).subscribe((data: any) => {
+          this.auth = data;
+          resolve(data);
+        }, error => {
+          resolve(new AuthToken(null));
+        });
+      });
+    } else {
+      return this.auth;
+    }
   }
 }
