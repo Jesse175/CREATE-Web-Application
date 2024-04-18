@@ -21,6 +21,13 @@ namespace AthenaAPI.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Controller method for Updating a StudentQuest record if it exists, or Creating one if it does not.
+        /// </summary>
+        /// <param name="studentQuest"></param>
+        /// <returns>
+        /// Success message that does not work at the moment
+        /// </returns>
         [HttpPost("UpdateStudentQuest")]
         public async Task<IActionResult> UpdateStudentQuest([FromBody] JObject studentQuest)
         {
