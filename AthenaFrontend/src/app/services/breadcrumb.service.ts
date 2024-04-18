@@ -4,46 +4,46 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class BreadcrumbService {  
+export class BreadcrumbService {
   private prevPages: any[];
+  private currentPage: any = new Breadcrumb('', '/dashboard', '');
 
-  constructor(public router: Router) { 
+  constructor(public router: Router) {
     this.prevPages = [];
   }
 
-  //Returns a breadcrumb object made of the title of the pgae and 
-  public getCurrentPage(title: String){
-    return new Breadcrumb(title, window.location.href);
+  //Returns the breadcrumb object of the currently set page
+  public getCurrentPage(){
+    return this.currentPage;
   }
-  public makeCurrentPage(title: String, url: String){
-    return new Breadcrumb(title, url);
+  public makeCurrentPage(name: string, url: string, state: any){
+    this.currentPage = new Breadcrumb(name, url, state);
   }
 
   //Returns the array of pages visited
   public getPrevPages(){return this.prevPages;}
-  
-  public setPrevPages(title: String){
-    if(title.toLowerCase() == "dashboard" || title.toLowerCase() == "students" || title.toLowerCase() == "modules" || title.toLowerCase() == "settings"){
+
+  public setPrevPages(){
+    if (this.currentPage.name.toLowerCase() == "dashboard" || this.currentPage.name.toLowerCase() == "students" || this.currentPage.name.toLowerCase() == "modules" || this.currentPage.name.toLowerCase() == "settings"){
       this.prevPages = [];
     }
-    
-    this.addPage(this.getCurrentPage(title));
-  }
-
-  public addPage(page: Breadcrumb){this.prevPages.push(page);}
-
-  public setPrevPages2(title: String, url: String){
-    if(title.toLowerCase() == "dashboard" || title.toLowerCase() == "students" || title.toLowerCase() == "modules" || title.toLowerCase() == "settings"){
-      this.prevPages = [];
+    for (let i = 0; i < this.prevPages.length; i++){
+      if (this.currentPage.name.toLowerCase() == this.prevPages[i].name.toLowerCase()){
+        this.prevPages.pop();
+        return;
+      }
     }
-    this.addPage(this.makeCurrentPage(title, url));
+    this.addPage(this.getCurrentPage());
   }
+
+  public addPage(page: Breadcrumb) {this.prevPages.push(page);}
 
 }
 
 
-export class Breadcrumb{
-  constructor(public name: String, public url:String){}
+export class Breadcrumb {
+  constructor(public name: string, public url: string, public state: any){}
   public getName(){return this.name;}
   public getURL(){return this.url;}
+  public getState(){return this.state;}
 }

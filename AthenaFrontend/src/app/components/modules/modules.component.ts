@@ -29,6 +29,10 @@ export class ModulesComponent {
     public breadcrumb: BreadcrumbService
   ) {
     this.initialize();
+
+    const pageName: string = 'modules';
+    breadcrumb.makeCurrentPage(pageName, router.url, '');
+    breadcrumb.setPrevPages();
   }
 
   public async initialize() {
@@ -41,11 +45,6 @@ export class ModulesComponent {
       this.role.Person = new Mentor(this.role.Person);
     }
     this.getAllModules();
-
-    const pageName: String = 'modules';
-    this.breadcrumb.setPrevPages(pageName);
-    const prevPages: any[] = this.breadcrumb.getPrevPages();
-    const currentPage: any = this.breadcrumb.getCurrentPage(pageName);
   }
 
   public addModule(): void {

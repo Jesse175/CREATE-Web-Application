@@ -39,9 +39,14 @@ export class DashboardComponent {
     public router: Router,
     public moduleService: ModuleService,
     public dailyStandupService: DailyStandupService,
-    public authService: AuthService
+    public authService: AuthService,
+    public breadcrumb: BreadcrumbService
   ) {
     this.initialize();
+
+    const pageName: string = 'dashboard';
+    breadcrumb.makeCurrentPage(pageName, router.url, '');
+    breadcrumb.setPrevPages();
   }
 
   public async initialize() {

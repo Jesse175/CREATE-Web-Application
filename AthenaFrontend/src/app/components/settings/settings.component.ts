@@ -25,7 +25,7 @@ export class SettingsComponent implements OnInit {
   public password: FormControl = new FormControl('');
   public imageURL: FormControl = new FormControl('');
 
-  constructor(public userService: UserService, public router: Router, public snackbar: MatSnackBar, public authService: AuthService) {
+  constructor(public userService: UserService, public router: Router, public snackbar: MatSnackBar, public authService: AuthService, public breadcrumb: BreadcrumbService) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       role: Role
@@ -40,6 +40,10 @@ export class SettingsComponent implements OnInit {
     };
     this.settings = current;
     this.getSettings();
+
+    const pageName: string = 'Settings';
+    breadcrumb.makeCurrentPage(pageName, router.url, state);
+    breadcrumb.setPrevPages();
   }
 
   private async checkEmail(email: any): Promise<boolean> {

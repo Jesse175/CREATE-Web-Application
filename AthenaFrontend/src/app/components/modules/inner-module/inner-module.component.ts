@@ -45,6 +45,10 @@ export class InnerModuleComponent {
 
     this.module = state.module;
     this.initialize();
+
+    const pageName: string = this.module.Name + ' Module';
+    breadcrumb.makeCurrentPage(pageName, router.url, state);
+    breadcrumb.setPrevPages();
   }
 
   public async initialize() {
@@ -56,11 +60,6 @@ export class InnerModuleComponent {
     } else if (this.role.Name == 'Mentor') {
       this.role.Person = new Mentor(this.role.Person);
     }
-
-    const pageName: String = 'module/'
-    this.breadcrumb.setPrevPages(pageName);
-    const prevPages: any[] = this.breadcrumb.getPrevPages();
-    const currentPage: any = this.breadcrumb.getCurrentPage(pageName);
   }
 
   async ngOnInit() {

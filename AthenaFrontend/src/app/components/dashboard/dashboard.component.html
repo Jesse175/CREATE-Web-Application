@@ -1,3 +1,4 @@
+<app-breadcrumbs [currentPage]=""></app-breadcrumbs>
 <ng-container *ngIf="showM">
   <div>
     <button type="button" class="btn btn-primary" (click)="addMentor()"><i class="bi bi-plus-lg"></i></button>
@@ -20,7 +21,6 @@
 
   <div>
     <h2>Daily Standup</h2>
-    <app-breadcrumbs  [currentPage]=""></app-breadcrumbs>
 <app-daily-standup></app-daily-standup>
   </div>
 

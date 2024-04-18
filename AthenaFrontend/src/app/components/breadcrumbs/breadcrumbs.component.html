@@ -1,10 +1,12 @@
-<ng-container>
-    <span *ngFor="let page of prevPages; index as i; last as currentPage">
-        <a href="#" *ngIf="currentPage" >{{ page.getName() }}</a>
-        <a (click)="navigate('\\modules')" *ngIf="!currentPage" >{{ page.getName() }}</a>
-    </span>
-</ng-container>
-<br>
-<a href="#" id="modules-link" class="navlink" [routerLink]="['/settings']" >
-    Modules
-</a>
+<div class="breadcrumb-container">
+  <div class="breadcrumbs">
+    <ng-container *ngFor="let page of prevPages; index as i; last as currentPage">
+      <ng-container *ngIf="currentPage">
+        <a [routerLink]="getRouterLink(page)" [state]="page.state" *ngIf="currentPage" class="active breadcrumb">{{ page.getName() }}</a>
+      </ng-container>
+      <ng-container *ngIf="!currentPage">
+        <a [routerLink]="getRouterLink(page)" [state]="page.state" *ngIf="!currentPage" class="breadcrumb">{{ page.getName() }}</a> >
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
