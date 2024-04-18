@@ -12,7 +12,6 @@ import { Role } from 'src/models/role.model';
 import { EditQuestDialogComponent } from './edit-quest-dialog/edit-quest-dialog';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AuthToken } from 'src/models/authtoken.model';
-import { decode } from 'jose/dist/types/util/base64url';
 
 @Component({
   selector: 'app-inner-module',
@@ -31,6 +30,10 @@ export class InnerModuleComponent {
   private auth: any;
   moduleID!: string;
   decodedToken: any;
+  protected numTotalQuests: number = 0;
+  protected numCompletedQuests: number = 0;
+  protected totalExp: number = 0;
+  protected currentExp: number = 0;
 
   constructor(public dialog: MatDialog, private router: Router, public moduleService: ModuleService, public questService: QuestService, public snackbar: MatSnackBar,
     private authService: AuthService
@@ -93,6 +96,11 @@ export class InnerModuleComponent {
       }
   }
 
+  UpdateStudentVariables(){
+    this.numTotalQuests = this.filteredQuests.length;
+    this.numCompletedQuests = this.studentCompleteQuests.length;
+  }
+
 /**
  * Asynchronously filters and categorizes quests based on their completion status
  * for a specific student. This method does the following:
@@ -130,12 +138,16 @@ export class InnerModuleComponent {
       const completionRecord = this.allStudentQuestCompletion.find(studentQuest => studentQuest.QuestID == quest.QuestID);
       if(completionRecord && completionRecord.Completed)
         {
+          this.totalExp += quest.ExpGain;
+          this.currentExp += quest.ExpGain;
           this.studentCompleteQuests.push(quest);
         }
         else {
+          this.totalExp += quest.ExpGain;
           this.studentIncompleteQuests.push(quest);
         }
     });
+    this.UpdateStudentVariables();
 
     console.log("Complete quests: ", this.studentCompleteQuests)
     console.log("Incomplete quests: ", this.studentIncompleteQuests)

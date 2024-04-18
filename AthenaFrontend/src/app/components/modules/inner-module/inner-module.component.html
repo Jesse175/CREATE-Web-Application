@@ -43,6 +43,45 @@
       </div>
     </div>
   </div>
+
+  <!--Student banner info box-->
+  <div *ngIf="role.Name == 'Student'" class="info-box">
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-circle" [style]="{'background': '#' + module.Color}">
+          <i class="bi bi-exclamation-lg"></i>
+        </div>
+        <div class="stat-num">
+          {{ numCompletedQuests }} / {{ numTotalQuests }}
+        </div>
+        <div class="stat-info">
+          Quests Completed
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-circle" [style]="{'background': '#' + module.Color}">
+          <i class="bi bi-star-fill"></i>
+        </div>
+        <div class="stat-num">
+          {{ currentExp }} / {{ totalExp }}
+        </div>
+        <div class="stat-info">
+          Experience Gained
+        </div>
+      </div>
+      <div class="stat">
+        <div class="stat-circle" [style]="{'background': '#' + module.Color}">
+          <i class="bi bi-check-circle-fill"></i>
+        </div>
+        <div class="stat-num">
+          {{ (numCompletedQuests / numTotalQuests * 100) | number:'1.0-0' }}%
+        </div>
+        <div class="stat-info">
+          Overall Completion
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <h5 class="quests-title">Quests</h5>
 
