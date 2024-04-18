@@ -13,6 +13,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { AuthToken } from 'src/models/authtoken.model';
 import { Student } from 'src/models/student.model';
 import { Mentor } from 'src/models/mentor.model';
+import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
+import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
 
 @Component({
   selector: 'app-inner-module',
@@ -34,7 +36,7 @@ export class InnerModuleComponent {
     public questService: QuestService,
     public snackbar: MatSnackBar,
     public authService: AuthService
-  ) {
+  , public breadcrumb: BreadcrumbService) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       module: Module;
@@ -43,6 +45,10 @@ export class InnerModuleComponent {
 
     this.module = state.module;
     this.initialize();
+
+    const pageName: string = this.module.Name + ' Module';
+    breadcrumb.makeCurrentPage(pageName, router.url, state);
+    breadcrumb.setPrevPages();
   }
 
   public async initialize() {

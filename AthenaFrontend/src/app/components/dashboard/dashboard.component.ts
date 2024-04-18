@@ -13,6 +13,7 @@ import { AuthToken } from 'src/models/authtoken.model';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { DailyStandupService } from 'src/app/services/dailyStandup.service';
+import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,9 +39,14 @@ export class DashboardComponent {
     public router: Router,
     public moduleService: ModuleService,
     public dailyStandupService: DailyStandupService,
-    public authService: AuthService
+    public authService: AuthService,
+    public breadcrumb: BreadcrumbService
   ) {
     this.initialize();
+
+    const pageName: string = 'dashboard';
+    breadcrumb.makeCurrentPage(pageName, router.url, '');
+    breadcrumb.setPrevPages();
   }
 
   public async initialize() {

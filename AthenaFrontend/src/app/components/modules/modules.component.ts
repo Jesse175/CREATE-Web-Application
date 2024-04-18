@@ -9,18 +9,30 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { AuthToken } from 'src/models/authtoken.model';
 import { Student } from 'src/models/student.model';
 import { Mentor } from 'src/models/mentor.model';
+import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
 
 @Component({
   selector: 'app-modules',
   templateUrl: './modules.component.html',
-  styleUrls: ['./modules.component.css']
+  styleUrls: ['./modules.component.css'],
 })
 export class ModulesComponent {
   public modules: Module[] = [];
   public role: any;
 
-  constructor(public dialog: MatDialog, public snackbar: MatSnackBar, public moduleService: ModuleService, public router: Router, public authService: AuthService) {
+  constructor(
+    public dialog: MatDialog,
+    public snackbar: MatSnackBar,
+    public moduleService: ModuleService,
+    public router: Router,
+    public authService: AuthService,
+    public breadcrumb: BreadcrumbService
+  ) {
     this.initialize();
+
+    const pageName: string = 'modules';
+    breadcrumb.makeCurrentPage(pageName, router.url, '');
+    breadcrumb.setPrevPages();
   }
 
   public async initialize() {
@@ -37,23 +49,24 @@ export class ModulesComponent {
 
   public addModule(): void {
     const dialogRef = this.dialog.open(AddModuleDialog, {
-      panelClass: 'custom-dialog'
+      panelClass: 'custom-dialog',
     });
 
-    dialogRef.afterClosed().subscribe(response => {
-      if (response){
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response) {
         let module = new Module(response);
         this.modules.push(module);
-        this.snackbar.open('Module successfully added!', '', { duration: 3000 });
+        this.snackbar.open('Module successfully added!', '', {
+          duration: 3000,
+        });
       }
-
     });
   }
 
   public async getAllModules(): Promise<void> {
     this.modules = [];
     const response = await this.moduleService.GetAllModules();
-    for (let mod of response){
+    for (let mod of response) {
       let module = new Module(mod);
       this.modules.push(module);
     }
