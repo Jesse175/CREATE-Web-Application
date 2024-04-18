@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ModuleService } from 'src/app/services/module.service';
 import { Module } from 'src/models/module';
 import { Quest } from 'src/models/quest';
+import { StudentQuest } from 'src/models/studentQuest.model';
 import { MatDialog } from '@angular/material/dialog';
 import { AddQuestDialogComponent } from './add-quest-dialog/add-quest-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -26,8 +27,17 @@ export class InnerModuleComponent {
   public receiveQuests: Quest[] = [];
   public quests: Quest[] = [];
   public filteredQuests: Quest[] = [];
+  private allStudentQuestCompletion: StudentQuest[] = [];
+  protected studentCompleteQuests: Quest[] = [];
+  protected studentIncompleteQuests: Quest[] = [];
   public role: any;
+  private auth: any;
   moduleID!: string;
+  decodedToken: any;
+  protected numTotalQuests: number = 0;
+  protected numCompletedQuests: number = 0;
+  protected totalExp: number = 0;
+  protected currentExp: number = 0;
 
   constructor(
     public dialog: MatDialog,
@@ -62,7 +72,21 @@ export class InnerModuleComponent {
     }
   }
 
+  private async getAuthentication(): Promise<AuthToken> {
+    return await this.authService.getAuthentication();
+  }
+
   async ngOnInit() {
+    const response = await this.getAuthentication();
+    this.auth = new AuthToken(response);
+    this.role = this.auth.Role;
+
+    if (this.role.Name == 'Student') {
+      console.log("SUCCESS STUDENT. Student ID: " + this.role.RoleID)
+    }
+    else if (this.role.Name == 'Mentor'){
+      console.log("SUCCESS MENTOR")
+    }
     try {
       const allQuests = await this.questService.GetAllQuests();
       if (allQuests) {
@@ -95,7 +119,72 @@ export class InnerModuleComponent {
     this.filteredQuests = this.receiveQuests.filter(
       (quest) => quest.ModuleID === this.module.ModuleID
     );
+    if(this.role.Name == 'Student'){
+      this.studentFilterQuests();
+    }
+    if(this.role.Name == 'Mentor')
+      {
+        
+      }
   }
+
+  UpdateStudentVariables(){
+    this.numTotalQuests = this.filteredQuests.length;
+    this.numCompletedQuests = this.studentCompleteQuests.length;
+  }
+
+/**
+ * Asynchronously filters and categorizes quests based on their completion status
+ * for a specific student. This method does the following:
+ * 
+ * 1. Fetches all quest completion records as `StudentQuest` objects for the student identified by their student ID.
+ * 2. Maps the received data to instances of `StudentQuest` and stores them in `this.allStudentQuestCompletion`.
+ * 3. Iterates over all `filteredQuests` and categorizes each quest into either `studentCompleteQuests` or `studentIncompleteQuests`
+ *    based on the completion status found in `allStudentQuestCompletion`.
+ *
+ */
+  private async studentFilterQuests() {
+
+    //populating array of all quest completion details of this particular student
+    try {
+      console.log("Calling GetStudentQuestCompletion with student ID: ", this.role.RoleID);
+      const studentQuests = await this.questService.GetStudentQuestCompletion(this.role.RoleID);
+      console.log("Received student quests: ", studentQuests);
+      if (studentQuests) {
+        this.allStudentQuestCompletion = studentQuests.map((studentQuest: { studentID: any; questID: any; completed: any; lastActivityDate: any }) => new StudentQuest({
+          StudentID: studentQuest.studentID,
+          QuestID: studentQuest.questID,
+          Completed: studentQuest.completed,
+          LastActivityDate: studentQuest.lastActivityDate
+        }));
+        console.log("All student quests completion details: ", this.allStudentQuestCompletion)
+      } else {
+        console.error('Failed to fetch quest completion for student');
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching quest completion for student', error);
+    }
+
+    //filtering completed and incomplete quests
+    this.filteredQuests.forEach(quest => {
+      const completionRecord = this.allStudentQuestCompletion.find(studentQuest => studentQuest.QuestID == quest.QuestID);
+      if(completionRecord && completionRecord.Completed)
+        {
+          this.totalExp += quest.ExpGain;
+          this.currentExp += quest.ExpGain;
+          this.studentCompleteQuests.push(quest);
+        }
+        else {
+          this.totalExp += quest.ExpGain;
+          this.studentIncompleteQuests.push(quest);
+        }
+    });
+    this.UpdateStudentVariables();
+
+    console.log("Complete quests: ", this.studentCompleteQuests)
+    console.log("Incomplete quests: ", this.studentIncompleteQuests)
+  }
+
 
   public getImgLink(name: string) {
     return '../../../../assets/images/' + name.toLowerCase() + 'logo.png';
@@ -135,6 +224,8 @@ export class InnerModuleComponent {
         this.snackbar.open('Quest successfully added!', '', { duration: 3000 });
       }
     });
+
+    
   }
 
   public editQuest(quest: Quest, index: number): void {

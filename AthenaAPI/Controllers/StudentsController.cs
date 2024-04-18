@@ -4,6 +4,8 @@ using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace AthenaAPI.Controllers
 {
@@ -20,6 +22,61 @@ namespace AthenaAPI.Controllers
         }
 
         /// <summary>
+        /// Controller method for Updating a StudentQuest record if it exists, or Creating one if it does not.
+        /// </summary>
+        /// <param name="studentQuest"></param>
+        /// <returns>
+        /// Success message that does not work at the moment
+        /// </returns>
+        [HttpPost("UpdateStudentQuest")]
+        public async Task<IActionResult> UpdateStudentQuest([FromBody] JObject studentQuest)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("AddUpdateStudentQuest", con);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    StudentQuest input = new StudentQuest();
+                    input.StudentID = (Guid)studentQuest["StudentID"];
+                    input.QuestID = (Guid)studentQuest["QuestID"];
+                    input.Completed = (bool)studentQuest["Completed"];
+                    input.LastActivityDate = DateTime.Now;
+
+                    command.Parameters.AddWithValue("@StudentID", input.StudentID);
+                    command.Parameters.AddWithValue("@QuestID", input.QuestID);
+                    command.Parameters.AddWithValue("@Completed", input.Completed);
+                    command.Parameters.AddWithValue("@LastActivityDate", input.LastActivityDate);
+
+                    //this doesn't work and i don't know why so the response body will always say student quest not updated when it actually does successfully update
+                    await con.OpenAsync();
+                    var result = await command.ExecuteScalarAsync();
+                    bool isSuccess = result != null && (int)result == 1;
+                    await con.CloseAsync();
+
+                    if (isSuccess)
+                    {
+                        return Ok(new { success = true, message = "Student quest updated successfully." });
+                    }
+                    else
+                    {
+                        return Ok(new { success = false, message = "Student quest not updated." });
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Controller method for retrieving all students.
         /// </summary>
         /// <returns>
@@ -31,6 +88,12 @@ namespace AthenaAPI.Controllers
         public async Task<ActionResult<List<StudentRole>>> GetStudents()
         {
             return Utilities.Students.GetStudents();
+        }
+
+        [HttpGet("GetStudentQuests/{studentID}")]
+        public async Task<ActionResult<List<StudentQuest>>> GetStudentQuests(Guid studentID)
+        {
+            return Utilities.Students.GetStudentQuests(studentID);
         }
 
         /// <summary>

@@ -98,6 +98,8 @@
     <Build Include="dbo\Stored Procedures\SaveStudentMentors.sql" />
     <Build Include="dbo\Stored Procedures\GetQuests.sql" />
     <Build Include="dbo\Stored Procedures\UpdateQuest.sql" />
+    <Build Include="dbo\Stored Procedures\AddUpdateStudentQuest.sql" />
+    <Build Include="dbo\Stored Procedures\GetStudentQuests.sql" />
     <Build Include="dbo\Stored Procedures\UpdateDailyStandup.sql" />
 	  <Build Include="dbo\Stored Procedures\AddDailyStandup.sql" />
     <Build Include="dbo\Tables\UserImage.sql" />
