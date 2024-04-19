@@ -154,7 +154,8 @@
             <span>EXP</span>
           </div>
           <div class="quest-info-box">
-            <div class="quest-title" [routerLink]="['/quests/', quest.QuestID]" [state]="{ quest: quest, module: module, role: role }">
+            <div class="quest-title" [routerLink]="['/quests/', quest.QuestID]"
+            [state]="{ quest: quest, module: module, role: role, flag: false }">
               {{ quest.Name }}
             </div>
             <div class="quest-description">
@@ -177,7 +178,8 @@
             <span>EXP</span>
           </div>
           <div class="quest-info-box">
-            <div class="quest-title">
+            <div class="quest-title" [routerLink]="['/quests/', quest.QuestID]"
+            [state]="{ quest: quest, module: module, role: role, flag: true }">
               {{ quest.Name }}
             </div>
             <div class="quest-description">

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Newtonsoft.Json.Linq;
+using Microsoft.IdentityModel.Tokens;
 
 namespace AthenaAPI.Controllers
 {
@@ -92,7 +93,11 @@ namespace AthenaAPI.Controllers
         {
             Module module = new Module();
             module.Name = moduleData["Name"].ToString();
-            module.Color = moduleData["Color"].ToString();
+            if (String.IsNullOrEmpty(moduleData["Color"].ToString()))
+            {
+                module.Color = "44897e";
+            } else
+                module.Color = moduleData["Color"].ToString();
             module.Description = moduleData["Description"].ToString();
             module.ModuleID = Guid.NewGuid();
             if (_context.Modules == null)

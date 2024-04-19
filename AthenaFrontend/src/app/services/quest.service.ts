@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environment/environment';
+import { StudentQuest } from 'src/models/studentQuest.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,16 @@ export class QuestService {
     });
   }
 
+  public UpdateQuestCompletion(studentQuest : StudentQuest){
+    return new Promise(resolve => {
+      this.http.post(this.apiUrl + '/Students/UpdateStudentQuest', JSON.stringify(studentQuest), { headers: this.postHeaders }).subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      })
+    })
+  }
+
   public GetStudentQuestCompletion(studentId: string): Promise<any> {
     return new Promise(resolve => {
       this.http.get(`${this.apiUrl}/Students/GetStudentQuests/${studentId}`).subscribe((data: any) => {
@@ -42,7 +53,7 @@ export class QuestService {
 
   public GetQuestById(QuestId: number): Promise<any> {
     return new Promise(resolve => {
-      this.http.get('${this.apiUrl}/Quests/${QuestId}').subscribe((data: any) => {
+      this.http.get(`${this.apiUrl}/Quests/${QuestId}`).subscribe((data: any) => {
         resolve(data);
       }, error => {
         resolve(false);
