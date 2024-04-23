@@ -9,9 +9,21 @@ using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace AthenaAPI.Controllers
 {
+    public class QuestDTO
+    {
+        public Guid QuestID { get; set; }
+        public Guid ModuleID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public int ExpGain { get; set; }
+        public bool Available { get; set; }
+    }
+
     [Route("api/[controller]")]
     [ApiController]
     public class QuestsController : ControllerBase
@@ -27,11 +39,18 @@ namespace AthenaAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Quest>>> GetQuest()
         {
-          if (_context.Quest == null)
+            if (_context.Quest == null)
           {
               return NotFound();
           }
             return await _context.Quest.ToListAsync();
+        }
+
+        // GET: api/QuestsWithStatus
+        [HttpGet("WithStatus")]
+        public async Task<ActionResult<List<QuestDTO>>> GetQuestsWithStatus()
+        {
+            return Utilities.Quests.GetQuestsWithStatus();
         }
 
         // GET: api/Quests/5
@@ -72,6 +91,51 @@ namespace AthenaAPI.Controllers
             else
             {
                 return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Controller method for Updating a PostQuest record if it exists, or Creating one if it does not.
+        /// </summary>
+        /// <param name="questAvailable"></param>
+        /// <returns>
+        /// bit value of last insertion
+        /// </returns>
+        [HttpPost("UpdateQuestAvailability/{questID}")]
+        public async Task<IActionResult> UpdateQuestAvailability(Guid questID, [FromQuery] bool available)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("AddUpdatePostQuest", con);
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add(new SqlParameter("@QuestID", questID));
+                    command.Parameters.Add(new SqlParameter("@Available", available));
+
+                    // Add a parameter to collect the return value from the stored procedure
+                    var returnParameter = command.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                    returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                    con.Open();
+                    command.ExecuteNonQuery(); // Execute the command
+
+                    // Cast the return value to an integer
+                    int result = (int)returnParameter.Value;
+                    con.Close();
+
+                    if (result == 1)
+                        return Ok(new { success = true, message = "Quest availability updated successfully." });
+                    else
+                        return Ok(new { success = false, message = "No updates were made to quest availability." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
