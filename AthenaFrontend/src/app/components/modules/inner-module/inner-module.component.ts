@@ -26,10 +26,11 @@ export class InnerModuleComponent {
   public module: any;
   public receiveQuests: Quest[] = [];
   public quests: Quest[] = [];
-  public filteredQuests: Quest[] = [];
   private allStudentQuestCompletion: StudentQuest[] = [];
   protected studentCompleteQuests: Quest[] = [];
   protected studentIncompleteQuests: Quest[] = [];
+  protected mentorUnpostedQuests: Quest[] = [];
+  protected mentorPostedQuests: Quest[] = [];
   public role: any;
   private auth: any;
   moduleID!: string;
@@ -38,6 +39,8 @@ export class InnerModuleComponent {
   protected numCompletedQuests: number = 0;
   protected totalExp: number = 0;
   protected currentExp: number = 0;
+  public allPostedQuests: Quest[] = [];
+  public allUnpostedQuests: Quest[] = [];
 
   constructor(
     public dialog: MatDialog,
@@ -46,7 +49,8 @@ export class InnerModuleComponent {
     public questService: QuestService,
     public snackbar: MatSnackBar,
     public authService: AuthService
-  , public breadcrumb: BreadcrumbService) {
+  , public breadcrumb: BreadcrumbService
+    ) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
       module: Module;
@@ -54,7 +58,6 @@ export class InnerModuleComponent {
     };
 
     this.module = state.module;
-    this.initialize();
 
     const pageName: string = this.module.Name + ' Module';
     breadcrumb.makeCurrentPage(pageName, router.url, state);
@@ -76,7 +79,30 @@ export class InnerModuleComponent {
     return await this.authService.getAuthentication();
   }
 
+  async loadQuestsWithStatus() {
+    try {
+      const response = await this.questService.GetAllQuestsWithStatus();
+      this.allPostedQuests = response.posted;
+      this.allUnpostedQuests = response.unposted;
+      console.log("Posted quests: ", this.allPostedQuests);
+      console.log("Unposted quests: ", this.allUnpostedQuests);
+
+      this.mentorPostedQuests = this.allPostedQuests.filter(
+        (quest) => quest.ModuleID === this.module.ModuleID
+      )
+  
+      this.mentorUnpostedQuests = this.allUnpostedQuests.filter(
+        (quest) => quest.ModuleID === this.module.ModuleID
+      )
+
+    } catch (error) {
+      console.error('An error occurred while fetching quests', error);
+    }
+  }
+
   async ngOnInit() {
+    await this.initialize();
+    await this.loadQuestsWithStatus();
     const response = await this.getAuthentication();
     this.auth = new AuthToken(response);
     this.role = this.auth.Role;
@@ -115,21 +141,36 @@ export class InnerModuleComponent {
     }
   }
 
+  //test method for testing
+  updateAvailability(questID: string, available: boolean) {
+    this.questService.updateQuestAvailability(questID, available).subscribe({
+      next: (response) => {
+        console.log('Response:', response);
+        // Handle the response as needed
+      },
+      error: (error) => {
+        console.error('Error:', error);
+      }
+    });
+  }
+
   filterQuests() {
-    this.filteredQuests = this.receiveQuests.filter(
-      (quest) => quest.ModuleID === this.module.ModuleID
-    );
     if(this.role.Name == 'Student'){
       this.studentFilterQuests();
     }
     if(this.role.Name == 'Mentor')
       {
-        
+        this.mentorFilterQuests();
       }
   }
 
+  mentorFilterQuests(){
+    console.log("Unposted quests: ", this.mentorUnpostedQuests);
+    console.log("Posted quests: ", this.mentorPostedQuests);
+  }
+
   UpdateStudentVariables(){
-    this.numTotalQuests = this.filteredQuests.length;
+    this.numTotalQuests = this.mentorPostedQuests.length;
     this.numCompletedQuests = this.studentCompleteQuests.length;
   }
 
@@ -166,7 +207,7 @@ export class InnerModuleComponent {
     }
 
     //filtering completed and incomplete quests
-    this.filteredQuests.forEach(quest => {
+    this.mentorPostedQuests.forEach(quest => {
       const completionRecord = this.allStudentQuestCompletion.find(studentQuest => studentQuest.QuestID == quest.QuestID);
       if(completionRecord && completionRecord.Completed)
         {
@@ -220,7 +261,8 @@ export class InnerModuleComponent {
     dialogRef.afterClosed().subscribe((response) => {
       if (response) {
         let quest = new Quest(response);
-        this.filteredQuests.push(quest);
+        //quest to be unposted by default on adding
+        this.mentorUnpostedQuests.push(quest);
         this.snackbar.open('Quest successfully added!', '', { duration: 3000 });
       }
     });
@@ -233,14 +275,22 @@ export class InnerModuleComponent {
       panelClass: 'custom-dialog',
       data: { quest: quest },
     });
+    console.log("Edit quest details: ", quest)
 
     dialogRef.afterClosed().subscribe((response) => {
       if (response) {
         let newQuest = new Quest(response);
-        this.filteredQuests.splice(index, 1, newQuest);
+        if(quest.Available){
+          this.mentorPostedQuests.splice(index, 1, newQuest);
+        } else {
+          this.mentorUnpostedQuests.splice(index, 1, newQuest);
+        }
         this.snackbar.open('Quest successfully updated!', '', {
           duration: 3000,
         });
+        this.loadQuestsWithStatus();
+      } else {
+        this.loadQuestsWithStatus();
       }
     });
   }

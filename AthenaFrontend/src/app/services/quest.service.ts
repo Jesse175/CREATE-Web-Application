@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environment/environment';
 import { StudentQuest } from 'src/models/studentQuest.model';
+import { Quest } from 'src/models/quest';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +11,7 @@ import { StudentQuest } from 'src/models/studentQuest.model';
 export class QuestService {
   private apiUrl: any;
   private postHeaders: HttpHeaders = new HttpHeaders({'Content-Type': 'application/json'});
+  private quests: Quest[] = [];
   constructor(private http: HttpClient) { this.apiUrl = environment.apiUrl; }
 
   public AddQuest(quest: any): Promise<any> {
@@ -20,6 +23,7 @@ export class QuestService {
       })
     })
   }
+
   public GetAllQuests(): Promise<any> {
     return new Promise(resolve => {
       this.http.get(this.apiUrl + '/Quests').subscribe((data: any) => {
@@ -27,6 +31,46 @@ export class QuestService {
       }, error => {
         resolve(false);
       });
+    });
+  }
+
+  public GetAllQuestsWithStatus(): Promise<{posted: Quest[], unposted: Quest[]}> {
+    return new Promise((resolve, reject) => {
+      this.http.get<any[]>(this.apiUrl + '/Quests/WithStatus').subscribe((data: any[]) => {
+        if(data){
+          this.quests = data.map(
+            (quest: {
+              questID: any;
+              name: any;
+              description: any;
+              expGain: any;
+              moduleID: any;
+              available: boolean;
+            }) =>
+              new Quest({
+                QuestID: quest.questID,
+                Name: quest.name,
+                Description: quest.description,
+                ExpGain: quest.expGain,
+                ModuleID: quest.moduleID,
+                Available: quest.available
+              })
+          );
+          const posted = this.quests.filter(quest => quest.Available);
+          const unposted = this.quests.filter(quest => !quest.Available);
+          resolve({ posted, unposted });
+        } else {
+          reject('No data received from API or data format is incorrect.');
+        }
+      }, error => {
+        resolve(error);
+      });
+    });
+  }
+
+  public updateQuestAvailability(questID: string, available: boolean): Observable<any> {
+    return this.http.post(`${this.apiUrl}/Quests/UpdateQuestAvailability/${questID}`, null, {
+      params: { available: available.toString() }
     });
   }
 

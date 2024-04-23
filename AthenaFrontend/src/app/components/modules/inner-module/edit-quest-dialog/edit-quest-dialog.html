@@ -33,6 +33,12 @@
       </div>
       <div class="col-12">
         <button id="submit" class="btn btn-primary" type="submit" (click)="saveQuest()">Save Quest</button>
+        <ng-container *ngIf="!this.quest.Available">
+          <button id="submit" class="btn btn-primary" type="submit" (click)="toggleQuestAvailability()">Make Available</button>
+        </ng-container>
+        <ng-container *ngIf="this.quest.Available">
+          <button id="submit" class="btn btn-primary" type="submit" (click)="toggleQuestAvailability()">Unpost Quest</button>
+        </ng-container>
       </div>
     </form>
   </mat-dialog-content>
