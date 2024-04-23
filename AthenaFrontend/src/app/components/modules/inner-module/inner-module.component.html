@@ -89,10 +89,10 @@
 <div *ngIf="role.Name == 'Mentor'" class="quests-container">
   <div class="all-quests">
     <div class="section-title">
-      All
+      Posted for Students
     </div>
     <div class="quests-scroll" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ' var(--modulebg)'}">
-      <div *ngFor="let quest of filteredQuests; let i = index">
+      <div *ngFor="let quest of mentorPostedQuests; let i = index">
         <div class="quest-box" [style]="{'background': getRGBA(module.Color, 12)}">
           <div class="exp-box" [style]="{'background': '#' + module.Color}">
             {{ '+' + quest.ExpGain }}
@@ -118,7 +118,7 @@
       Unposted / In Progress
     </div>
     <div class="quests-scroll" [style]="{'scrollbar-color': getRGBA(module.Color, 50) + ' var(--modulebg)'}">
-      <div *ngFor="let quest of filteredQuests; let i = index">
+      <div *ngFor="let quest of mentorUnpostedQuests; let i = index">
         <div class="quest-box" [style]="{'background': getRGBA(module.Color, 12)}">
           <div class="exp-box" [style]="{'background': '#' + module.Color}">
             {{ '+' + quest.ExpGain }}

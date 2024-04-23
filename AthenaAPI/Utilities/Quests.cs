@@ -1,4 +1,5 @@
-﻿using AthenaAPI.Data;
+﻿using AthenaAPI.Controllers;
+using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -7,6 +8,46 @@ namespace AthenaAPI.Utilities
 {
     public class Quests
     {
+        public static List<QuestDTO> GetQuestsWithStatus()
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("GetQuestsWithStatus", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    // Let's create a new Module list to read the result
+                    List<QuestDTO> quests = new List<QuestDTO>();
+
+                    while (reader.Read())
+                    {
+                        // New Module object
+                        QuestDTO quest = new QuestDTO();
+                        quest.QuestID = Guid.Parse(reader["QuestID"].ToString());
+                        quest.ModuleID = Guid.Parse(reader["ModuleID"].ToString());
+                        quest.Name = reader["Name"].ToString();
+                        quest.Description = reader["Description"].ToString();
+                        quest.ExpGain = (int)reader["ExpGain"];
+                        quest.Available = (bool)reader["Available"];
+                        quests.Add(quest);
+                    }
+
+                    con.Close();
+                    return quests;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<QuestDTO>();
+            }
+        }
         public static List<Quest> GetQuests()
         {
             try
