@@ -3,7 +3,7 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <img src="https://i.pinimg.com/474x/5f/2e/cc/5f2ecca11341463537cc008106132cdf.jpg">
+          <div class="standupicon"><i class="bi bi-person-arms-up"></i></div>
           <h6 class="card-subtitle mb-2">{{ standup.dateCreated | date: 'MM/dd/yyyy' }}</h6>
           <p class="card-text">
             <b *ngIf="standup.description == ''">Not Completed</b>
