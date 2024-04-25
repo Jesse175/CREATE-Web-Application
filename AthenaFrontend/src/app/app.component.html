@@ -46,16 +46,16 @@
       </ng-container>
       <div id="side-nav">
         <div class="nav-icons">
-          <div id="dashboard-icon" class="nav-icon">
+          <div id="dashboard-icon" class="nav-icon" [ngClass]="{'active': activePage.includes('dashboard')}">
             <i class="bi bi-grid-fill"></i>
           </div>
-          <div id="students-icon" class="nav-icon" *ngIf="role.Name == 'Mentor'">
+          <div id="students-icon" class="nav-icon" [ngClass]="{'active': activePage.includes('students')}" *ngIf="role.Name == 'Mentor'">
             <i class="bi bi-people-fill"></i>
           </div>
-          <div id="modules-icon" class="nav-icon">
+          <div id="modules-icon" class="nav-icon" [ngClass]="{'active': activePage.includes('modules') || activePage.includes('quests')}">
             <i class="bi bi-mortarboard-fill"></i>
           </div>
-          <div id="settings-icon" class="nav-icon">
+          <div id="settings-icon" class="nav-icon" [ngClass]="{'active': activePage.includes('settings')}">
             <i class="bi bi-gear-fill"></i>
           </div>
           <div id="logout-icon" class="nav-icon">

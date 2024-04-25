@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Student } from 'src/models/student.model';
 import { Mentor } from 'src/models/mentor.model';
 import { MentorService } from './services/mentor.service';
+import { BreadcrumbService } from './services/breadcrumb.service';
 
 @Component({
   selector: 'app-root',
@@ -16,11 +17,13 @@ export class AppComponent {
   public role: any;
   protected auth: any;
   public studentNum: number = 0;
+  public activePage: string = '';
 
   constructor(
     private authService: AuthService,
     public router: Router,
-    public mentorService: MentorService
+    public mentorService: MentorService,
+    public breadcrumb: BreadcrumbService
   ) {
     this.initialize();
     this.mentorService.changeEmitted$.subscribe((mentorStudents) => {
@@ -29,6 +32,9 @@ export class AppComponent {
     this.authService.changeEmitted$.subscribe((auth) => {
       this.syncAuthUpdates(auth);
     });
+    this.breadcrumb.changeEmitted$.subscribe((active) => {
+      this.activePage = active;
+    })
   }
 
   public async initialize() {

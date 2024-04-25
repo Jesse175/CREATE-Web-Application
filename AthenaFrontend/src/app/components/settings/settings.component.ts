@@ -73,7 +73,7 @@ export class SettingsComponent implements OnInit {
     // Subscribe to changes to the email value to show feedback of whether email is valid
     this.email.valueChanges.pipe(debounceTime(1000)).subscribe(async email => {
       const emailInUse = document.querySelector('#validationServer01Feedback') as HTMLElement;
-      const emailValid = document.querySelector('#validationServer02Feedback') as HTMLElement;
+      const emailValid = document.querySelector('#validationServer02Feedback')! as HTMLElement;
       const submitButton = document.querySelector('#submit') as HTMLButtonElement;
       if (this.email.valid){
         emailValid.style.display = 'none';
