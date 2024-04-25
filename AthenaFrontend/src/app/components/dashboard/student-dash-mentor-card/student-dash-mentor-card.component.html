@@ -10,10 +10,10 @@
             <div class="info-box">
               <h5 class="card-title">{{ mentor.Person.FirstName + ' ' + mentor.Person.LastName}}</h5>
               <p class="card-text">
-                {{ 'Availability: ' + mentor.Person.Availability}}
+                <b>Availability</b> {{ mentor.Person.Availability }}
               </p>
-              <p>
-                {{ 'Email: ' + mentor.Person.Email}}
+              <p class="card-text">
+                <b>Email</b> {{ mentor.Person.Email }}
               </p>
             </div>
           </div>

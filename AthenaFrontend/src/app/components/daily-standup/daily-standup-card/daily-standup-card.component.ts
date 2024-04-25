@@ -23,7 +23,7 @@ export class DailyStandupCardComponent {
 
   public async editStandup(standup: DailyStandup): Promise<void> {
     const dialogRef = this.dialog.open(EditDailyStandupComponent, {
-      panelClass: 'custom-dialog',
+      panelClass: 'standup-dialog',
       data: { standup: standup }
     });
   }

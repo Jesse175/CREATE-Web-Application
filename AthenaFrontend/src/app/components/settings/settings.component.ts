@@ -22,6 +22,7 @@ export class SettingsComponent implements OnInit {
   public lastName: FormControl = new FormControl('', [Validators.required]);
   public email: FormControl = new FormControl('', [Validators.required, Validators.email]);
   public availability: FormControl = new FormControl('');
+  public jobTitle: FormControl = new FormControl('');
   public password: FormControl = new FormControl('');
   public imageURL: FormControl = new FormControl('');
 
@@ -36,7 +37,8 @@ export class SettingsComponent implements OnInit {
       LastName: this.role.Person.LastName,
       Email: this.role.Person.Email,
       ImageURL: '',
-      Availability: this.role.Person.Availability
+      Availability: this.role.Person.Availability,
+      JobTitle: this.role.Person.JobTitle
     };
     this.settings = current;
     this.getSettings();
@@ -58,6 +60,7 @@ export class SettingsComponent implements OnInit {
       this.email.setValue(response.Email);
       this.availability.setValue(response.Availability);
       this.imageURL.setValue(response.ImageURL);
+      this.jobTitle.setValue(response.JobTitle);
       this.settings.ImageURL = response.ImageURL;
     }
   }
@@ -96,6 +99,7 @@ export class SettingsComponent implements OnInit {
       LastName: this.lastName.value,
       Email: this.email.value,
       Availability: this.availability.value,
+      JobTitle: this.jobTitle.value ?? '',
       ImageURL: this.imageURL.value,
       Password: this.password.value
     };
@@ -106,6 +110,7 @@ export class SettingsComponent implements OnInit {
       this.settings.Email = updated.Email;
       this.settings.ImageURL = updated.ImageURL;
       this.settings.Availability = updated.Availability;
+      this.settings.JobTitle = updated.JobTitle;
       this.password.setValue('');   // Reset password value for security
 
       this.snackbar.open('Settings successfully updated!', '', { duration: 3000 });

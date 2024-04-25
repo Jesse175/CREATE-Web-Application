@@ -11,6 +11,7 @@
   background-color: var(--btncolor);
   border-color: var(--btncolor);
   font-weight: 700;
+  margin-right: 10px;
 }
 .hint {
 font-size: 0.8rem;

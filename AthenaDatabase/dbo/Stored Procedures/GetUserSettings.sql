@@ -23,14 +23,17 @@ BEGIN
 	END
 
 	DECLARE @query nvarchar(max) = '
-	SELECT u.UserID, FirstName, LastName, Email, [URL], [Availability]
-	FROM dbo.[User] AS u 
-		JOIN dbo.[UserImage] AS ui ON u.UserID = ui.UserID
-		JOIN dbo.' + @Role + ' AS r ON r.UserID = u.UserID 
-	WHERE u.UserID = @UserID'
+	SELECT u.UserID, FirstName, LastName, Email, [URL], [Availability]'
+
+	IF (@Role = 'Mentor')
+	BEGIN
+		SET @query = @query + ', JobTitle'
+	END
+
+	SET @query = @query + ' FROM dbo.[User] AS u JOIN dbo.[UserImage] AS ui ON u.UserID = ui.UserID 
+			JOIN dbo.' + @Role + ' AS r ON r.UserID = u.UserID 
+			WHERE u.UserID = @UserID'
 
 	DECLARE @params nvarchar(max) = '@UserID uniqueidentifier'
-
 	EXEC sp_executesql @query, @params, @UserID
-	
 END
