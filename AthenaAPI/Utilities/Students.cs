@@ -2,6 +2,8 @@
 using AthenaAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Data;
 
 namespace AthenaAPI.Utilities
@@ -23,7 +25,7 @@ namespace AthenaAPI.Utilities
 
                     SqlDataReader reader = command.ExecuteReader();
 
-                    // Let's create a new StudentRole object to read the result
+                    // Let's create a new StudentQuest object to read the result
                     List<StudentQuest> result = new List<StudentQuest>();
 
                     while (reader.Read())
@@ -31,9 +33,36 @@ namespace AthenaAPI.Utilities
                         StudentQuest quest = new StudentQuest();
                         quest.QuestID = (Guid)reader["QuestID"];
                         quest.StudentID = (Guid)reader["StudentID"];
+                        quest.ModuleID = (Guid)reader["ModuleID"];
+                        quest.Name = (string)reader["Name"];
+                        quest.Description = (string)reader["Description"];
+                        quest.ExpGain = (int)reader["ExpGain"];
+                        quest.Available = (bool)reader["Available"];
                         quest.Completed = (bool)reader["Completed"];
                         quest.LastActivityDate = (DateTime)reader["LastActivityDate"];
                         result.Add(quest);
+                    }
+
+                    reader.NextResult();
+
+                    while (reader.Read())
+                    {
+                        StudentQuest quest = new StudentQuest();
+                        quest.QuestID = (Guid)reader["QuestID"];
+                        quest.StudentID = studentID;
+                        quest.ModuleID = (Guid)reader["ModuleID"];
+                        quest.Name = (string)reader["Name"];
+                        quest.Description = (string)reader["Description"];
+                        quest.ExpGain = (int)reader["ExpGain"];
+                        quest.Available = (bool)reader["Available"];
+                        quest.Completed = false;
+                        quest.LastActivityDate = DateTime.Now;
+
+                        StudentQuest inResult = result.Find(x => x.QuestID == quest.QuestID);
+                        if (inResult == null && quest.Available)
+                        {
+                            result.Add(quest);
+                        }
                     }
 
                     con.Close();
@@ -178,6 +207,40 @@ namespace AthenaAPI.Utilities
             {
                 Console.WriteLine(ex.Message);
                 return new List<MentorRole>();
+            }
+        }
+        public static JObject GetOverallProgress(Guid id)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("GetOverallProgress", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@StudentID", id));
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    // Let's create a JObject to read the result
+                    JObject result = new JObject();
+
+                    if (reader.Read())
+                    {
+                        result["OverallExp"] = (int)reader["OverallExp"];
+                        result["StudentExp"] = (int)reader["StudentExp"];
+                    }
+
+                    con.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new JObject();
             }
         }
 

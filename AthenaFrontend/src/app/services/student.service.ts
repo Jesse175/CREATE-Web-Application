@@ -48,6 +48,16 @@ export class StudentService {
     });
   }
 
+  public GetOverallProgress(StudentID: string): Promise<any> {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/Students/' + StudentID + '/Progress').subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
   public SaveStudentMentors(StudentID: string, Mentors: Role[]): Promise<any> {
     return new Promise(resolve => {
       this.http.post(this.apiUrl + '/Students/' + StudentID + '/Mentors', JSON.stringify(Mentors), { headers: this.postHeaders }).subscribe((data: any) => {

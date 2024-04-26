@@ -119,11 +119,26 @@ namespace AthenaAPI.Controllers
         /// </returns>
         /// <param name="id">The Guid of the Student.</param>
         /// 
-        // GET: api/Students
+        // GET: api/Students/{id}/Mentors
         [HttpGet("{id:Guid}/Mentors")]
         public async Task<ActionResult<List<MentorRole>>> GetStudentMentors(Guid id)
         {
             return Utilities.Students.GetStudentMentors(id);
+        }
+
+        /// <summary>
+        /// Controller method for retrieving a student's progress.
+        /// </summary>
+        /// <returns>
+        /// A JObject representing the student's progress.
+        /// </returns>
+        /// <param name="id">The Guid of the Student.</param>
+        /// 
+        // GET: api/Students/{id}/Progress
+        [HttpGet("{id:Guid}/Progress")]
+        public async Task<ActionResult<JObject>> GetOverallProgress(Guid id)
+        {
+            return Utilities.Students.GetOverallProgress(id);
         }
 
         /// <summary>

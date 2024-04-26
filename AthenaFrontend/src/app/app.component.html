@@ -11,7 +11,7 @@
             <div class="stats-heading">Progress</div>
             <div class="stats-num">
               <!--Progress goes here -->
-              15%
+              {{ studentProgress }}%
             </div>
           </div>
           <div class="exp">
@@ -19,13 +19,13 @@
             <div class="stats-heading">Next Rank</div>
             <div class="stats-num">
               <!--Exp goes here -->
-              +25
+              +{{ nextRank }}
             </div>
           </div>
         </div>
         <div class="rank"></div>
         <div class="title">
-          {{ role.Person.Rank }}
+          {{ studentTitle }}
         </div>
       </ng-container>
       <ng-container *ngIf="role.Name == 'Mentor'">

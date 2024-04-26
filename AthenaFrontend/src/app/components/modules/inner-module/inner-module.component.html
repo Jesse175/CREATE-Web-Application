@@ -159,7 +159,7 @@
               {{ quest.Name }}
             </div>
             <div class="quest-description">
-              {{ quest.Description }}
+              Not Started
             </div>
           </div>
         </div>
@@ -183,7 +183,7 @@
               {{ quest.Name }}
             </div>
             <div class="quest-description">
-              {{ quest.Description }}
+              Completed {{ quest.LastActivityDate | date:'MM/dd/yy' }}
             </div>
           </div>
         </div>
