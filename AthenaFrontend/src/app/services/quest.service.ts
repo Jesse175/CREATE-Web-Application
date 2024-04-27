@@ -34,9 +34,9 @@ export class QuestService {
     });
   }
 
-  public GetAllQuestsWithStatus(): Promise<{posted: Quest[], unposted: Quest[]}> {
+  public GetAllQuestsWithStatus(moduleID: string): Promise<{posted: Quest[], unposted: Quest[]}> {
     return new Promise((resolve, reject) => {
-      this.http.get<any[]>(this.apiUrl + '/Quests/WithStatus').subscribe((data: any[]) => {
+      this.http.get<any[]>(this.apiUrl + `/Quests/WithStatus/${moduleID}`).subscribe((data: any[]) => {
         if(data){
           this.quests = data.map(
             (quest: {
@@ -84,9 +84,9 @@ export class QuestService {
     })
   }
 
-  public GetStudentQuestCompletion(studentId: string): Promise<any> {
+  public GetStudentQuestCompletion(studentId: string, moduleID: string): Promise<any> {
     return new Promise(resolve => {
-      this.http.get(`${this.apiUrl}/Students/GetStudentQuests/${studentId}`).subscribe((data: any) => {
+      this.http.get(`${this.apiUrl}/Students/GetStudentQuests/${studentId}/${moduleID}`).subscribe((data: any) => {
         resolve(data);
       }, error => {
         console.error('Failed to fetch student quests', error);

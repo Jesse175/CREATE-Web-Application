@@ -111,6 +111,8 @@
     <Build Include="dbo\Stored Procedures\GetQuestsWithStatus.sql" />
     <Build Include="dbo\Stored Procedures\AddUpdatePostQuest.sql" />
     <Build Include="dbo\Stored Procedures\GetOverallProgress.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateModule.sql" />
+    <Build Include="dbo\Stored Procedures\GetModuleProgress.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="AthenaDatabase.refactorlog" />

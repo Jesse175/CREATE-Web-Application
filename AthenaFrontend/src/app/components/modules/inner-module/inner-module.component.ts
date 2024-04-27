@@ -14,6 +14,7 @@ import { AuthToken } from 'src/models/authtoken.model';
 import { Student } from 'src/models/student.model';
 import { Mentor } from 'src/models/mentor.model';
 import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
+import { EditModuleDialog } from '../edit-module-dialog/edit-module-dialog';
 
 @Component({
   selector: 'app-inner-module',
@@ -77,7 +78,7 @@ export class InnerModuleComponent {
 
   async loadQuestsWithStatus() {
     try {
-      const response = await this.questService.GetAllQuestsWithStatus();
+      const response = await this.questService.GetAllQuestsWithStatus(this.module.ModuleID);
       this.allPostedQuests = response.posted;
       this.allUnpostedQuests = response.unposted;
       console.log("Posted quests: ", this.allPostedQuests);
@@ -185,7 +186,7 @@ export class InnerModuleComponent {
     //populating array of all quest completion details of this particular student
     try {
       console.log("Calling GetStudentQuestCompletion with student ID: ", this.role.RoleID);
-      const studentQuests = await this.questService.GetStudentQuestCompletion(this.role.RoleID);
+      const studentQuests = await this.questService.GetStudentQuestCompletion(this.role.RoleID, this.module.ModuleID);
       console.log("Received student quests: ", studentQuests);
       if (studentQuests) {
         this.allStudentQuestCompletion = studentQuests.map((studentQuest: any) =>
@@ -278,6 +279,24 @@ export class InnerModuleComponent {
         this.loadQuestsWithStatus();
       } else {
         this.loadQuestsWithStatus();
+      }
+    });
+  }
+
+  public editModule(module: Module): void {
+    const dialogRef = this.dialog.open(EditModuleDialog, {
+      panelClass: 'custom-dialog',
+      data: { module: module },
+    });
+
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response) {
+        let updModule = new Module(response);
+        console.log(updModule);
+        this.module = updModule;
+        this.snackbar.open('Module successfully updated!', '', {
+          duration: 3000,
+        });
       }
     });
   }

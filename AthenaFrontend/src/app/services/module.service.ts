@@ -63,9 +63,9 @@ export class ModuleService {
     });
   }
 
-  public UpdateModule(moduleId: number, updatedModule: any): Promise<any> {
+  public UpdateModule(updatedModule: any): Promise<any> {
     return new Promise(resolve => {
-      this.http.put('${this.apiUrl}/Modules/${moduleId]', JSON.stringify(updatedModule), {headers: this.postHeaders}).subscribe((data: any) => {
+      this.http.put(this.apiUrl + '/Modules/' + updatedModule.ModuleID, JSON.stringify(updatedModule), {headers: this.postHeaders}).subscribe((data: any) => {
       resolve(data);
     }, error => {
       resolve(false);

@@ -1,19 +1,14 @@
-<div class="row row-cols-3 row-cols-md-2 g-4">
-  <ng-container *ngFor="let standup of standups">
-    <div class="col">
-      <div class="card">
-        <div class="card-body">
-          <h6 class="card-subtitle mb-2">{{ standup.dateCreated | date: 'MM/dd/yyyy' }}</h6>
-          <p class="card-text">
-            <b *ngIf="standup.description == ''">Not Completed</b>
-            <b *ngIf="standup.description != ''">Completed</b>
-          </p>
-          <p>
-            <b>{{ standup.description }}</b>
-          </p>
-        </div>
-      </div>
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let standup of standups" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ standup.dateCreated | date: 'MM/dd/yyyy' }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ standup.description == '' ? 'Not Completed' : 'Completed'}}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div [innerHTML]="standup.description">
     </div>
-  </ng-container>
-</div>
-
+  </mat-expansion-panel>
+</mat-accordion>

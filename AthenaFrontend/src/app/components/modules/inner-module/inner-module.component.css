@@ -157,9 +157,12 @@ button.btn {
   padding: .375rem .75rem;
   position: absolute;
   top: 15px;
-  right: 15px;
+  right: 75px;
 }
 button.btn-primary {
   background-color: var(--btncolor);
   border-color: var(--btncolor);
+}
+button.edit {
+  right: 15px;
 }

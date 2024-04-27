@@ -46,11 +46,11 @@ namespace AthenaAPI.Controllers
             return await _context.Quest.ToListAsync();
         }
 
-        // GET: api/QuestsWithStatus
-        [HttpGet("WithStatus")]
-        public async Task<ActionResult<List<QuestDTO>>> GetQuestsWithStatus()
+        // GET: api/QuestsWithStatus/{moduleID}
+        [HttpGet("WithStatus/{id}")]
+        public async Task<ActionResult<List<QuestDTO>>> GetQuestsWithStatus(Guid id)
         {
-            return Utilities.Quests.GetQuestsWithStatus();
+            return Utilities.Quests.GetQuestsWithStatus(id);
         }
 
         // GET: api/Quests/5
@@ -97,7 +97,7 @@ namespace AthenaAPI.Controllers
         /// <summary>
         /// Controller method for Updating a PostQuest record if it exists, or Creating one if it does not.
         /// </summary>
-        /// <param name="questAvailable"></param>
+        /// <param name="available"></param>
         /// <returns>
         /// bit value of last insertion
         /// </returns>

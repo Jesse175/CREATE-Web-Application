@@ -1,16 +1,15 @@
 ﻿using AthenaAPI.Data;
 using AthenaAPI.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
 using System.Data;
 
 namespace AthenaAPI.Utilities
 {
     public class Students
     {
-        public static List<StudentQuest> GetStudentQuests(Guid studentID)
+        public static List<StudentQuest> GetStudentQuests(Guid studentID, Guid moduleID)
         {
             try
             {
@@ -21,6 +20,7 @@ namespace AthenaAPI.Utilities
                     SqlCommand command = new SqlCommand("GetStudentQuests", con);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter("@StudentID", studentID));
+                    command.Parameters.Add(new SqlParameter("@ModuleID", moduleID));
                     con.Open();
 
                     SqlDataReader reader = command.ExecuteReader();
@@ -207,6 +207,77 @@ namespace AthenaAPI.Utilities
             {
                 Console.WriteLine(ex.Message);
                 return new List<MentorRole>();
+            }
+        }
+
+        public static List<JObject> GetModuleProgress(Guid id, bool details)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("GetModuleProgress", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@StudentID", id));
+                    command.Parameters.Add(new SqlParameter("@Details", details));
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    // Let's create a List to read the result
+                    List<JObject> result = new List<JObject>();
+
+                    while (reader.Read())
+                    {
+                        if (details)
+                        {
+                            JObject module = new JObject();
+                            module["ModuleID"] = (Guid)reader["ModuleID"];
+                            module["Name"] = (string)reader["Name"];
+                            module["Color"] = (string)reader["Color"];
+                            
+                            if (result.Count > 0 && result[result.Count - 1]["ModuleID"].ToString() == module["ModuleID"].ToString())
+                            {
+                                JObject lastModule = result[result.Count - 1];
+                                JObject quest = new JObject();
+                                quest["QuestID"] = (Guid)reader["QuestID"];
+                                quest["Name"] = (string)reader["QuestName"];
+                                quest["Completed"] = (bool)reader["Completed"];
+                                var quests = lastModule["Quests"] as JArray;
+                                quests.Add(quest);
+                            } 
+                            else if (result.Count == 0 || result.Count > 0 && result[result.Count - 1]["ModuleID"].ToString() != module["ModuleID"].ToString())
+                            {
+                                JObject quest = new JObject();
+                                quest["QuestID"] = (Guid)reader["QuestID"];
+                                quest["Name"] = (string)reader["QuestName"];
+                                quest["Completed"] = (bool)reader["Completed"];
+                                module["Quests"] = new JArray() { quest };
+                                result.Add(module);
+                            }
+                        } 
+                        else
+                        {
+                            JObject module = new JObject();
+                            module["ModuleID"] = (Guid)reader["ModuleID"];
+                            module["Name"] = (string)reader["Name"];
+                            module["Color"] = (string)reader["Color"];
+                            module["QuestsCompleted"] = (int)reader["QuestsCompleted"];
+                            module["QuestsAvailable"] = (int)reader["QuestsAvailable"];
+                            result.Add(module);
+                        }
+                    }
+
+                    con.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new List<JObject>();
             }
         }
         public static JObject GetOverallProgress(Guid id)

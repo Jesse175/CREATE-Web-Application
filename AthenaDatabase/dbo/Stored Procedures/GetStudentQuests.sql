@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[GetStudentQuests]
-    @StudentID UNIQUEIDENTIFIER
+    @StudentID UNIQUEIDENTIFIER,
+    @ModuleID UNIQUEIDENTIFIER
     AS
     BEGIN
         SET NOCOUNT ON;
@@ -19,7 +20,7 @@
         INNER JOIN dbo.Quest AS q ON q.QuestID = sq.QuestID
         INNER JOIN dbo.PostQuest AS pq ON pq.QuestID = sq.QuestID
         WHERE
-            StudentID = @StudentID
+            StudentID = @StudentID AND ModuleID = @ModuleID
 
         SELECT 
             q.QuestID,
@@ -31,5 +32,6 @@
         FROM 
             dbo.Quest AS q
         JOIN dbo.PostQuest AS pq ON pq.QuestID = q.QuestID
+        WHERE ModuleID = @ModuleID
     END
     GO
