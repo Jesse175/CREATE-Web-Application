@@ -36,11 +36,13 @@
       </mat-form-field>
   </div>
   <div class="col-md-12">
-    <b>Module Progress</b>
-    <!-- Show summary of progress in each module -->
+    <b style="display: block; padding-bottom: 10px;">Module Progress</b>
+    <div>
+      <app-module-progress [studentID]="student.RoleID" [details]="true"></app-module-progress>
+    </div>
   </div>
   <div class="col-md-12">
-    <b>Standup Progress</b>
+    <b style="display: block; padding-bottom: 10px;">Standup Progress</b>
     <div>
       <app-view-student-standups [standups]="standups"></app-view-student-standups>
     </div>

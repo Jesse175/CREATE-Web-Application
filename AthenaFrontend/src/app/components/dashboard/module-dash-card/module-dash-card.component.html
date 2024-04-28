@@ -1,5 +1,4 @@
 <ng-container *ngIf="role.Name == 'Mentor'">
-  <h2>All Modules</h2>
   <div class="row row-cols-3 row-cols-md-2 g-4">
     <ng-container *ngFor="let module of modules">
       <div class="col">
@@ -35,7 +34,6 @@
   </div>
 </ng-container>
 <ng-container *ngIf="role.Name == 'Student'">
-  <h2>Available Modules</h2>
   <div class="row row-cols-3 row-cols-md-2 g-4">
     <ng-container *ngFor="let module of modules">
       <div class="col">

@@ -23,6 +23,7 @@ import { ModulesComponent } from './components/modules/modules.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { AddMentorDialog } from './components/dashboard/add-mentor-dialog/add-mentor-dialog';
 import { AddModuleDialog } from './components/modules/add-module-dialog/add-module-dialog';
+import { EditModuleDialog } from './components/modules/edit-module-dialog/edit-module-dialog';
 import { InnerModuleComponent } from './components/modules/inner-module/inner-module.component';
 import { ModuleCardComponent } from './components/modules/module-card/module-card.component';
 import { DailyStandupComponent } from './components/daily-standup/daily-standup.component';
@@ -34,6 +35,11 @@ import { StudentDashMentorCardComponent } from './components/dashboard/student-d
 import { EditDailyStandupComponent } from './components/daily-standup/edit-daily-standup/edit-daily-standup.component';
 import { ViewStudentStandupsComponent } from './components/students-page/view-student-dialog/view-student-standups/view-student-standups.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
+import { ModuleProgressComponent } from './components/students-page/student-card/module-progress/module-progress.component';
+import { NgCircleProgressModule } from 'ng-circle-progress';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTableModule } from '@angular/material/table';
+import { ModuleDashCardComponent } from './components/dashboard/module-dash-card/module-dash-card.component';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -59,6 +65,7 @@ const ROUTES: Routes = [
     ViewStudentDialog,
     AddMentorDialog,
     AddModuleDialog,
+    EditModuleDialog,
     InnerModuleComponent,
     ModuleCardComponent,
     DailyStandupComponent,
@@ -69,7 +76,9 @@ const ROUTES: Routes = [
     BreadcrumbsComponent,
     StudentDashMentorCardComponent,
     EditDailyStandupComponent,
-    ViewStudentStandupsComponent
+    ViewStudentStandupsComponent,
+    ModuleProgressComponent,
+    ModuleDashCardComponent
   ],
 
   imports: [
@@ -85,7 +94,23 @@ const ROUTES: Routes = [
     MatSelectModule,
     MatChipsModule,
     MatIconModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatExpansionModule,
+    MatTableModule,
+    NgCircleProgressModule.forRoot({
+      // set defaults here
+      percent: 0,
+      radius: 40,
+      outerStrokeWidth: 16,
+      innerStrokeWidth: 8,
+      outerStrokeColor: "#78C000",
+      innerStrokeColor: "#C7E596",
+      animationDuration: 300,
+      animation: true,
+      showTitle: true,
+      showInnerStroke: false,
+      showBackground: false
+    })
   ],
 
   providers: [],

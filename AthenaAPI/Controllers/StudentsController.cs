@@ -1,5 +1,4 @@
-﻿using AthenaAPI.Utilities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Newtonsoft.Json.Linq;
@@ -43,18 +42,20 @@ namespace AthenaAPI.Controllers
                     StudentQuest input = new StudentQuest();
                     input.StudentID = (Guid)studentQuest["StudentID"];
                     input.QuestID = (Guid)studentQuest["QuestID"];
+                    input.ModuleID = (Guid)studentQuest["ModuleID"];
                     input.Completed = (bool)studentQuest["Completed"];
                     input.LastActivityDate = DateTime.Now;
 
                     command.Parameters.AddWithValue("@StudentID", input.StudentID);
                     command.Parameters.AddWithValue("@QuestID", input.QuestID);
+                    command.Parameters.AddWithValue("@ModuleID", input.ModuleID);
                     command.Parameters.AddWithValue("@Completed", input.Completed);
                     command.Parameters.AddWithValue("@LastActivityDate", input.LastActivityDate);
 
                     //this doesn't work and i don't know why so the response body will always say student quest not updated when it actually does successfully update
                     await con.OpenAsync();
                     var result = await command.ExecuteScalarAsync();
-                    bool isSuccess = result != null && (int)result == 1;
+                    bool isSuccess = result != null && (bool)result;
                     await con.CloseAsync();
 
                     if (isSuccess)
@@ -90,10 +91,10 @@ namespace AthenaAPI.Controllers
             return Utilities.Students.GetStudents();
         }
 
-        [HttpGet("GetStudentQuests/{studentID}")]
-        public async Task<ActionResult<List<StudentQuest>>> GetStudentQuests(Guid studentID)
+        [HttpGet("GetStudentQuests/{studentID}/{moduleID}")]
+        public async Task<ActionResult<List<StudentQuest>>> GetStudentQuests(Guid studentID, Guid moduleID)
         {
-            return Utilities.Students.GetStudentQuests(studentID);
+            return Utilities.Students.GetStudentQuests(studentID, moduleID);
         }
 
         /// <summary>
@@ -119,11 +120,42 @@ namespace AthenaAPI.Controllers
         /// </returns>
         /// <param name="id">The Guid of the Student.</param>
         /// 
-        // GET: api/Students
+        // GET: api/Students/{id}/Mentors
         [HttpGet("{id:Guid}/Mentors")]
         public async Task<ActionResult<List<MentorRole>>> GetStudentMentors(Guid id)
         {
             return Utilities.Students.GetStudentMentors(id);
+        }
+
+        /// <summary>
+        /// Controller method for retrieving a student's progress by module.
+        /// </summary>
+        /// <returns>
+        /// A JObject representing the student's progress by module.
+        /// </returns>
+        /// <param name="id">The Guid of the Student.</param>
+        /// <param name="details">A boolean value of whether or not Quest name/completion details should be returned.</param>
+        /// 
+        // GET: api/Students/{id}/ModuleProgress
+        [HttpGet("{id:Guid}/ModuleProgress")]
+        public async Task<ActionResult<List<JObject>>> GetModuleProgress(Guid id, bool details)
+        {
+            return Utilities.Students.GetModuleProgress(id, details);
+        }
+
+        /// <summary>
+        /// Controller method for retrieving a student's progress.
+        /// </summary>
+        /// <returns>
+        /// A JObject representing the student's progress.
+        /// </returns>
+        /// <param name="id">The Guid of the Student.</param>
+        /// 
+        // GET: api/Students/{id}/Progress
+        [HttpGet("{id:Guid}/Progress")]
+        public async Task<ActionResult<JObject>> GetOverallProgress(Guid id)
+        {
+            return Utilities.Students.GetOverallProgress(id);
         }
 
         /// <summary>
@@ -184,7 +216,6 @@ namespace AthenaAPI.Controllers
 
             // Then create and return the new Student!
             StudentRole student = Utilities.Students.AddStudent(user.UserID);
-            Users.UpsertImage(student.RoleID, "");
             return student;
         }
 

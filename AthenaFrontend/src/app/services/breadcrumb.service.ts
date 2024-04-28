@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,9 +8,15 @@ import { Router } from '@angular/router';
 export class BreadcrumbService {
   private prevPages: any[];
   private currentPage: any = new Breadcrumb('', '/dashboard', '');
+  private pageChange = new Subject<any>();
+  changeEmitted$ = this.pageChange.asObservable();
 
   constructor(public router: Router) {
     this.prevPages = [];
+  }
+
+  public emitChange(change: any) {
+    this.pageChange.next(change);
   }
 
   //Returns the breadcrumb object of the currently set page
@@ -18,6 +25,7 @@ export class BreadcrumbService {
   }
   public makeCurrentPage(name: string, url: string, state: any){
     this.currentPage = new Breadcrumb(name, url, state);
+    this.emitChange(url);
   }
 
   //Returns the array of pages visited

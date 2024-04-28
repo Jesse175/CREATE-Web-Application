@@ -8,7 +8,7 @@ namespace AthenaAPI.Utilities
 {
     public class Quests
     {
-        public static List<QuestDTO> GetQuestsWithStatus()
+        public static List<QuestDTO> GetQuestsWithStatus(Guid moduleID)
         {
             try
             {
@@ -17,6 +17,7 @@ namespace AthenaAPI.Utilities
                 using (con)
                 {
                     SqlCommand command = new SqlCommand("GetQuestsWithStatus", con);
+                    command.Parameters.Add(new SqlParameter("@ModuleID", moduleID));
                     command.CommandType = CommandType.StoredProcedure;
                     con.Open();
 

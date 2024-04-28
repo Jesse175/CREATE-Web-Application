@@ -2,8 +2,6 @@ import { Component, Input } from '@angular/core';
 import { DailyStandup } from 'src/models/dailystandup';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { FormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-view-student-standups',

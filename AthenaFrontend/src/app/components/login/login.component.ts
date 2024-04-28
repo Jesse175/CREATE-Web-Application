@@ -1,9 +1,4 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup} from '@angular/forms';
-import { ActivatedRoute, NavigationEnd } from '@angular/router';
-import { User } from 'src/models/user.model';
-import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user.service';

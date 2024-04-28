@@ -84,5 +84,41 @@ namespace AthenaAPI.Utilities
                 return new List<JObject>();
             }
         }
+
+        public static Boolean UpdateModule(Module module)
+        {
+            try
+            {
+                SqlConnection con = SqlHelper.GetConnection();
+
+                using (con)
+                {
+                    SqlCommand command = new SqlCommand("UpdateModule", con);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@ModuleID", module.ModuleID));
+                    command.Parameters.Add(new SqlParameter("@Name", module.Name));
+                    command.Parameters.Add(new SqlParameter("@Color", module.Color));
+                    command.Parameters.Add(new SqlParameter("@Description", module.Description));
+                    con.Open();
+
+                    SqlDataReader reader = command.ExecuteReader();
+                    Boolean result = false;
+                    if (reader.Read())
+                    {
+                        if (reader.GetBoolean(0))
+                        {
+                            result = true;
+                        }
+                    }
+                    con.Close();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
     }
 }

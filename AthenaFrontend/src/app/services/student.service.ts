@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environment/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Role } from 'src/models/role.model';
 import { Subject } from 'rxjs';
-import { Mentor } from 'src/models/mentor.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +40,26 @@ export class StudentService {
   public GetStudentMentors(StudentID: string): Promise<any> {
     return new Promise(resolve => {
       this.http.get(this.apiUrl + '/Students/' + StudentID + '/Mentors').subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
+  public GetModuleProgress(StudentID: string, Details: boolean): Promise<any> {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/Students/' + StudentID + '/ModuleProgress', { params: new HttpParams().append("Details", Details) }).subscribe((data: any) => {
+        resolve(data);
+      }, error => {
+        resolve(false);
+      });
+    });
+  }
+
+  public GetOverallProgress(StudentID: string): Promise<any> {
+    return new Promise(resolve => {
+      this.http.get(this.apiUrl + '/Students/' + StudentID + '/Progress').subscribe((data: any) => {
         resolve(data);
       }, error => {
         resolve(false);

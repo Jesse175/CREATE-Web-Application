@@ -21,8 +21,6 @@ export class QuestsComponent {
   public module: any;
   public moduleID: string;
   public role: any;
-  private updateStudentQuest: any;
-  private questDetails: any;
   completed: boolean;
 
   constructor(public router: Router, public dialog: MatDialog, public snackbar: MatSnackBar, public breadcrumb: BreadcrumbService,
@@ -30,7 +28,7 @@ export class QuestsComponent {
   ) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
-      quest: Quest,
+      quest: StudentQuest,
       module: Module,
       role: Role,
       flag: boolean
@@ -61,32 +59,38 @@ export class QuestsComponent {
       }
     });
   }
-  
+
   goBack() {
     this.location.back();
   }
 
   public completeQuest(): void {
-    var newStudentQuest = {
+    const newStudentQuest = {
       StudentID: this.role.RoleID,
       QuestID: this.quest.QuestID,
+      ModuleID: this.quest.ModuleID,
+      Name: this.quest.Name,
+      Description: this.quest.Description,
+      ExpGain: this.quest.ExpGain,
+      Available: this.quest.Available,
       Completed: true,
       LastActivityDate: new Date()
     };
-    this.updateStudentQuest = new StudentQuest(newStudentQuest);
-    console.log(this.updateStudentQuest);
-    this.questService.UpdateQuestCompletion(this.updateStudentQuest);
+    this.questService.UpdateQuestCompletion(newStudentQuest);
   }
 
   public uncompleteQuest(): void {
-    var newStudentQuest = {
+    const newStudentQuest = {
       StudentID: this.role.RoleID,
       QuestID: this.quest.QuestID,
+      ModuleID: this.quest.ModuleID,
+      Name: this.quest.Name,
+      Description: this.quest.Description,
+      ExpGain: this.quest.ExpGain,
+      Available: this.quest.Available,
       Completed: false,
       LastActivityDate: new Date()
     };
-    this.updateStudentQuest = new StudentQuest(newStudentQuest);
-    console.log(this.updateStudentQuest);
-    this.questService.UpdateQuestCompletion(this.updateStudentQuest);
+    this.questService.UpdateQuestCompletion(newStudentQuest);
   }
 }

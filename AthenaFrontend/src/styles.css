@@ -1,5 +1,6 @@
 :root {
     --mainbg: linear-gradient(0deg, rgba(69, 137, 125, 0.12), rgba(69, 137, 125, 0.12)), #FFFFFF;
+    --mainaccent: #45897D;
     --sidebarbg: #ffffff;
     --activetab: #45897D;
     --inactivetab: rgba(39, 59, 74, 0.38);
@@ -37,7 +38,7 @@ body {
     background: var(--mainbg);
     font-family: Nunito;
 }
-.custom-dialog {
+.custom-dialog, .standup-dialog {
   mat-dialog-container {
       padding: 0;
       width: 60%;
@@ -75,6 +76,14 @@ body {
   .close:hover {
     cursor: pointer;
     background: var(--closebghover);
+  }
+}
+.standup-dialog {
+  mat-dialog-container {
+    padding: 0;
+    width: 100%;
+    margin: auto;
+    font-family: Nunito;
   }
 }
 

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Newtonsoft.Json.Linq;
-using Microsoft.IdentityModel.Tokens;
 
 namespace AthenaAPI.Controllers
 {
@@ -55,35 +48,26 @@ namespace AthenaAPI.Controllers
             return @module;
         }
 
-        // PUT: api/Modules/5
+        // PUT: api/Modules/{id}
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutModule(Guid id, Module @module)
+        public async Task<IActionResult> UpdateModule([FromBody] JObject moduleData)
         {
-            if (id != @module.ModuleID)
-            {
-                return BadRequest();
-            }
+            Module module = new Module();
+            module.ModuleID = Guid.Parse(moduleData["ModuleID"].ToString());
+            module.Name = moduleData["Name"].ToString();
+            module.Color = moduleData["Color"].ToString();
+            module.Description = moduleData["Description"].ToString();
 
-            _context.Entry(@module).State = EntityState.Modified;
-
-            try
+            Boolean updateResult = Utilities.Modules.UpdateModule(module);
+            if (updateResult)
             {
-                await _context.SaveChangesAsync();
+                return Ok(true);
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ModuleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
-
-            return NoContent();
         }
 
         // POST: api/Modules

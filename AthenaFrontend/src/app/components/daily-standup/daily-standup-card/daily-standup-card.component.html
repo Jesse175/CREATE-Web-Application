@@ -9,11 +9,8 @@
             <b *ngIf="standup.description == ''">Not Completed</b>
             <b *ngIf="standup.description != ''">Completed</b>
           </p>
-          <p>
-            <b>{{ standup.description }}</b>
-          </p>
           <div class="btn-container">
-            <a class="btn btn-primary" (click)="editStandup(standup)">Edit Daily Standup -></a>
+            <a class="btn btn-primary" (click)="editStandup(standup)">Edit Daily Standup</a>
           </div>
         </div>
       </div>

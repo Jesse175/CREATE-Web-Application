@@ -1,5 +1,4 @@
-﻿using AthenaAPI.Utilities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Newtonsoft.Json.Linq;
@@ -111,7 +110,6 @@ namespace AthenaAPI.Controllers
 
             // Then create and return the new Mentor!
             MentorRole mentor = Utilities.Mentors.AddMentor(user.UserID);
-            Users.UpsertImage(mentor.RoleID, "");
             return mentor;
         }
     }

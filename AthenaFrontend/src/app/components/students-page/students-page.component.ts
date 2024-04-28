@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthToken } from 'src/models/authtoken.model';
 import { MentorService } from 'src/app/services/mentor.service';
+import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
 
 @Component({
   selector: 'app-students-page',
@@ -20,7 +21,14 @@ export class StudentsPageComponent {
   public mentor: Role;
   public auth: AuthToken;
 
-  constructor(public dialog: MatDialog, public studentService: StudentService, public mentorService: MentorService, public snackbar: MatSnackBar, public router: Router) {
+  constructor(
+    public dialog: MatDialog,
+    public studentService: StudentService,
+    public mentorService: MentorService,
+    public snackbar: MatSnackBar,
+    public router: Router,
+    public breadcrumb: BreadcrumbService
+  ) {
     this.getAllStudents();
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state as {
@@ -30,6 +38,10 @@ export class StudentsPageComponent {
     this.auth = state.auth;
     this.mentor = state.auth.Role;
     this.getMentorStudents(this.mentor.RoleID);
+
+    const pageName: string = 'Students';
+    breadcrumb.makeCurrentPage(pageName, router.url, state);
+    breadcrumb.setPrevPages();
   }
 
   public addStudent(): void {

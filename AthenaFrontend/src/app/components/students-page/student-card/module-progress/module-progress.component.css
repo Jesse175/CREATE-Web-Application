@@ -1,3 +1,9 @@
+.card-text {
+  font-size: 15px;
+  color: var(--cardtext);
+  font-weight: 600;
+  padding: 0 15px;
+}
 .mat-expansion-panel:not([class*="mat-elevation-z"]) {
   box-shadow: none;
   background: var(--mainaccent);
@@ -5,13 +11,6 @@
 .mat-expansion-panel-header-title {
   color: var(--tabtext);
   font-weight: 800;
-  font-size: 0.8rem;
+  font-size: 1rem;
   padding: 10px;
-}
-.mat-expansion-panel-header-description {
-  color: var(--tabtext);
-  font-size: 0.8rem;
-}
-.mat-expansion-panel {
-  color: var(--tabtext);
 }

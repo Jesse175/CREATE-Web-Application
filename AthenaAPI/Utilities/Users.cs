@@ -2,7 +2,6 @@
 using AthenaAPI.Models;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json.Linq;
-using System.Configuration;
 using System.Data;
 
 namespace AthenaAPI.Utilities
@@ -163,6 +162,17 @@ namespace AthenaAPI.Utilities
                         result["Email"] = reader["Email"].ToString();
                         result["ImageURL"] = reader["URL"].ToString();
                         result["Availability"] = reader["Availability"].ToString();
+
+                        var exists = Enumerable.Range(0, reader.FieldCount).Any(i => string.Equals(reader.GetName(i), "JobTitle", StringComparison.OrdinalIgnoreCase));
+
+                        if (exists)
+                        {
+                            result["JobTitle"] = reader["JobTitle"].ToString();
+                        }
+                        else
+                        {
+                            result["JobTitle"] = "";
+                        }
                     }
                     con.Close();
                     return result;
@@ -200,6 +210,7 @@ namespace AthenaAPI.Utilities
                     command.Parameters.Add(password);
                     command.Parameters.Add(new SqlParameter("@ImageURL", settings["ImageURL"].ToString()));
                     command.Parameters.Add(new SqlParameter("@Availability", settings["Availability"].ToString()));
+                    command.Parameters.Add(new SqlParameter("@JobTitle", settings["JobTitle"].ToString()));
                     con.Open();
 
                     command.ExecuteNonQuery();

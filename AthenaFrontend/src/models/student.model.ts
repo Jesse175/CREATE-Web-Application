@@ -25,24 +25,35 @@ export class Student {
     }
   }
 
-  public getRank(): string {
-    let expSearch: number = this.Exp;
-    let title: string = '';
+  public getRank(totalExp: number, exp: number): any {
+    let titles = ['Beginner', 'Amateur', 'Novice', 'Intern', 'Junior Developer', 'Software Developer I',
+      'Software Developer II', 'Software Developer III', 'Principal Developer'
+    ];
 
-    if (expSearch <= 20) title = 'Beginner';
-    else if (expSearch > 20 && expSearch <= 50) title = 'Amateur';
-    else if (expSearch > 50 && expSearch <= 100) title = 'Novice';
-    else if (expSearch > 100 && expSearch <= 200) title = 'Intern';
-    else if (expSearch > 200 && expSearch <= 300) title = 'Junior Developer';
-    else if (expSearch > 300 && expSearch <= 400)
-      title = 'Software Developer I';
-    else if (expSearch > 400 && expSearch <= 500)
-      title = 'Software Developer II';
-    else if (expSearch > 500 && expSearch <= 650)
-      title = 'Software Developer III';
-    else if (expSearch > 650) title = 'Principal Developer';
+    const step = Math.round(totalExp / titles.length);
+    let nextStep = 0;
+    let ranks = [];
+    let rank = {
+      Title: '',
+      ExpCap: 0,
+      NewRankExp: 0
+    };
 
-    return title;
+    for (let i = 0; i < titles.length; i++){
+      ranks.push(titles[i], nextStep);
+      if (exp <= nextStep || i == titles.length - 1) {
+        rank.Title = titles[i];
+        rank.ExpCap = nextStep;
+        if (i == titles.length - 1){
+          rank.NewRankExp = 0;
+        }
+        rank.NewRankExp = (nextStep += step) - exp;
+        break;
+      } else {
+        nextStep += step;
+      }
+    }
+    return rank;
   }
 }
 

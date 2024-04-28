@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Student } from 'src/models/student.model';
 import { Mentor } from 'src/models/mentor.model';
 import { MentorService } from './services/mentor.service';
+import { BreadcrumbService } from './services/breadcrumb.service';
+import { StudentService } from './services/student.service';
 
 @Component({
   selector: 'app-root',
@@ -16,11 +18,17 @@ export class AppComponent {
   public role: any;
   protected auth: any;
   public studentNum: number = 0;
+  public studentProgress: number = 0;
+  public studentTitle: string = '';
+  public nextRank: number = 0;
+  public activePage: string = '';
 
   constructor(
     private authService: AuthService,
     public router: Router,
-    public mentorService: MentorService
+    public mentorService: MentorService,
+    public studentService: StudentService,
+    public breadcrumb: BreadcrumbService
   ) {
     this.initialize();
     this.mentorService.changeEmitted$.subscribe((mentorStudents) => {
@@ -29,6 +37,9 @@ export class AppComponent {
     this.authService.changeEmitted$.subscribe((auth) => {
       this.syncAuthUpdates(auth);
     });
+    this.breadcrumb.changeEmitted$.subscribe((active) => {
+      this.activePage = active;
+    })
   }
 
   public async initialize() {
@@ -49,6 +60,8 @@ export class AppComponent {
         }
         if (this.role.Name == 'Mentor') {
           this.getMentorStudentsNum(this.role.RoleID);
+        } else {
+          this.getOverallProgress(this.role.RoleID);
         }
         this.router.navigate(['/dashboard']);
       } else {
@@ -77,6 +90,25 @@ export class AppComponent {
     const response = await this.mentorService.GetMentorStudents(id);
     if (response) {
       this.studentNum = response.length;
+    }
+  }
+
+  public async getOverallProgress(id: string): Promise<void> {
+    const response = await this.studentService.GetOverallProgress(id);
+    if (response) {
+      const overall = response.OverallExp;
+      const expGained = response.StudentExp;
+
+      this.studentProgress = Math.round((expGained / overall) * 100);
+      if (Number.isNaN(this.studentProgress)) {
+        this.studentProgress = 0;
+        this.nextRank = 0;
+        this.studentTitle = 'Beginner';
+      } else {
+        const rank = this.role.Person.getRank(overall, expGained);
+        this.studentTitle = rank.Title;
+        this.nextRank = rank.NewRankExp;
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModuleService } from 'src/app/services/module.service';
 import { Module } from 'src/models/module';
@@ -8,14 +8,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddQuestDialogComponent } from './add-quest-dialog/add-quest-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { QuestService } from 'src/app/services/quest.service';
-import { Role } from 'src/models/role.model';
 import { EditQuestDialogComponent } from './edit-quest-dialog/edit-quest-dialog';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { AuthToken } from 'src/models/authtoken.model';
 import { Student } from 'src/models/student.model';
 import { Mentor } from 'src/models/mentor.model';
-import { BreadcrumbsComponent } from '../../breadcrumbs/breadcrumbs.component';
 import { BreadcrumbService } from 'src/app/services/breadcrumb.service';
+import { EditModuleDialog } from '../edit-module-dialog/edit-module-dialog';
 
 @Component({
   selector: 'app-inner-module',
@@ -27,8 +26,8 @@ export class InnerModuleComponent {
   public receiveQuests: Quest[] = [];
   public quests: Quest[] = [];
   private allStudentQuestCompletion: StudentQuest[] = [];
-  protected studentCompleteQuests: Quest[] = [];
-  protected studentIncompleteQuests: Quest[] = [];
+  protected studentCompleteQuests: StudentQuest[] = [];
+  protected studentIncompleteQuests: StudentQuest[] = [];
   protected mentorUnpostedQuests: Quest[] = [];
   protected mentorPostedQuests: Quest[] = [];
   public role: any;
@@ -51,17 +50,15 @@ export class InnerModuleComponent {
     public authService: AuthService
   , public breadcrumb: BreadcrumbService
     ) {
-    const navigation = this.router.getCurrentNavigation();
-    const state = navigation?.extras.state as {
-      module: Module;
-      role: Role;
-    };
-
-    this.module = state.module;
-
-    const pageName: string = this.module.Name + ' Module';
-    breadcrumb.makeCurrentPage(pageName, router.url, state);
-    breadcrumb.setPrevPages();
+      this.initialize();
+      const navigation = this.router.getCurrentNavigation();
+      const state = navigation?.extras.state as {
+        module: Module
+      };
+      this.module = state.module;
+      const pageName: string = this.module.Name + ' Module';
+      breadcrumb.makeCurrentPage(pageName, router.url, state);
+      breadcrumb.setPrevPages();
   }
 
   public async initialize() {
@@ -81,16 +78,14 @@ export class InnerModuleComponent {
 
   async loadQuestsWithStatus() {
     try {
-      const response = await this.questService.GetAllQuestsWithStatus();
+      const response = await this.questService.GetAllQuestsWithStatus(this.module.ModuleID);
       this.allPostedQuests = response.posted;
       this.allUnpostedQuests = response.unposted;
-      console.log("Posted quests: ", this.allPostedQuests);
-      console.log("Unposted quests: ", this.allUnpostedQuests);
 
       this.mentorPostedQuests = this.allPostedQuests.filter(
         (quest) => quest.ModuleID === this.module.ModuleID
       )
-  
+
       this.mentorUnpostedQuests = this.allUnpostedQuests.filter(
         (quest) => quest.ModuleID === this.module.ModuleID
       )
@@ -107,12 +102,6 @@ export class InnerModuleComponent {
     this.auth = new AuthToken(response);
     this.role = this.auth.Role;
 
-    if (this.role.Name == 'Student') {
-      console.log("SUCCESS STUDENT. Student ID: " + this.role.RoleID)
-    }
-    else if (this.role.Name == 'Mentor'){
-      console.log("SUCCESS MENTOR")
-    }
     try {
       const allQuests = await this.questService.GetAllQuests();
       if (allQuests) {
@@ -177,10 +166,10 @@ export class InnerModuleComponent {
 /**
  * Asynchronously filters and categorizes quests based on their completion status
  * for a specific student. This method does the following:
- * 
+ *
  * 1. Fetches all quest completion records as `StudentQuest` objects for the student identified by their student ID.
  * 2. Maps the received data to instances of `StudentQuest` and stores them in `this.allStudentQuestCompletion`.
- * 3. Iterates over all `filteredQuests` and categorizes each quest into either `studentCompleteQuests` or `studentIncompleteQuests`
+ * 3. Iterates over all `allStudentQuestcompletion` and categorizes each quest into either `studentCompleteQuests` or `studentIncompleteQuests`
  *    based on the completion status found in `allStudentQuestCompletion`.
  *
  */
@@ -188,17 +177,10 @@ export class InnerModuleComponent {
 
     //populating array of all quest completion details of this particular student
     try {
-      console.log("Calling GetStudentQuestCompletion with student ID: ", this.role.RoleID);
-      const studentQuests = await this.questService.GetStudentQuestCompletion(this.role.RoleID);
-      console.log("Received student quests: ", studentQuests);
+      const studentQuests = await this.questService.GetStudentQuestCompletion(this.role.RoleID, this.module.ModuleID);
       if (studentQuests) {
-        this.allStudentQuestCompletion = studentQuests.map((studentQuest: { studentID: any; questID: any; completed: any; lastActivityDate: any }) => new StudentQuest({
-          StudentID: studentQuest.studentID,
-          QuestID: studentQuest.questID,
-          Completed: studentQuest.completed,
-          LastActivityDate: studentQuest.lastActivityDate
-        }));
-        console.log("All student quests completion details: ", this.allStudentQuestCompletion)
+        this.allStudentQuestCompletion = studentQuests.map((studentQuest: any) =>
+          new StudentQuest(studentQuest));
       } else {
         console.error('Failed to fetch quest completion for student');
       }
@@ -207,23 +189,17 @@ export class InnerModuleComponent {
     }
 
     //filtering completed and incomplete quests
-    this.mentorPostedQuests.forEach(quest => {
-      const completionRecord = this.allStudentQuestCompletion.find(studentQuest => studentQuest.QuestID == quest.QuestID);
-      if(completionRecord && completionRecord.Completed)
-        {
-          this.totalExp += quest.ExpGain;
-          this.currentExp += quest.ExpGain;
-          this.studentCompleteQuests.push(quest);
-        }
-        else {
-          this.totalExp += quest.ExpGain;
-          this.studentIncompleteQuests.push(quest);
-        }
+    this.allStudentQuestCompletion.forEach(quest => {
+      if (quest.Completed){
+        this.totalExp += quest.ExpGain;
+        this.currentExp += quest.ExpGain;
+        this.studentCompleteQuests.push(quest);
+      } else {
+        this.totalExp += quest.ExpGain;
+        this.studentIncompleteQuests.push(quest);
+      }
     });
     this.UpdateStudentVariables();
-
-    console.log("Complete quests: ", this.studentCompleteQuests)
-    console.log("Incomplete quests: ", this.studentIncompleteQuests)
   }
 
 
@@ -266,8 +242,6 @@ export class InnerModuleComponent {
         this.snackbar.open('Quest successfully added!', '', { duration: 3000 });
       }
     });
-
-    
   }
 
   public editQuest(quest: Quest, index: number): void {
@@ -275,7 +249,6 @@ export class InnerModuleComponent {
       panelClass: 'custom-dialog',
       data: { quest: quest },
     });
-    console.log("Edit quest details: ", quest)
 
     dialogRef.afterClosed().subscribe((response) => {
       if (response) {
@@ -291,6 +264,23 @@ export class InnerModuleComponent {
         this.loadQuestsWithStatus();
       } else {
         this.loadQuestsWithStatus();
+      }
+    });
+  }
+
+  public editModule(module: Module): void {
+    const dialogRef = this.dialog.open(EditModuleDialog, {
+      panelClass: 'custom-dialog',
+      data: { module: module },
+    });
+
+    dialogRef.afterClosed().subscribe((response) => {
+      if (response) {
+        let updModule = new Module(response);
+        this.module = updModule;
+        this.snackbar.open('Module successfully updated!', '', {
+          duration: 3000,
+        });
       }
     });
   }

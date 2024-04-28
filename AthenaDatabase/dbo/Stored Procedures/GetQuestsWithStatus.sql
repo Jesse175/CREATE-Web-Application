@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[GetQuestsWithStatus]
+    @ModuleID UNIQUEIDENTIFIER
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -16,6 +17,7 @@ BEGIN
     -- Select all quests with their posting status
     SELECT q.QuestID, q.ModuleID, q.Name, q.Description, q.ExpGain, pq.Available
     FROM [dbo].[Quest] AS q
-    INNER JOIN [dbo].[PostQuest] AS pq ON q.QuestID = pq.QuestID;
+    INNER JOIN [dbo].[PostQuest] AS pq ON q.QuestID = pq.QuestID
+    WHERE ModuleID = @ModuleID
 END;
 GO

@@ -7,6 +7,8 @@ BEGIN
 	(UserID, MentorID, JobTitle, [Availability]) 
 	VALUES(@UserID, @MentorID, '', '')
 
+	INSERT INTO dbo.UserImage (UserID, [URL]) VALUES (@UserID, '')
+
 	-- Now return the mentor we just inserted
 	EXEC GetMentor @MentorID = @MentorID; 
 END

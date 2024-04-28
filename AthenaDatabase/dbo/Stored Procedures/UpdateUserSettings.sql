@@ -5,7 +5,8 @@
 	@Email nvarchar(100),
 	@Password nvarchar(100) = NULL,
 	@ImageURL nvarchar(200),
-	@Availability nvarchar(256)
+	@Availability nvarchar(256),
+	@JobTitle nvarchar(100)
 AS
 BEGIN
 	-- First we need to get the UserID from the RoleID
@@ -49,7 +50,8 @@ BEGIN
 	If (@Role = 'Mentor')
 	BEGIN
 		UPDATE dbo.[Mentor]
-		SET [Availability] = @Availability
+		SET [Availability] = @Availability,
+			JobTitle = @JobTitle
 		WHERE UserID = @UserID
 	END
 

@@ -1,18 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { Module } from 'src/models/module';
 @Component({
-  selector: 'app-module-card',
-  templateUrl: './module-card.component.html',
-  styleUrls: ['./module-card.component.css']
+  selector: 'app-module-dash-card',
+  templateUrl: './module-dash-card.component.html',
+  styleUrls: ['./module-dash-card.component.css']
 })
-export class ModuleCardComponent {
+export class ModuleDashCardComponent {
   @Input() modules: Module[]= [];
   @Input() role: any;
 
-  constructor(private authService: AuthService) {
-
-  }
+  constructor() {}
 
   public getImgLink(name: string) {
     return '../../../../assets/images/' + name.toLowerCase() + 'logo.png';

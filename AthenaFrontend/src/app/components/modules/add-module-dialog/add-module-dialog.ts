@@ -10,12 +10,11 @@ export interface ModuleData {
 }
 
 @Component({
-  selector: 'app-add-mentor-dialog',
+  selector: 'app-add-module-dialog',
   templateUrl: './add-module-dialog.html',
   styleUrls: ['./add-module-dialog.css']
 })
 export class AddModuleDialog {
-  public showPassword = false;
   public name = new FormControl('', [Validators.required]);
   public color = new FormControl('', [Validators.required]);
   public description = new FormControl('');

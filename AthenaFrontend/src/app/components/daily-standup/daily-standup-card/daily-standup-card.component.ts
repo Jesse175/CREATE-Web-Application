@@ -3,8 +3,6 @@ import { DailyStandup } from 'src/models/dailystandup';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditDailyStandupComponent } from '../edit-daily-standup/edit-daily-standup.component';
-import { FormsModule } from '@angular/forms';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-daily-standup-card',
@@ -22,8 +20,8 @@ export class DailyStandupCardComponent {
   thisdate = new Date;
 
   public async editStandup(standup: DailyStandup): Promise<void> {
-    const dialogRef = this.dialog.open(EditDailyStandupComponent, {
-      panelClass: 'custom-dialog',
+    this.dialog.open(EditDailyStandupComponent, {
+      panelClass: 'standup-dialog',
       data: { standup: standup }
     });
   }

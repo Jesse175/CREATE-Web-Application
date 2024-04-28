@@ -1,9 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { DailyStandup } from 'src/models/dailystandup';
-import { MatDialog } from '@angular/material/dialog';
-import { Role } from 'src/models/role.model';
-import { Student } from 'src/models/student.model';
-import { StudentService } from 'src/app/services/student.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DailyStandupService } from '../../services/dailyStandup.service';
@@ -48,7 +44,7 @@ export class DailyStandupComponent {
       date.getMonth() === today.getMonth() &&
       date.getFullYear() === today.getFullYear()
     );
-      
+
   }
 
   public async ngOnInit(): Promise<void> {
@@ -58,9 +54,8 @@ export class DailyStandupComponent {
     if (this.role.Name == 'Student') {
       await this.getAllDailyStandups(this.role.RoleID);
 
-      const today = new Date();
       if (this.standups.length == 0 || !(this.isToday(this.standups[0].dateCreated))) {
-        const response = await this.dailyStandupService.AddDailyStandup(this.role);
+        await this.dailyStandupService.AddDailyStandup(this.role);
       }
 
       await this.getAllDailyStandups(this.role.RoleID);
