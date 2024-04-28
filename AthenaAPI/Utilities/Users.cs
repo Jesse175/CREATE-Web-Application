@@ -2,7 +2,6 @@
 using AthenaAPI.Models;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json.Linq;
-using System.Configuration;
 using System.Data;
 
 namespace AthenaAPI.Utilities

@@ -81,8 +81,6 @@ export class InnerModuleComponent {
       const response = await this.questService.GetAllQuestsWithStatus(this.module.ModuleID);
       this.allPostedQuests = response.posted;
       this.allUnpostedQuests = response.unposted;
-      console.log("Posted quests: ", this.allPostedQuests);
-      console.log("Unposted quests: ", this.allUnpostedQuests);
 
       this.mentorPostedQuests = this.allPostedQuests.filter(
         (quest) => quest.ModuleID === this.module.ModuleID
@@ -104,12 +102,6 @@ export class InnerModuleComponent {
     this.auth = new AuthToken(response);
     this.role = this.auth.Role;
 
-    if (this.role.Name == 'Student') {
-      console.log("SUCCESS STUDENT. Student ID: " + this.role.RoleID)
-    }
-    else if (this.role.Name == 'Mentor'){
-      console.log("SUCCESS MENTOR")
-    }
     try {
       const allQuests = await this.questService.GetAllQuests();
       if (allQuests) {
@@ -185,13 +177,10 @@ export class InnerModuleComponent {
 
     //populating array of all quest completion details of this particular student
     try {
-      console.log("Calling GetStudentQuestCompletion with student ID: ", this.role.RoleID);
       const studentQuests = await this.questService.GetStudentQuestCompletion(this.role.RoleID, this.module.ModuleID);
-      console.log("Received student quests: ", studentQuests);
       if (studentQuests) {
         this.allStudentQuestCompletion = studentQuests.map((studentQuest: any) =>
           new StudentQuest(studentQuest));
-        console.log("All student quests completion details: ", this.allStudentQuestCompletion)
       } else {
         console.error('Failed to fetch quest completion for student');
       }
@@ -211,9 +200,6 @@ export class InnerModuleComponent {
       }
     });
     this.UpdateStudentVariables();
-
-    console.log("Complete quests: ", this.studentCompleteQuests)
-    console.log("Incomplete quests: ", this.studentIncompleteQuests)
   }
 
 
@@ -263,7 +249,6 @@ export class InnerModuleComponent {
       panelClass: 'custom-dialog',
       data: { quest: quest },
     });
-    console.log("Edit quest details: ", quest)
 
     dialogRef.afterClosed().subscribe((response) => {
       if (response) {
@@ -292,7 +277,6 @@ export class InnerModuleComponent {
     dialogRef.afterClosed().subscribe((response) => {
       if (response) {
         let updModule = new Module(response);
-        console.log(updModule);
         this.module = updModule;
         this.snackbar.open('Module successfully updated!', '', {
           duration: 3000,

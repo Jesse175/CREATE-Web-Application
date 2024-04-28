@@ -2,7 +2,7 @@
     <div class="form-box">
         <div class="form-value">
             <form action="">
-                <h2>Login</h2>                
+                <h2>Login</h2>
                 <div class="inputbox">
                     <input type="text" [formControl]="email" required>
                     <label for="">Email Address</label>
@@ -14,10 +14,6 @@
                 </div>
                 <div *ngIf="!password.valid" class="error-message">{{ passwordErrorMessage }}</div>
                 <div *ngIf="email.valid && password.valid" class="error-message">{{ errorMessage }}</div>
-                <div class="forget">
-                  <!--Get in for free can be changed to Forgot Password? as a stretch goal-->
-                    <label for=""><input type="checkbox">Remember Me<a href="#">Get in for Free!</a></label>
-                </div>                
                 <button (click)="login()">Login to my account</button>
             </form>
         </div>

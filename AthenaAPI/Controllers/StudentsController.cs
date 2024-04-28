@@ -1,5 +1,4 @@
-﻿using AthenaAPI.Utilities;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Newtonsoft.Json.Linq;
@@ -217,7 +216,6 @@ namespace AthenaAPI.Controllers
 
             // Then create and return the new Student!
             StudentRole student = Utilities.Students.AddStudent(user.UserID);
-            Users.UpsertImage(student.RoleID, "");
             return student;
         }
 

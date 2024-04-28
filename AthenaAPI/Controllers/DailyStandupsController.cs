@@ -1,10 +1,7 @@
-using AthenaAPI.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using Microsoft.EntityFrameworkCore;
 
 namespace AthenaAPI.Controllers
 {

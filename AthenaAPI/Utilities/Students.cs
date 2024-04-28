@@ -1,7 +1,6 @@
 ﻿using AthenaAPI.Data;
 using AthenaAPI.Models;
 using Microsoft.Data.SqlClient;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Data;
 

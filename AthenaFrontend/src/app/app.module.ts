@@ -39,6 +39,7 @@ import { ModuleProgressComponent } from './components/students-page/student-card
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTableModule } from '@angular/material/table';
+import { ModuleDashCardComponent } from './components/dashboard/module-dash-card/module-dash-card.component';
 
 const ROUTES: Routes = [
   { path: 'login', component: LoginComponent },
@@ -76,7 +77,8 @@ const ROUTES: Routes = [
     StudentDashMentorCardComponent,
     EditDailyStandupComponent,
     ViewStudentStandupsComponent,
-    ModuleProgressComponent
+    ModuleProgressComponent,
+    ModuleDashCardComponent
   ],
 
   imports: [

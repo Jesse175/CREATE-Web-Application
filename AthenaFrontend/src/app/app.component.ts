@@ -100,9 +100,15 @@ export class AppComponent {
       const expGained = response.StudentExp;
 
       this.studentProgress = Math.round((expGained / overall) * 100);
-      const rank = this.role.Person.getRank(overall, expGained);
-      this.studentTitle = rank.Title;
-      this.nextRank = rank.NewRankExp;
+      if (Number.isNaN(this.studentProgress)) {
+        this.studentProgress = 0;
+        this.nextRank = 0;
+        this.studentTitle = 'Beginner';
+      } else {
+        const rank = this.role.Person.getRank(overall, expGained);
+        this.studentTitle = rank.Title;
+        this.nextRank = rank.NewRankExp;
+      }
     }
   }
 
