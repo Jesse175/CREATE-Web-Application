@@ -26,6 +26,7 @@ export class InnerModuleComponent {
   public receiveQuests: Quest[] = [];
   public quests: Quest[] = [];
   private allStudentQuestCompletion: StudentQuest[] = [];
+  private moduleStudentQuest: StudentQuest[] = [];
   protected studentCompleteQuests: StudentQuest[] = [];
   protected studentIncompleteQuests: StudentQuest[] = [];
   protected mentorUnpostedQuests: Quest[] = [];
@@ -40,6 +41,7 @@ export class InnerModuleComponent {
   protected currentExp: number = 0;
   public allPostedQuests: Quest[] = [];
   public allUnpostedQuests: Quest[] = [];
+  protected totalEarnedExp: number = 0;
 
   constructor(
     public dialog: MatDialog,
@@ -90,6 +92,8 @@ export class InnerModuleComponent {
         (quest) => quest.ModuleID === this.module.ModuleID
       )
 
+      
+
     } catch (error) {
       console.error('An error occurred while fetching quests', error);
     }
@@ -130,6 +134,8 @@ export class InnerModuleComponent {
     }
   }
 
+  
+
   //test method for testing
   updateAvailability(questID: string, available: boolean) {
     this.questService.updateQuestAvailability(questID, available).subscribe({
@@ -153,9 +159,24 @@ export class InnerModuleComponent {
       }
   }
 
+  async calculateTotalEarnedExp() {
+    try {
+      const studentQuests = await this.questService.GetStudentQuestCompletion('00000000-0000-0000-0000-000000000000', this.module.ModuleID);
+      if (studentQuests) {
+        this.moduleStudentQuest = studentQuests.map((studentQuest: any) => new StudentQuest(studentQuest));
+        const completedQuests = this.moduleStudentQuest.filter(quest => quest.Completed);
+        console.log("All module's completed quests: ", completedQuests)
+        this.totalEarnedExp = completedQuests.reduce((acc, quest) => acc + quest.ExpGain, 0);
+      } else {
+        console.error('Failed to fetch quest completion for student');
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching quest completion for student', error);
+    }
+  }
+
   mentorFilterQuests(){
-    console.log("Unposted quests: ", this.mentorUnpostedQuests);
-    console.log("Posted quests: ", this.mentorPostedQuests);
+    this.calculateTotalEarnedExp();
   }
 
   UpdateStudentVariables(){
