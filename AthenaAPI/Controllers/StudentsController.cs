@@ -91,8 +91,8 @@ namespace AthenaAPI.Controllers
             return Utilities.Students.GetStudents();
         }
 
-        [HttpGet("GetStudentQuests/{studentID}/{moduleID}")]
-        public async Task<ActionResult<List<StudentQuest>>> GetStudentQuests(Guid studentID, Guid moduleID)
+        [HttpGet("GetStudentQuests/{studentID?}/{moduleID}")]
+        public async Task<ActionResult<List<StudentQuest>>> GetStudentQuests(Guid? studentID, Guid moduleID)
         {
             return Utilities.Students.GetStudentQuests(studentID, moduleID);
         }

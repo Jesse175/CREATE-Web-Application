@@ -8,7 +8,7 @@ namespace AthenaAPI.Utilities
 {
     public class Students
     {
-        public static List<StudentQuest> GetStudentQuests(Guid studentID, Guid moduleID)
+        public static List<StudentQuest> GetStudentQuests(Guid? studentID, Guid moduleID) //if studentID is null, returns all StudentQuests on matching moduleID
         {
             try
             {
@@ -48,7 +48,7 @@ namespace AthenaAPI.Utilities
                     {
                         StudentQuest quest = new StudentQuest();
                         quest.QuestID = (Guid)reader["QuestID"];
-                        quest.StudentID = studentID;
+                        quest.StudentID = studentID ?? Guid.Empty; // Assigns Guid.Empty if studentID is null
                         quest.ModuleID = (Guid)reader["ModuleID"];
                         quest.Name = (string)reader["Name"];
                         quest.Description = (string)reader["Description"];
